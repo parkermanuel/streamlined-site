@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>People and access</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.mode,.mode-on{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 16px;border-radius:8px;cursor:pointer;min-height:40px;border:0}
+.mode{background:transparent;color:#5B6270}
+.mode-on{background:#FFFFFF;color:#14161B;box-shadow:0 1px 3px rgba(20,22,27,.15)}
+.node,.node-on{appearance:none;width:100%;text-align:left;cursor:pointer;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;font:600 14px/1.3 Inter,system-ui,sans-serif;color:#14161B;min-height:44px;box-sizing:border-box}
+.node{background:transparent;border:1px solid transparent}
+.node:hover{background:#F1F3F6}
+.node-on{background:#EAF0FF;border:1px solid #9DB2F5}
+.r-owner,.r-central,.r-admin,.r-editor,.r-req,.r-view{display:inline-block;font:700 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.r-owner{background:#14161B;color:#FFFFFF}
+.r-central{background:#1E3FB8;color:#FFFFFF}
+.r-admin{background:#EAF0FF;color:#1E3FB8}
+.r-editor{background:#E3F4EA;color:#17603C}
+.r-req{background:#FFF1DB;color:#8A4B00}
+.r-view{background:#EEF0F4;color:#4A5160}
+.yes,.no{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;margin:0 auto}
+.yes{background:#E3F4EA;color:#17603C}
+.no{background:#F7F8FA;color:#B6BCC6}
+.matrix th,.matrix td{padding:10px 8px;border-bottom:1px solid #EEF0F4;text-align:center;font:500 13px/1.3 Inter,sans-serif}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.safe{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #EEF0F4}
+select{font:600 13px/1 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:8px;padding:10px 12px;min-height:40px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· People &amp; access</span>
+<div style="flex: 1 1 auto;"></div>
+<div role="group" aria-label="Church type" style="display: flex; align-items: center; gap: 4px; background: #EEF0F4; padding: 4px; border-radius: 10px;">
+<sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+<button type="button" class="{{ m.cls }}" onClick="{{ m.pick }}">{{ m.label }}</button>
+</sc-for>
+</div>
+</div>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 24px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Who can do what</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">{{ intro }}</p>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<nav aria-label="Organization" class="card" style="flex: 1 1 240px; min-width: 0;">
+<h2 style="margin: 0; font: 700 15px/1.2 Inter, sans-serif; color: #3A404C;">{{ treeTitle }}</h2>
+<sc-for list="{{ nodes }}" as="n" hint-placeholder-count="5">
+<button type="button" class="{{ n.cls }}" onClick="{{ n.pick }}" style="padding-left: {{ n.indent }};">
+<span style="flex: 1 1 auto;">{{ n.name }}</span>
+<span style="font: 500 12px/1 Inter, sans-serif; color: #5B6270;">{{ n.count }}</span>
+</button>
+</sc-for>
+</nav>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<div class="card">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<h2 style="margin: 0; flex: 1 1 auto; font: 700 18px/1.2 Manrope, Inter, sans-serif;">{{ scopeName }}</h2>
+<button type="button" style="appearance: none; border: 0; background: #2E55E6; color: #FFFFFF; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Invite people</button>
+</div>
+<sc-for list="{{ people }}" as="p" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #EEF0F4; flex-wrap: wrap;">
+<span aria-hidden="true" style="width: 38px; height: 38px; border-radius: 999px; background: #EEF0F4; color: #3A404C; display: flex; align-items: center; justify-content: center; font: 700 13px/1 Inter, sans-serif; flex: 0 0 auto;">{{ p.initials }}</span>
+<div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+<span style="font-weight: 700; font-size: 15px;">{{ p.name }}</span>
+<span style="font-size: 12px; color: #5B6270;">{{ p.title }} · {{ p.where }}</span>
+</div>
+<sc-if value="{{ p.approver }}" hint-placeholder-val="{{ false }}"><span style="font: 600 12px/1 Inter, sans-serif; color: #3A404C; border: 1px solid #D5D9E0; border-radius: 999px; padding: 6px 9px;">Approver: {{ p.step }}</span></sc-if>
+<span class="{{ p.cls }}">{{ p.role }}</span>
+</div>
+</sc-for>
+<span style="font-size: 13px; color: #5B6270;">You can only give people a role at or below your own. Only an Owner can add another Owner.</span>
+</div>
+
+<div class="card" style="overflow-x: auto;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">What each role can do</h2>
+<table class="matrix" style="border-collapse: collapse; width: 100%; min-width: 620px;">
+<thead><tr>
+<th scope="col" style="font-weight: 700;">Can…</th>
+<sc-for list="{{ roleCols }}" as="c" hint-placeholder-count="6"><th scope="col"><span class="{{ c.cls }}">{{ c.label }}</span></th></sc-for>
+</tr></thead>
+<tbody>
+<sc-for list="{{ matrix }}" as="row" hint-placeholder-count="9">
+<tr>
+<td>{{ row.label }}</td>
+<sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="6">
+<td><span class="{{ cell.cls }}" role="img" aria-label="{{ cell.aria }}"><sc-if value="{{ cell.on }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if><sc-if value="{{ cell.off }}" hint-placeholder-val="{{ false }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"></path></svg></sc-if></span></td>
+</sc-for>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<span style="font-size: 13px; color: #5B6270;">Access flows down: a Campus Admin controls only their campus, and a team member sees only their team's work plus churchwide kits.</span>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">Safety, always on</h2>
+<sc-for list="{{ safety }}" as="x" hint-placeholder-count="7">
+<div class="safe">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: #14161B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 3px;">
+<strong style="font-size: 15px;">{{ x.title }}</strong>
+<span style="font-size: 14px; color: #3A404C; line-height: 1.45;">{{ x.body }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'multi', scope: 'all' };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var multi = s.mode === 'multi';
+    var modes = [{ id: 'multi', label: 'Multisite' }, { id: 'single', label: 'Single campus' }].map(function (m) {
+      return { label: m.label, cls: s.mode === m.id ? 'mode-on' : 'mode', pick: function () { self.setState({ mode: m.id, scope: 'all' }); } };
+    });
+    var R = {
+      owner: ['Owner', 'r-owner'], central: ['Central Admin', 'r-central'], admin: [multi ? 'Campus Admin' : 'Team Lead (Admin)', 'r-admin'],
+      editor: ['Editor', 'r-editor'], req: ['Requester', 'r-req'], view: ['Viewer', 'r-view']
+    };
+    var people = multi ? [
+      ['Jordan M.', 'Executive Director of Communications', 'central', 'owner', null],
+      ['Alicia P.', 'Central Comms Director', 'central', 'central', 'Comms'],
+      ['Sam K.', 'Central Creative Director', 'central', 'central', 'Creative'],
+      ['Tori B.', 'Designer', 'central', 'editor', null],
+      ['Lucía G.', 'Bilingual communications', 'central', 'editor', 'Spanish review'],
+      ['Marcus L.', 'North Campus Comms Lead', 'north', 'admin', 'Campus review'],
+      ['Jenna R.', 'North Campus Designer', 'north', 'editor', null],
+      ['Pastor Dan R.', 'North Campus Pastor', 'north', 'req', null],
+      ['Kids team (12)', 'Volunteers', 'north', 'view', null],
+      ['Pastor Maria L.', 'East Campus Pastor', 'east', 'req', null],
+      ['Worship team (8)', 'Volunteers', 'east', 'view', null],
+      ['Online team (5)', 'Hosts', 'online', 'view', null]
+    ] : [
+      ['Pastor Chris W.', 'Creative Pastor', 'all', 'owner', 'Comms + Creative'],
+      ['Hannah S.', 'Creative Team Lead', 'creative', 'admin', null],
+      ['Eli T.', 'Designer', 'creative', 'editor', null],
+      ['Kids director', 'Kids', 'kids', 'req', null],
+      ['Student pastor', 'Students', 'students', 'req', null],
+      ['Worship team (10)', 'Volunteers', 'worship', 'view', null],
+      ['Guest team (14)', 'Volunteers', 'guest', 'view', null]
+    ];
+    var nodeDefs = multi ? [
+      ['all', 'Harbor Church (everything)', 0], ['central', 'Central', 1], ['north', 'North Campus · has campus comms', 1],
+      ['east', 'East Campus', 1], ['online', 'Online', 1]
+    ] : [
+      ['all', 'Pinecrest Church', 0], ['creative', 'Creative team', 1], ['kids', 'Kids', 1], ['students', 'Students', 1],
+      ['worship', 'Worship', 1], ['guest', 'Guest Services', 1]
+    ];
+    var whereName = {};
+    nodeDefs.forEach(function (n) { whereName[n[0]] = n[1].split(' ·')[0]; });
+    var nodes = nodeDefs.map(function (n) {
+      var c = n[0] === 'all' ? people.length : people.filter(function (p) { return p[2] === n[0]; }).length;
+      return { name: n[1], count: String(c), indent: n[2] ? '30px' : '14px', cls: s.scope === n[0] ? 'node-on' : 'node',
+        pick: function () { self.setState({ scope: n[0] }); } };
+    });
+    var shown = people.filter(function (p) { return s.scope === 'all' || p[2] === s.scope; }).map(function (p) {
+      var r = R[p[3]];
+      return { name: p[0], title: p[1], where: whereName[p[2]] || '', role: r[0], cls: r[1], approver: !!p[4], step: p[4] || '',
+        initials: p[0].replace(/[^A-Za-z ]/g, '').split(' ').filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase() };
+    });
+    var cols = multi ? ['owner', 'central', 'admin', 'editor', 'req', 'view'] : ['owner', 'admin', 'editor', 'req', 'view'];
+    var roleCols = cols.map(function (k) { return { label: R[k][0], cls: R[k][1] }; });
+    var rows = [
+      ['View and download approved work', { owner: 1, central: 1, admin: 1, editor: 1, req: 1, view: 1 }],
+      ['Submit requests', { owner: 1, central: 1, admin: 1, editor: 1, req: 1 }],
+      ['Create and edit drafts', { owner: 1, central: 1, admin: 1, editor: 1 }],
+      ['Approve (when assigned a step)', { owner: 1, central: 1, admin: 1, editor: 1 }],
+      ['Build and publish templates', multi ? { owner: 1, central: 1, editor: 1 } : { owner: 1, admin: 1, editor: 1 }],
+      [multi ? 'Manage people on their campus' : 'Manage people on their team', { owner: 1, central: 1, admin: 1 }],
+      ['Launch churchwide campaigns', multi ? { owner: 1, central: 1 } : { owner: 1, admin: 1 }],
+      ['Send an urgent churchwide message', multi ? { owner: 1, central: 1 } : { owner: 1, admin: 1 }],
+      ['See the executive summary', multi ? { owner: 1, central: 1 } : { owner: 1, admin: 1 }],
+      ['Change the brand kit and locks', multi ? { owner: 1, central: 1 } : { owner: 1 }],
+      ['Manage every campus and all people', multi ? { owner: 1, central: 1 } : { owner: 1 }],
+      ['Billing, security settings, delete or transfer the account', { owner: 1 }]
+    ];
+    var matrix = rows.map(function (r) {
+      return { label: r[0], cells: cols.map(function (k) { var on = !!r[1][k]; return { on: on, off: !on, cls: on ? 'yes' : 'no', aria: on ? 'Yes' : 'No' }; }) };
+    });
+    var safety = [
+      { title: 'Two-step sign-in for anyone above Viewer', body: 'Admins and Owners also need to confirm it is them again before changing roles, billing or the brand kit. Big churches can require their own single sign-on.' },
+      { title: 'Nothing goes public without approval', body: 'Every print order, post, email and website change waits for its approval steps. No one can skip a step, including Admins.' },
+      { title: 'No one can give more access than they have', body: 'A Campus Admin cannot make anyone a Central Admin. Only an Owner can add an Owner, and at least two Owners are recommended so the account is never locked out.' },
+      { title: 'Big changes need a second person', body: 'Transferring ownership, deleting the brand kit or deleting the account needs a second Owner or Central Admin to confirm.' },
+      { title: 'Full history and undo', body: 'Every approval, edit, rejection and role change is logged with who and when. Brand kits and published pieces keep past versions you can restore.' },
+      { title: 'Access that cleans itself up', body: 'Remove someone once and they lose access everywhere. Accounts with no sign-in for 90 days are paused, and share links for Viewers expire.' },
+      { title: 'Print shops never get an account', body: 'A printer only gets a private link to one approved order. It can confirm, ask a question and mark it ready, and nothing else. The link expires after the order is done.' },
+      { title: 'Care with photos of kids', body: 'Photos can be flagged as needing a photo release. Flagged photos cannot be used in anything public until the release is marked on file.' }
+    ];
+    return {
+      modes: modes,
+      intro: multi
+        ? 'Built for a church with Central and campuses, where large campuses can have their own comms team.'
+        : 'Built for one church with ministry teams. The creative pastor owns it and team leads manage their teams.',
+      treeTitle: multi ? 'Central and campuses' : 'Church and teams',
+      nodes: nodes,
+      scopeName: (nodeDefs.filter(function (n) { return n[0] === s.scope; })[0] || nodeDefs[0])[1].split(' ·')[0],
+      people: shown, roleCols: roleCols, matrix: matrix, safety: safety
+    };
+  }
+}
+</script>
+</body>
+</html>

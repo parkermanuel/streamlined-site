@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Photo and file library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.f,.f-on{appearance:none;font:600 14px/1 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:999px;cursor:pointer;min-height:44px;white-space:nowrap}
+.f{background:#FFFFFF;color:#3A404C;border:1px solid #D5D9E0}
+.f-on{background:#14161B;color:#FFFFFF;border:1px solid #14161B}
+.tile,.tile-on{appearance:none;padding:0;text-align:left;cursor:pointer;border-radius:14px;overflow:hidden;background:#FFFFFF;display:flex;flex-direction:column;box-sizing:border-box;font-family:Inter,system-ui,sans-serif;color:#14161B}
+.tile{border:1px solid #E4E6EB}
+.tile:hover{border-color:#9DB2F5}
+.tile-on{border:2px solid #2E55E6}
+.ok,.warn,.info{display:inline-block;font:600 11px/1 Inter,sans-serif;padding:6px 8px;border-radius:999px;white-space:nowrap}
+.ok{background:#E3F4EA;color:#17603C}.warn{background:#FFF1DB;color:#8A4B00}.info{background:#EEF0F4;color:#4A5160}
+input,textarea{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:10px;padding:12px 14px;box-sizing:border-box;width:100%;min-height:44px}
+label{font:600 13px/1 Inter,system-ui,sans-serif;color:#3A404C}
+.b1,.b2{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:12px 16px;border-radius:10px;cursor:pointer;min-height:44px}
+.b1{background:#2E55E6;color:#FFFFFF;border:0}.b1:disabled{background:#C9CED8;cursor:not-allowed}
+.b2{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Library</span>
+<div style="flex: 1 1 auto;"></div>
+<button type="button" class="b1">Upload</button>
+</div>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 18px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Photos, video and files</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Everything approved for use, in one place. Photos of kids can't go public until a photo release is on file.</p>
+</section>
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+<div style="flex: 1 1 280px;"><label for="q" style="position: absolute; left: -9999px;">Search the library</label><input id="q" type="search" placeholder="Search: baptism, kids, North Campus, Christmas…" value="{{ q }}" onChange="{{ onQ }}"></div>
+<div role="group" aria-label="Type" style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="5"><button type="button" class="{{ f.cls }}" onClick="{{ f.pick }}" aria-pressed="{{ f.on }}">{{ f.label }}</button></sc-for>
+</div>
+</div>
+
+<section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<div style="flex: 999 1 560px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px;">
+<sc-for list="{{ assets }}" as="a" hint-placeholder-count="8">
+<button type="button" class="{{ a.cls }}" onClick="{{ a.pick }}">
+<div style="height: 120px; background: {{ a.bg }}; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font: 700 12px/1 Inter, sans-serif; letter-spacing: .04em; text-transform: uppercase;">{{ a.kind }}</div>
+<div style="padding: 10px; display: flex; flex-direction: column; gap: 6px;">
+<span style="font: 700 13px/1.3 Inter, sans-serif;">{{ a.title }}</span>
+<span class="{{ a.chip }}" style="align-self: flex-start;">{{ a.status }}</span>
+</div>
+</button>
+</sc-for>
+<sc-if value="{{ empty }}" hint-placeholder-val="{{ false }}"><div style="grid-column: 1 / -1; padding: 30px; text-align: center; color: #5B6270; background: #FFFFFF; border: 1px dashed #C9CED8; border-radius: 14px;">Nothing matches that search.</div></sc-if>
+</div>
+
+<aside class="card" style="flex: 1 1 320px; min-width: 0;">
+<div style="height: 170px; border-radius: 12px; background: {{ sel.bg }}; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font: 700 13px/1 Inter, sans-serif; text-transform: uppercase; letter-spacing: .04em;">{{ sel.kind }}</div>
+<strong style="font: 800 19px/1.25 Manrope, Inter, sans-serif;">{{ sel.title }}</strong>
+<span style="font-size: 13px; color: #5B6270;">{{ sel.meta }}</span>
+<div style="display: flex; gap: 6px; flex-wrap: wrap;"><sc-for list="{{ sel.tags }}" as="t" hint-placeholder-count="3"><span class="info">{{ t.name }}</span></sc-for></div>
+<sc-if value="{{ sel.blocked }}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFF4E5; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; color: #8A4B00;">
+<strong style="font-size: 14px;">Photo release needed</strong>
+<span style="font-size: 13px; line-height: 1.45;">This photo shows kids. It can be used inside the church, but not in anything public until a release is marked on file.</span>
+<button type="button" class="b2" onClick="{{ markRelease }}" style="align-self: flex-start;">Mark release on file</button>
+</div>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="alt">Image description (alt text)</label>
+<textarea id="alt" rows="3" value="{{ sel.alt }}" onChange="{{ onAlt }}"></textarea>
+<span style="font-size: 12px; color: #5B6270;">Written automatically when uploaded. It goes with every post so people using screen readers know what's in it. Edit anytime.</span>
+</div>
+<button type="button" class="b1" disabled="{{ sel.blocked }}">Use in a request</button>
+</aside>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: '', type: 'all', sel: 'kids', release: {}, alt: {} };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var defs = [
+      ['baptism', 'Baptism Sunday, North', 'photo', '#0F6E7A', ['baptism', 'north campus', 'worship'], false, 'Photo · North Campus · Oct 12 · used 6 times', 'A woman rising out of the baptism pool, smiling, as the congregation claps behind her.'],
+      ['kids', 'Kids worship, East', 'photo', '#B07A00', ['kids', 'east campus', 'worship'], true, 'Photo · East Campus · Oct 5 · used 0 times', 'Children with hands raised, singing during kids worship.'],
+      ['xmas', 'Christmas series art', 'design', '#7A1F2B', ['christmas', 'series', 'churchwide'], false, 'Series art · Central Creative · Nov 14', 'Christmas at Harbor title art in deep red and gold.'],
+      ['bumper', 'Baptism Sunday bumper', 'video', '#1C2B4A', ['baptism', 'video', 'churchwide'], false, 'Video · 10 seconds · 1080p · 84 MB', 'Short video of baptism moments with the words Baptism Sunday.'],
+      ['logo', 'Main logo, light and dark', 'logo', '#14161B', ['logo', 'brand'], false, 'Logo · SVG and PNG · locked by Central', 'Harbor Church logo.'],
+      ['fest', 'Fall Fest crowd, North', 'photo', '#1F7A4D', ['fall fest', 'north campus', 'outreach'], false, 'Photo · North Campus · last year · used 11 times', 'Families walking between food trucks at an outdoor festival at dusk.'],
+      ['team', 'Guest team welcome', 'photo', '#4B53BC', ['guests', 'serve', 'south campus'], false, 'Photo · South Campus · Sep 28 · used 3 times', 'Two greeters smiling and holding the church doors open.'],
+      ['students', 'Student night', 'photo', '#8A4FD6', ['students', 'online', 'north campus'], true, 'Photo · North Campus · Oct 1 · used 0 times', 'Teenagers laughing together in a circle of chairs.']
+    ];
+    var q = (s.q || '').toLowerCase().trim();
+    var filters = [['all', 'All'], ['photo', 'Photos'], ['video', 'Video'], ['design', 'Designs'], ['logo', 'Logos']].map(function (f) {
+      var on = s.type === f[0];
+      return { label: f[1], on: on, cls: on ? 'f-on' : 'f', pick: function () { self.setState({ type: f[0] }); } };
+    });
+    function needs(d) { return d[5] && !s.release[d[0]]; }
+    var shown = defs.filter(function (d) {
+      if (s.type !== 'all' && d[2] !== s.type) return false;
+      if (!q) return true;
+      return (d[1] + ' ' + d[4].join(' ')).toLowerCase().indexOf(q) !== -1;
+    });
+    var assets = shown.map(function (d) {
+      var n = needs(d);
+      return { title: d[1], kind: d[2], bg: d[3], cls: s.sel === d[0] ? 'tile-on' : 'tile', chip: n ? 'warn' : 'ok', status: n ? 'Needs photo release' : 'OK for public use',
+        pick: function () { self.setState({ sel: d[0] }); } };
+    });
+    var raw = defs.filter(function (d) { return d[0] === s.sel; })[0] || defs[0];
+    return {
+      q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+      filters: filters, assets: assets, empty: assets.length === 0,
+      sel: { title: raw[1], kind: raw[2], bg: raw[3], meta: raw[6], tags: raw[4].map(function (t) { return { name: t }; }), blocked: needs(raw), alt: s.alt[raw[0]] != null ? s.alt[raw[0]] : raw[7] },
+      onAlt: function (e) { var n = Object.assign({}, s.alt); n[raw[0]] = e.target.value; self.setState({ alt: n }); },
+      markRelease: function () { var n = Object.assign({}, s.release); n[raw[0]] = true; self.setState({ release: n }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

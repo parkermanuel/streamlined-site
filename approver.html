@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Approval queue</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.row,.row-on{appearance:none;width:100%;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:12px;font-family:Inter,system-ui,sans-serif;color:#14161B;box-sizing:border-box}
+.row{background:#FFFFFF;border:1px solid #E4E6EB}
+.row:hover{border-color:#9DB2F5}
+.row-on{background:#EAF0FF;border:2px solid #2E55E6;padding:15px}
+.chip-ok,.chip-wait,.chip-warn,.chip-bad,.chip-draft{display:inline-block;font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:#E3F4EA;color:#17603C}
+.chip-wait{background:#EAF0FF;color:#1E3FB8}
+.chip-warn{background:#FFF1DB;color:#8A4B00}
+.chip-bad{background:#FDECEC;color:#8E1F1F}
+.chip-draft{background:#EEF0F4;color:#4A5160}
+.chk-pass,.chk-fail{display:flex;align-items:center;gap:10px;font:500 14px/1.3 Inter,system-ui,sans-serif;padding:10px 12px;border-radius:10px}
+.chk-pass{background:#F3FAF6;color:#17603C}
+.chk-fail{background:#FFF4E5;color:#8A4B00}
+.fbtn,.fbtn-on{appearance:none;font:600 14px/1 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:999px;cursor:pointer;min-height:44px;white-space:nowrap}
+.fbtn{background:#FFFFFF;color:#3A404C;border:1px solid #D5D9E0}
+.fbtn-on{background:#14161B;color:#FFFFFF;border:1px solid #14161B}
+.role,.role-on{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 16px;border-radius:8px;cursor:pointer;min-height:40px;border:0}
+.role{background:transparent;color:#5B6270}
+.role-on{background:#FFFFFF;color:#14161B;box-shadow:0 1px 3px rgba(20,22,27,.15)}
+.st-done,.st-now,.st-todo,.st-bad{display:flex;align-items:center;gap:8px;font:600 13px/1.2 Inter,system-ui,sans-serif}
+.st-done{color:#17603C}
+.st-now{color:#1E3FB8}
+.st-todo{color:#6B7280}
+.st-bad{color:#8E1F1F}
+.dot-done,.dot-now,.dot-todo,.dot-bad{width:12px;height:12px;border-radius:999px;box-sizing:border-box;flex:0 0 auto}
+.dot-done{background:#1F7A4D}
+.dot-now{background:#FFFFFF;border:3px solid #2E55E6}
+.dot-todo{background:#FFFFFF;border:2px solid #C9CED8}
+.dot-bad{background:#C0392B}
+input,textarea{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:10px;padding:12px 14px;box-sizing:border-box;width:100%;min-height:44px}
+label{font:600 13px/1 Inter,system-ui,sans-serif;color:#3A404C}
+.act{appearance:none;flex:1 1 140px;font:700 16px/1 Inter,system-ui,sans-serif;padding:16px 18px;border-radius:12px;min-height:52px;cursor:pointer}
+.act-approve{background:#2E55E6;color:#FFFFFF;border:0}
+.act-edit{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+.act-reject{background:#FFFFFF;color:#A42020;border:1px solid #E7B4B4}
+.act:disabled{opacity:.45;cursor:not-allowed}
+.pin{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:999px;background:#E0A33A;color:#14161B;font:800 13px/26px Inter,sans-serif;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #FFFFFF;pointer-events:none}
+.rush{display:inline-block;font:700 11px/1 Inter,sans-serif;padding:6px 8px;border-radius:999px;background:#A42020;color:#FFFFFF;white-space:nowrap}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B; position: relative;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1180px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+<div style="display: flex; align-items: center; gap: 10px;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+</div>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270; background: #F7F8FA; border: 1px solid #E4E6EB; border-radius: 999px; padding: 8px 12px;">Harbor Church · Central</span>
+<div style="flex: 1 1 auto;"></div>
+<div role="group" aria-label="Viewing as" style="display: flex; align-items: center; gap: 4px; background: #EEF0F4; padding: 4px; border-radius: 10px;">
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270; padding: 0 8px;">Viewing as</span>
+<sc-for list="{{ roles }}" as="r" hint-placeholder-count="2">
+<button type="button" class="{{ r.cls }}" onClick="{{ r.pick }}">{{ r.label }}</button>
+</sc-for>
+</div>
+</div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 24px;">
+<section style="display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap;">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">{{ heading }}</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">{{ waitingText }}</p>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+<button type="button" class="{{ f.cls }}" onClick="{{ f.pick }}">{{ f.label }}</button>
+</sc-for>
+</div>
+</section>
+
+<sc-if value="{{ covering }}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFF8EC; border: 1px solid #F0D29A; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #8A4B00; line-height: 1.45;">You're covering for <strong>Alicia P.</strong> while she's out until Nov 2. Her Comms approvals come to you automatically.</div>
+</sc-if>
+<sc-if value="{{ hasFlash }}" hint-placeholder-val="{{ false }}">
+<div role="status" class="chk-pass" style="font-size: 15px;">{{ flash }}</div>
+</sc-if>
+<sc-if value="{{ hasUndo }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: #14161B; color: #FFFFFF; border-radius: 12px; padding: 12px 16px;">
+<span style="flex: 1 1 240px; font-size: 14px; line-height: 1.4;">{{ undoText }}</span>
+<button type="button" onClick="{{ undo }}" style="appearance: none; border: 0; background: #7C9BFF; color: #14161B; font: 700 14px/1 Inter, sans-serif; padding: 11px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Undo</button>
+</div>
+</sc-if>
+
+<section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+<sc-for list="{{ visible }}" as="q" hint-placeholder-count="4">
+<button type="button" class="{{ q.cls }}" onClick="{{ q.pick }}">
+<div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+<span style="flex: 1 1 auto; font-weight: 700; font-size: 15px;">{{ q.title }}</span>
+<sc-if value="{{ q.rush }}" hint-placeholder-val="{{ false }}"><span class="rush">Urgent</span></sc-if>
+<span class="{{ q.chip }}">{{ q.status }}</span>
+</div>
+<span style="font-size: 13px; color: #5B6270;">{{ q.campus }} · {{ q.kind }} · Due {{ q.due }}</span>
+</button>
+</sc-for>
+<sc-if value="{{ emptyList }}" hint-placeholder-val="{{ false }}">
+<div style="background: #FFFFFF; border: 1px dashed #C9CED8; border-radius: 12px; padding: 24px; text-align: center; color: #5B6270; font-size: 15px;">Nothing here. You're all caught up.</div>
+</sc-if>
+</div>
+
+<div style="flex: 999 1 520px; min-width: 0; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+<div style="display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+<div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 6px;">
+<h2 style="margin: 0; font: 800 24px/1.15 Manrope, Inter, sans-serif;">{{ sel.title }}</h2>
+<span style="font-size: 14px; color: #5B6270;">Requested by {{ sel.who }} · {{ sel.campus }}</span>
+<sc-if value="{{ sel.rush }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #A42020; font-weight: 700;">Urgent: {{ sel.rushWhy }}</span></sc-if>
+<sc-if value="{{ sel.showEs }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #1E3FB8; font-weight: 700;">Showing the Spanish version</span></sc-if>
+</div>
+<span class="{{ sel.chip }}">{{ sel.status }}</span>
+</div>
+
+<ol aria-label="Approval steps" style="list-style: none; margin: 0; padding: 14px 16px; background: #F7F8FA; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 10px 24px;">
+<sc-for list="{{ sel.steps }}" as="s" hint-placeholder-count="4">
+<li class="{{ s.text }}"><span class="{{ s.dot }}"></span>{{ s.label }}</li>
+</sc-for>
+</ol>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div onClick="{{ pinClick }}" style="flex: 0 0 auto; display: flex; justify-content: center; position: relative; cursor: {{ pinCursor }};">
+<sc-if value="{{ sel.isPrint }}" hint-placeholder-val="{{ true }}">
+<div style="width: 180px; height: 396px; background: #1C2B4A; border-radius: 12px; display: flex; flex-direction: column; align-items: center; overflow: hidden; color: #FFFFFF;">
+<div style="width: 62px; height: 62px; border-radius: 999px; background: #F7F8FA; margin-top: 20px;"></div>
+<div style="background: #E8674A; width: 100%; padding: 12px 8px; margin-top: 24px; text-align: center; font: 800 22px/1.05 Manrope, sans-serif; box-sizing: border-box; text-transform: uppercase;">{{ sel.copy.headline }}</div>
+<div style="padding: 16px 14px; display: flex; flex-direction: column; gap: 8px; text-align: center;">
+<span style="font: 700 15px/1.2 Inter, sans-serif;">{{ sel.copy.when }}</span>
+<span style="font: 400 12px/1.4 Inter, sans-serif; color: #F3E9DC;">{{ sel.copy.details }}</span>
+</div>
+<div style="flex: 1 1 auto;"></div>
+<div style="padding: 0 14px 18px; text-align: center; display: flex; flex-direction: column; gap: 4px;">
+<span style="font: 700 12px/1 Inter, sans-serif;">Harbor Church</span>
+<span style="font: 400 11px/1.3 Inter, sans-serif; color: #F3E9DC;">{{ sel.campus }} · [Campus address]</span>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ sel.isWeb }}" hint-placeholder-val="{{ false }}">
+<div style="width: 260px; display: flex; flex-direction: column; gap: 10px;">
+<div style="border-radius: 10px; background: #FDECEC; padding: 12px 14px; font-size: 14px; color: #7A1F1F;"><strong>Remove:</strong> Details coming soon.</div>
+<div style="border-radius: 10px; background: #E3F4EA; padding: 12px 14px; font-size: 14px; color: #17603C; display: flex; flex-direction: column; gap: 4px;"><strong>Add: {{ sel.copy.headline }}</strong><span>{{ sel.copy.when }}</span><span>{{ sel.copy.details }}</span></div>
+</div>
+</sc-if>
+<sc-if value="{{ sel.isVideo }}" hint-placeholder-val="{{ false }}">
+<div style="width: 280px; aspect-ratio: 16 / 9; background: #1C2B4A; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #FFFFFF; border-bottom: 6px solid #E8674A; text-align: center; padding: 12px; box-sizing: border-box;">
+<span style="font: 800 22px/1.05 Manrope, sans-serif; text-transform: uppercase;">{{ sel.copy.headline }}</span>
+<span style="font: 600 13px/1.2 Inter, sans-serif; color: #F3E9DC;">{{ sel.copy.when }}</span>
+</div>
+</sc-if>
+<sc-for list="{{ pins }}" as="p" hint-placeholder-count="0"><span class="pin" style="left: {{ p.left }}; top: {{ p.top }};" aria-hidden="true">{{ p.n }}</span></sc-for>
+</div>
+
+<div style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h3 style="margin: 0; font: 700 15px/1 Inter, sans-serif;">{{ checkTitle }}</h3>
+<sc-for list="{{ sel.checks }}" as="c" hint-placeholder-count="4">
+<div class="{{ c.cls }}">
+<sc-if value="{{ c.ok }}" hint-placeholder-val="{{ true }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+</sc-if>
+<sc-if value="{{ c.bad }}" hint-placeholder-val="{{ false }}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v5M12 17h.01"></path><circle cx="12" cy="12" r="9"></circle></svg>
+</sc-if>
+<span>{{ c.label }}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #3A404C;">
+<span><strong>Final stop:</strong> {{ sel.dest }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<h3 style="margin: 0; font: 700 15px/1 Inter, sans-serif;">Comments on the design</h3>
+<sc-for list="{{ pins }}" as="p" hint-placeholder-count="0">
+<div style="display: flex; gap: 8px; align-items: center;"><span style="width: 24px; height: 24px; border-radius: 999px; background: #E0A33A; font: 800 12px/24px Inter, sans-serif; text-align: center; flex: 0 0 auto;">{{ p.n }}</span><input type="text" value="{{ p.text }}" onChange="{{ p.onText }}" placeholder="Move the logo up a little" aria-label="Comment {{ p.n }}" style="font: 400 14px/1.4 Inter, sans-serif; border: 1px solid #D5D9E0; border-radius: 8px; padding: 10px 12px; min-height: 44px; width: 100%; box-sizing: border-box;"></div>
+</sc-for>
+<button type="button" onClick="{{ togglePin }}" style="appearance: none; align-self: flex-start; border: 1px dashed #E0A33A; background: {{ pinBtnBg }}; color: #8A4B00; font: 700 14px/1 Inter, sans-serif; padding: 11px 14px; border-radius: 10px; min-height: 44px; cursor: pointer;">{{ pinLabel }}</button>
+</div>
+<sc-if value="{{ sel.hasAlt }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<label for="alt" style="font: 700 15px/1 Inter, sans-serif;">Image description (alt text)</label>
+<textarea id="alt" rows="2" value="{{ sel.alt }}" onChange="{{ onAlt }}" style="min-height: 60px;"></textarea>
+<span style="font-size: 12px; color: #5B6270;">Written automatically. Goes with the image for people using screen readers.</span>
+</div>
+</sc-if>
+</div>
+</div>
+
+<sc-if value="{{ tip.show }}" hint-placeholder-val="{{ false }}">
+<div style="background: #F4EEFC; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; color: #4B2A80;">
+<strong style="font-size: 14px;">Voice guide suggestion</strong>
+<span style="font-size: 14px; line-height: 1.45;">Your guide says <strong>"Guests"</strong>, not <strong>"Visitors"</strong>.</span>
+<div style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.45;">
+<span style="text-decoration: line-through; color: #8E1F1F;">Visitors welcome!</span>
+<span style="color: #17603C;">Guests welcome!</span>
+</div>
+<button type="button" onClick="{{ tip.apply }}" style="appearance: none; align-self: flex-start; border: 0; background: #6B3FB8; color: #FFFFFF; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Apply suggestion</button>
+</div>
+</sc-if>
+<sc-if value="{{ sel.myTurn }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 10px; flex-wrap: wrap; border-top: 1px solid #EEF0F4; padding-top: 20px;">
+<button type="button" class="act act-approve" onClick="{{ approve }}">{{ approveLabel }}</button>
+<button type="button" class="act act-edit" onClick="{{ openEdit }}">Edit</button>
+<button type="button" class="act act-reject" onClick="{{ openReject }}">Reject</button>
+</div>
+</sc-if>
+<sc-if value="{{ sel.notMyTurn }}" hint-placeholder-val="{{ false }}">
+<div style="border-top: 1px solid #EEF0F4; padding-top: 16px; font-size: 14px; color: #5B6270;">{{ sel.waitingOn }}</div>
+</sc-if>
+
+<sc-if value="{{ sel.hasNote }}" hint-placeholder-val="{{ false }}">
+<div style="background: #FDECEC; border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; color: #7A1F1F;">
+<strong style="font-size: 14px;">Returned to {{ sel.who }} with this note</strong>
+<span style="font-size: 14px; white-space: pre-line;">{{ sel.note }}</span>
+<span style="font-size: 13px;">{{ sel.who }} will need to submit a new request.</span>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<h3 style="margin: 0; font: 700 14px/1 Inter, sans-serif; color: #3A404C;">History</h3>
+<sc-for list="{{ sel.log }}" as="l" hint-placeholder-count="2">
+<span style="font-size: 13px; color: #5B6270;">{{ l.text }}</span>
+</sc-for>
+</div>
+</div>
+</section>
+</main>
+
+<sc-if value="{{ showEdit }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; background: rgba(20,22,27,.5); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10;">
+<div role="dialog" aria-modal="true" aria-labelledby="edit-title" style="width: 100%; max-width: 520px; background: #FFFFFF; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box; box-shadow: 0 20px 50px rgba(20,22,27,.25);">
+<h2 id="edit-title" style="margin: 0; font: 800 22px/1.2 Manrope, Inter, sans-serif;">Edit {{ editWhat }}</h2>
+<p style="margin: 0; font-size: 14px; color: #5B6270;">Your changes show up on the draft and are saved to the history.</p>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="e-head">Headline</label>
+<input id="e-head" type="text" value="{{ draft.headline }}" onChange="{{ onHead }}">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="e-when">Date &amp; time</label>
+<input id="e-when" type="text" value="{{ draft.when }}" onChange="{{ onWhen }}">
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="e-det">Details</label>
+<textarea id="e-det" rows="3" value="{{ draft.details }}" onChange="{{ onDetails }}"></textarea>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<button type="button" class="act act-approve" onClick="{{ saveEdit }}">Save &amp; approve</button>
+<button type="button" class="act act-edit" onClick="{{ closeModal }}">Cancel</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showReject }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; background: rgba(20,22,27,.5); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10;">
+<div role="dialog" aria-modal="true" aria-labelledby="rej-title" style="width: 100%; max-width: 520px; background: #FFFFFF; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box; box-shadow: 0 20px 50px rgba(20,22,27,.25);">
+<h2 id="rej-title" style="margin: 0; font: 800 22px/1.2 Manrope, Inter, sans-serif;">Send back to {{ sel.who }}</h2>
+<p style="margin: 0; font-size: 14px; color: #5B6270;">Tell them what to fix. They'll get your note and submit a new request.</p>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="r-note">Your note</label>
+<textarea id="r-note" rows="4" value="{{ note }}" onChange="{{ onNote }}" placeholder="Fall Fest moved to Nov 1. Please resubmit with the new date."></textarea>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<button type="button" class="act act-reject" style="background: #A42020; color: #FFFFFF; border: 0;" onClick="{{ confirmReject }}" disabled="{{ noNote }}">Reject &amp; send note</button>
+<button type="button" class="act act-edit" onClick="{{ closeModal }}">Cancel</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.items = [
+      { id: 'memorial', title: 'Memorial service slide', kind: 'Slides', campus: 'North Campus', who: 'Pastor Dan R.', due: 'Tomorrow', isVideo: true, rush: true, rushWhy: 'memorial service moved to Saturday', campusReview: true,
+        dest: 'North Campus Sunday slides',
+        copy: { headline: 'Celebrating Bob K.', when: 'Sat, Oct 31 · 10 AM', details: 'Memorial service in the main auditorium.' },
+        copyChecks: [['Spelling and grammar', true], ['Name confirmed with family', true]],
+        brandChecks: [['Brand colors', true], ['Approved logo', true]] },
+      { id: 'fallfest', campusReview: true, title: 'Fall Fest door hangers', kind: 'Print', campus: 'North Campus', who: 'Pastor Dan R.', due: 'Oct 28', isPrint: true,
+        dest: 'North Campus preferred printer · 500 copies',
+        copy: { headline: 'Fall Fest', when: 'Sat, Oct 31 · 4–7 PM', details: 'Food trucks, bounce houses and trunk-or-treat. Free for the whole family. Visitors welcome!' },
+        copyChecks: [['Spelling and grammar', true], ['Date and time included', true], ['Campus address missing', false]],
+        brandChecks: [['Brand colors', true], ['Approved logo', true], ['Brand fonts', true]] },
+      { id: 'christmas', title: 'Christmas service times', kind: 'Website', campus: 'East Campus', who: 'Pastor Maria L.', due: 'Nov 2', isWeb: true,
+        dest: 'East Campus page on the website',
+        copy: { headline: 'Christmas Eve at Harbor', when: 'Dec 24 · 2, 4 and 6 PM', details: 'Candlelight, carols and a message for the whole family.' },
+        bilingual: true, campusReview: true, esCopy: { headline: 'Nochebuena en Harbor', when: '24 de dic · 2, 4 y 6 PM', details: 'Velas, villancicos y un mensaje para toda la familia.' },
+        spanishChecks: [['Translation reads naturally', true], ['Uses usted, per the voice guide', true], ['Times match the English version', true]],
+        alt: 'Candles glowing in a dark sanctuary during a Christmas Eve service.',
+        copyChecks: [['Spelling and grammar', true], ['Matches service-time format', true]],
+        brandChecks: [['Brand colors', true], ['Campus page exists', true]] },
+      { id: 'baptism', title: 'Baptism Sunday bumper', kind: 'Video', campus: 'All campuses', who: 'Worship team', due: 'Nov 10', isVideo: true,
+        dest: 'Promote tab for every campus',
+        copy: { headline: 'Baptism Sunday', when: 'Sun, Nov 15', details: '10-second bumper for Sunday services.' },
+        copyChecks: [['Spelling and grammar', true], ['Date included', true]],
+        brandChecks: [['Brand colors', true], ['Approved logo', true], ['Music license on file', true]] },
+      { id: 'yard', campusReview: true, title: 'Easter yard signs', kind: 'Print', campus: 'South Campus', who: 'Pastor Kevin T.', due: 'Feb 20', isPrint: true,
+        dest: 'South Campus preferred printer · 40 signs',
+        copy: { headline: 'Easter at Harbor', when: 'Sun, Apr 4 · 9 and 11 AM', details: 'Everyone welcome. Kids programs at every service.' },
+        copyChecks: [['Spelling and grammar', true], ['Service times included', true]],
+        brandChecks: [['Brand colors', true], ['Approved logo', true], ['Brand fonts', true]] }
+    ];
+    var copy = {}, log = {};
+    this.items.forEach(function (it) {
+      copy[it.id] = Object.assign({}, it.copy);
+      log[it.id] = ['Submitted by ' + it.who];
+    });
+    log.baptism.push('Copy approved by Comms');
+    log.yard.push('Copy approved by Comms');
+    this.state = {
+      role: 'comms', sel: 'memorial', filter: 'mine',
+      stage: { memorial: 'comms', fallfest: 'comms', christmas: 'comms', baptism: 'creative', yard: 'creative' },
+      pins: {}, pinMode: false, alt: {}, undo: null,
+      copy: copy, log: log, notes: {},
+      modal: null, draft: { headline: '', when: '', details: '' }, note: '', flash: ''
+    };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var roleName = s.role === 'comms' ? 'Comms' : (s.role === 'spanish' ? 'Spanish review' : 'Creative');
+    var roles = [{ id: 'comms', label: 'Comms' }, { id: 'spanish', label: 'Spanish review' }, { id: 'creative', label: 'Creative' }].map(function (r) {
+      return { label: r.label, cls: s.role === r.id ? 'role-on' : 'role', pick: function () { self.setState({ role: r.id, filter: 'mine', flash: '', pinMode: false }); } };
+    });
+    function info(it) {
+      var st = s.stage[it.id];
+      if (st === 'comms') return { status: 'Waiting on Comms', chip: 'chip-wait' };
+      if (st === 'creative') return { status: 'Waiting on Creative', chip: 'chip-wait' };
+      if (st === 'spanish') return { status: 'Waiting on Spanish review', chip: 'chip-wait' };
+      if (st === 'done') return { status: it.isPrint ? 'Sent to printer' : (it.isWeb ? 'Published' : 'Ready on Promote'), chip: 'chip-ok' };
+      return { status: 'Returned', chip: 'chip-bad' };
+    }
+    var filterDefs = [{ id: 'mine', label: 'Waiting on me' }, { id: 'all', label: 'All' }, { id: 'returned', label: 'Returned' }];
+    var filters = filterDefs.map(function (f) {
+      return { label: f.label, cls: s.filter === f.id ? 'fbtn-on' : 'fbtn', pick: function () { self.setState({ filter: f.id }); } };
+    });
+    var all = this.items.map(function (it) {
+      var i = info(it);
+      return { id: it.id, title: it.title, campus: it.campus, kind: it.kind, due: it.due, status: i.status, chip: i.chip, stage: s.stage[it.id], rush: !!it.rush,
+        cls: s.sel === it.id ? 'row-on' : 'row', pick: function () { self.setState({ sel: it.id, flash: '', pinMode: false }); } };
+    });
+    var visible = all.filter(function (q) {
+      if (s.filter === 'mine') return q.stage === s.role;
+      if (s.filter === 'returned') return q.stage === 'rejected';
+      return true;
+    });
+    var mineCount = all.filter(function (q) { return q.stage === s.role; }).length;
+    var raw = this.items.filter(function (it) { return it.id === s.sel; })[0] || this.items[0];
+    var stage = s.stage[raw.id];
+    var i = info(raw);
+    var finalLabel = raw.isPrint ? 'Printer' : (raw.isWeb ? 'Live on site' : (raw.kind === 'Slides' ? 'Sunday slides' : 'Promote tab'));
+    var order = ['submitted'].concat(raw.campusReview ? ['campus'] : []).concat(['comms']).concat(raw.bilingual ? ['spanish'] : []).concat(['creative', 'done']);
+    var labelFor = { submitted: 'Submitted', campus: 'Campus review', comms: 'Comms', spanish: 'Spanish review', creative: 'Creative', done: finalLabel };
+    var labels = order.map(function (o) { return labelFor[o]; });
+    var at = stage === 'rejected' ? -1 : order.indexOf(stage);
+    var rejectedAt = s.notes[raw.id] ? s.notes[raw.id].at : null;
+    var steps = labels.map(function (l, idx) {
+      if (stage === 'rejected') {
+        var rIdx = order.indexOf(rejectedAt);
+        if (idx < rIdx) return { label: l, dot: 'dot-done', text: 'st-done' };
+        if (idx === rIdx) return { label: l + ' rejected', dot: 'dot-bad', text: 'st-bad' };
+        return { label: l, dot: 'dot-todo', text: 'st-todo' };
+      }
+      if (stage === 'done' || idx < at) return { label: l, dot: 'dot-done', text: 'st-done' };
+      if (idx === at) return { label: l, dot: 'dot-now', text: 'st-now' };
+      return { label: l, dot: 'dot-todo', text: 'st-todo' };
+    });
+    var checkList = s.role === 'comms' ? raw.copyChecks : (s.role === 'spanish' ? (raw.spanishChecks || []) : raw.brandChecks);
+    var checks = checkList.map(function (c) {
+      return { label: c[0], ok: c[1], bad: !c[1], cls: c[1] ? 'chk-pass' : 'chk-fail' };
+    });
+    var myTurn = stage === s.role;
+    var waitingOn = stage === 'spanish' ? 'English copy approved. Waiting on Spanish review.' : stage === 'comms' ? 'Waiting on Comms to review the copy.'
+      : stage === 'creative' ? 'Copy approved. Waiting on Creative to review the design.'
+      : stage === 'done' ? 'Fully approved. Nothing left to do.'
+      : 'Returned to ' + raw.who + '.';
+    var note = s.notes[raw.id];
+    var sel = {
+      title: raw.title, who: raw.who, campus: raw.campus, status: i.status, chip: i.chip,
+      isPrint: !!raw.isPrint, isWeb: !!raw.isWeb, isVideo: !!raw.isVideo,
+      copy: (s.role === 'spanish' && raw.esCopy) ? raw.esCopy : s.copy[raw.id], showEs: s.role === 'spanish' && !!raw.esCopy,
+      rush: !!raw.rush, rushWhy: raw.rushWhy || '',
+      hasAlt: !!raw.alt, alt: s.alt[raw.id] != null ? s.alt[raw.id] : (raw.alt || ''),
+      dest: raw.dest, steps: steps, checks: checks,
+      myTurn: myTurn, notMyTurn: !myTurn, waitingOn: waitingOn,
+      hasNote: stage === 'rejected' && !!note, note: note ? note.text : '',
+      log: s.log[raw.id].map(function (t) { return { text: t }; })
+    };
+    function addLog(extra) {
+      var next = Object.assign({}, s.log);
+      next[raw.id] = s.log[raw.id].concat([extra]);
+      return next;
+    }
+    function nextStage() { if (stage === 'comms') return raw.bilingual ? 'spanish' : 'creative'; if (stage === 'spanish') return 'creative'; return 'done'; }
+    function flashFor(ns) {
+      if (ns === 'spanish') return raw.title + ' approved. Sent to Spanish review.';
+      if (ns === 'creative') return raw.title + ' approved. Sent to Creative.';
+      return raw.title + ' approved. ' + (raw.isPrint ? 'Sent to the printer.' : (raw.isWeb ? 'Published to the website.' : (raw.kind === 'Slides' ? 'Added to Sunday slides.' : 'Added to the Promote tab.')));
+    }
+    function advance(logText, extraState) {
+      var ns = nextStage();
+      var st = Object.assign({}, s.stage); st[raw.id] = ns;
+      var held = ns === 'done' && raw.isPrint;
+      self.setState(Object.assign({ stage: st, log: addLog(logText), flash: held ? '' : flashFor(ns), modal: null, undo: held ? raw.id : null }, extraState || {}));
+    }
+    return {
+      roles: roles, filters: filters, visible: visible, emptyList: visible.length === 0, sel: sel,
+      heading: roleName + ' approvals',
+      checkTitle: s.role === 'comms' ? 'Copy check' : (s.role === 'spanish' ? 'Spanish check' : 'Brand check'),
+      covering: s.role === 'comms',
+      pins: (s.pins[raw.id] || []).map(function (p, idx) {
+        return { n: String(idx + 1), left: p.x + 'px', top: p.y + 'px', text: p.text,
+          onText: function (e) { var all = Object.assign({}, s.pins); var list = (s.pins[raw.id] || []).slice(); list[idx] = Object.assign({}, list[idx], { text: e.target.value }); all[raw.id] = list; self.setState({ pins: all }); } };
+      }),
+      pinCursor: s.pinMode ? 'crosshair' : 'default',
+      pinLabel: s.pinMode ? 'Tap the spot on the design…' : '+ Add a comment on the design',
+      pinBtnBg: s.pinMode ? '#FFF4E5' : '#FFFFFF',
+      togglePin: function () { self.setState({ pinMode: !s.pinMode }); },
+      pinClick: function (e) {
+        if (!s.pinMode) return;
+        var r = e.currentTarget.getBoundingClientRect();
+        var all = Object.assign({}, s.pins); var list = (s.pins[raw.id] || []).slice();
+        list.push({ x: Math.round(e.clientX - r.left), y: Math.round(e.clientY - r.top), text: '' });
+        all[raw.id] = list;
+        self.setState({ pins: all, pinMode: false });
+      },
+      onAlt: function (e) { var n = Object.assign({}, s.alt); n[raw.id] = e.target.value; self.setState({ alt: n }); },
+      waitingText: mineCount === 0 ? 'All caught up.' : mineCount + (mineCount === 1 ? ' request is' : ' requests are') + ' waiting on ' + roleName + '.',
+      hasFlash: !!s.flash, flash: s.flash,
+      hasUndo: !!s.undo, undoText: s.undo ? 'Approved. Sending to the printer in 5 minutes, in case you change your mind.' : '',
+      undo: function () {
+        var id = s.undo; var st = Object.assign({}, s.stage); st[id] = 'creative';
+        var lg = Object.assign({}, s.log); lg[id] = s.log[id].concat(['Approval undone before it reached the printer']);
+        self.setState({ stage: st, log: lg, undo: null, flash: 'Undone. Nothing was sent to the printer.', sel: id });
+      },
+      approveLabel: s.role === 'comms' ? 'Approve copy' : s.role === 'spanish' ? 'Approve Spanish' : (raw.isPrint ? 'Approve & send to printer' : (raw.isWeb ? 'Approve & publish' : 'Approve')),
+      approve: function () { var n = (s.pins[raw.id] || []).length; advance((s.role === 'comms' ? 'Copy' : s.role === 'spanish' ? 'Spanish' : 'Design') + ' approved by ' + roleName + (n ? ' with ' + n + ' design comment' + (n === 1 ? '' : 's') : '')); },
+      openEdit: function () { self.setState({ modal: 'edit', draft: Object.assign({}, s.copy[raw.id]), flash: '' }); },
+      openReject: function () { self.setState({ modal: 'reject', note: '', flash: '' }); },
+      closeModal: function () { self.setState({ modal: null }); },
+      showEdit: s.modal === 'edit', showReject: s.modal === 'reject',
+      editWhat: s.role === 'comms' ? 'the copy' : (s.role === 'spanish' ? 'the Spanish copy' : 'the design text'),
+      tip: {
+        show: s.role === 'comms' && stage === 'comms' && /Visitors/.test(s.copy[raw.id].details),
+        apply: function () {
+          var c = Object.assign({}, s.copy); c[raw.id] = Object.assign({}, s.copy[raw.id], { details: s.copy[raw.id].details.replace('Visitors welcome!', 'Guests welcome!') });
+          self.setState({ copy: c, log: addLog('Voice suggestion applied by Comms'), flash: 'Suggestion applied. The draft is updated.' });
+        }
+      },
+      draft: s.draft, note: s.note, noNote: !s.note.trim(),
+      onHead: function (e) { self.setState({ draft: Object.assign({}, s.draft, { headline: e.target.value }) }); },
+      onWhen: function (e) { self.setState({ draft: Object.assign({}, s.draft, { when: e.target.value }) }); },
+      onDetails: function (e) { self.setState({ draft: Object.assign({}, s.draft, { details: e.target.value }) }); },
+      onNote: function (e) { self.setState({ note: e.target.value }); },
+      saveEdit: function () {
+        var c = Object.assign({}, s.copy); c[raw.id] = Object.assign({}, s.draft);
+        advance('Edited and approved by ' + roleName, { copy: c });
+      },
+      confirmReject: function () {
+        if (!s.note.trim()) return;
+        var st = Object.assign({}, s.stage); st[raw.id] = 'rejected';
+        var n = Object.assign({}, s.notes); n[raw.id] = { text: s.note.trim(), at: stage };
+        self.setState({ stage: st, notes: n, log: addLog('Rejected by ' + roleName + ' and returned to ' + raw.who), modal: null,
+          flash: raw.title + ' sent back to ' + raw.who + ' with your note.' });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

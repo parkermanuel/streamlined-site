@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brand kit setup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;family=Playfair+Display:wght@700;800&amp;family=Source+Sans+3:wght@400;600&amp;family=Archivo+Black&amp;family=Archivo:wght@400;600&amp;family=DM+Serif+Display&amp;family=DM+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.fp,.fp-on{appearance:none;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:12px;color:#14161B;min-height:44px;box-sizing:border-box;background:#FFFFFF}
+.fp{border:1px solid #D5D9E0}
+.fp:hover{border-color:#9DB2F5}
+.fp-on{border:2px solid #2E55E6;background:#EAF0FF;padding:13px 15px}
+.sw{display:flex;align-items:center;gap:12px;padding:10px 12px;border:1px solid #E4E6EB;border-radius:12px}
+.sw input[type=color]{width:44px;height:44px;border:0;padding:0;background:none;cursor:pointer}
+.lk,.lk-on{appearance:none;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:12px 14px;border-radius:12px;cursor:pointer;font:600 14px/1.3 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #E4E6EB;min-height:48px;text-align:left}
+.pill-on,.pill-off{font:700 12px/1 Inter,sans-serif;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.pill-on{background:#14161B;color:#FFFFFF}
+.pill-off{background:#EEF0F4;color:#4A5160}
+.ok,.warn{font:600 12px/1.3 Inter,sans-serif;padding:6px 10px;border-radius:8px}
+.ok{background:#E3F4EA;color:#17603C}
+.warn{background:#FFF1DB;color:#8A4B00}
+label{font:600 13px/1 Inter,system-ui,sans-serif;color:#3A404C}
+textarea,input[type=text]{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:10px;padding:12px 14px;box-sizing:border-box;width:100%;min-height:44px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1180px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Brand kit</span>
+<div style="flex: 1 1 auto;"></div>
+<button type="button" onClick="{{ save }}" style="appearance: none; border: 0; background: #2E55E6; color: #FFFFFF; font: 700 15px/1 Inter, sans-serif; padding: 12px 18px; border-radius: 10px; min-height: 44px; cursor: pointer;">{{ saveLabel }}</button>
+</div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 24px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Set your brand once</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Every draft every campus or team makes is built from this. Change it here and it changes everywhere.</p>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">1. Logo</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+<button type="button" style="appearance: none; height: 110px; border-radius: 12px; border: 2px dashed #C9CED8; background: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; font: 600 14px/1.2 Inter, sans-serif; color: #3A404C;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"></path></svg>
+Logo for light backgrounds</button>
+<button type="button" style="appearance: none; height: 110px; border-radius: 12px; border: 2px dashed #5B6270; background: #14161B; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; font: 600 14px/1.2 Inter, sans-serif; color: #FFFFFF;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"></path></svg>
+Logo for dark backgrounds</button>
+</div>
+<h3 style="margin: 4px 0 0; font: 700 15px/1.2 Inter, sans-serif;">Campus logos</h3>
+<sc-for list="{{ lockups }}" as="k" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EEF0F4;">
+<span style="flex: 1 1 auto; font: 600 14px/1.3 Inter, sans-serif;">{{ k.name }}</span>
+<span class="{{ k.cls }}">{{ k.state }}</span>
+</div>
+</sc-for>
+<h3 style="margin: 4px 0 0; font: 700 15px/1.2 Inter, sans-serif;">Logo rules every template follows</h3>
+<ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px;">
+<li class="ok" style="font-size: 13px;">Picks the light or dark logo automatically, based on the background.</li>
+<li class="ok" style="font-size: 13px;">Campus pieces always use that campus's logo. Churchwide pieces use the main logo.</li>
+<li class="ok" style="font-size: 13px;">Never stretched, recolored, rotated or given effects. Campuses can't move or resize it.</li>
+</ul>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 8px;"><label for="lg1">Smallest size in print</label><input id="lg1" type="text" placeholder="[Your minimum, e.g. 0.75 in]"></div>
+<div style="display: flex; flex-direction: column; gap: 8px;"><label for="lg2">Smallest size on screen</label><input id="lg2" type="text" placeholder="[Your minimum, in pixels]"></div>
+</div>
+<span style="font-size: 13px; color: #5B6270;">Templates warn the designer if a layout breaks a rule, before anyone can use it.</span>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">2. Colors</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+<div class="sw"><input id="c1" type="color" value="{{ c.primary }}" onChange="{{ setPrimary }}" aria-label="Main color"><div style="display: flex; flex-direction: column; gap: 4px;"><label for="c1">Main color</label><span style="font-size: 13px; color: #5B6270;">{{ c.primary }}</span></div></div>
+<div class="sw"><input id="c2" type="color" value="{{ c.accent }}" onChange="{{ setAccent }}" aria-label="Accent color"><div style="display: flex; flex-direction: column; gap: 4px;"><label for="c2">Accent color</label><span style="font-size: 13px; color: #5B6270;">{{ c.accent }}</span></div></div>
+<div class="sw"><input id="c3" type="color" value="{{ c.light }}" onChange="{{ setLight }}" aria-label="Light color"><div style="display: flex; flex-direction: column; gap: 4px;"><label for="c3">Light color</label><span style="font-size: 13px; color: #5B6270;">{{ c.light }}</span></div></div>
+</div>
+<span class="{{ contrastCls }}">{{ contrastText }}</span>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">Series and seasonal palettes</h2>
+<span style="font-size: 14px; color: #3A404C; margin-top: -4px;">Room for designers to create. A series can have its own look while the logo, fonts and voice stay the same.</span>
+<sc-for list="{{ palettes }}" as="pl" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #EEF0F4; flex-wrap: wrap;">
+<div style="display: flex; gap: 4px;">
+<sc-for list="{{ pl.colors }}" as="pc" hint-placeholder-count="4"><span style="width: 26px; height: 26px; border-radius: 6px; border: 1px solid #E4E6EB; background: {{ pc.hex }};" role="img" aria-label="{{ pc.hex }}"></span></sc-for>
+</div>
+<span style="flex: 1 1 160px; font: 600 14px/1.3 Inter, sans-serif;">{{ pl.name }}</span>
+<span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ pl.meta }}</span>
+</div>
+</sc-for>
+<button type="button" style="appearance: none; align-self: flex-start; font: 600 14px/1 Inter, sans-serif; padding: 10px 14px; border-radius: 10px; border: 1px dashed #9DB2F5; background: #FFFFFF; color: #1E3FB8; cursor: pointer; min-height: 44px;">+ New palette</button>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">3. Fonts</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px;">
+<sc-for list="{{ fonts }}" as="f" hint-placeholder-count="4">
+<button type="button" class="{{ f.cls }}" onClick="{{ f.pick }}">
+<span style="font-family: {{ f.head }}; font-size: 22px; line-height: 1.1;">{{ f.headName }}</span>
+<span style="font-family: {{ f.body }}; font-size: 14px; color: #3A404C;">with {{ f.bodyName }} for body text</span>
+</button>
+</sc-for>
+</div>
+<span style="font-size: 13px; color: #5B6270;">Or upload your own licensed font files.</span>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">4. Voice guide</h2>
+<span style="font-size: 14px; color: #3A404C; margin-top: -4px;">So every campus sounds like one church. Comms sees suggestions from this guide on every approval.</span>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="v1">How we sound</label>
+<textarea id="v1" rows="2" placeholder="Warm, clear and inviting. Talk like a friend, not a brochure."></textarea>
+</div>
+<h3 style="margin: 4px 0 0; font: 700 15px/1.2 Inter, sans-serif;">Say this, not that</h3>
+<div style="border: 1px solid #E4E6EB; border-radius: 12px; overflow: hidden;">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: #F7F8FA; font: 700 12px/1 Inter, sans-serif; color: #3A404C;"><span style="padding: 10px 12px;">We say</span><span style="padding: 10px 12px;">Instead of</span></div>
+<sc-for list="{{ pairs }}" as="pr" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid #EEF0F4; font: 500 14px/1.3 Inter, sans-serif;"><span style="padding: 10px 12px; color: #17603C;">{{ pr.say }}</span><span style="padding: 10px 12px; color: #8E1F1F; text-decoration: line-through;">{{ pr.not }}</span></div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<label for="v4">A sample we love</label>
+<textarea id="v4" rows="3" placeholder="Paste an announcement or post that sounds exactly like you. Suggestions will follow its style."></textarea>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font: 600 13px/1 Inter, sans-serif; color: #3A404C;">In Spanish, we speak to people as</span>
+<div role="group" aria-label="Spanish formality" style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-for list="{{ formal }}" as="fm" hint-placeholder-count="2"><button type="button" class="{{ fm.cls }}" onClick="{{ fm.pick }}" aria-pressed="{{ fm.on }}" style="appearance: none; border: 0; cursor: pointer; font-size: 14px; border-radius: 999px; min-height: 44px; padding: 10px 14px;">{{ fm.label }}</button></sc-for>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">5. What campuses and teams can change</h2>
+<sc-for list="{{ locks }}" as="l" hint-placeholder-count="4">
+<button type="button" class="lk" onClick="{{ l.toggle }}" aria-pressed="{{ l.locked }}">
+<span>{{ l.label }}</span><span class="{{ l.pill }}">{{ l.state }}</span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font: 700 16px/1.2 Inter, sans-serif; color: #3A404C;">Live preview</h2>
+<div style="aspect-ratio: 1 / 1; width: 100%; border-radius: 16px; overflow: hidden; background: {{ c.primary }}; color: {{ c.light }}; display: flex; flex-direction: column; justify-content: space-between; padding: 28px; box-sizing: border-box;">
+<span style="font-family: {{ font.body }}; font-weight: 600; font-size: 14px; opacity: .9;">Harbor Church</span>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span style="font-family: {{ font.head }}; font-size: 44px; line-height: 1; text-transform: uppercase;">Fall Fest</span>
+<span style="align-self: flex-start; background: {{ c.accent }}; color: {{ c.primary }}; font-family: {{ font.body }}; font-weight: 600; font-size: 15px; padding: 8px 12px; border-radius: 8px;">Sat, Oct 31 · 4–7 PM</span>
+</div>
+<span style="font-family: {{ font.body }}; font-size: 13px; opacity: .85;">Instagram post · 1080×1080</span>
+</div>
+<div style="display: flex; gap: 12px;">
+<div style="flex: 0 0 96px; height: 210px; border-radius: 10px; background: {{ c.primary }}; border-top: 14px solid {{ c.accent }}; box-sizing: border-box; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px;">
+<span style="font-family: {{ font.head }}; color: {{ c.light }}; font-size: 16px; line-height: 1.05; text-transform: uppercase;">Fall Fest</span>
+</div>
+<div style="flex: 1 1 auto; border-radius: 10px; background: {{ c.light }}; border: 1px solid #E4E6EB; padding: 14px; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box;">
+<span style="font-family: {{ font.head }}; color: {{ c.primary }}; font-size: 20px; line-height: 1.1;">Fall Fest</span>
+<span style="font-family: {{ font.body }}; color: #14161B; font-size: 13px; line-height: 1.4;">Food trucks, bounce houses and trunk-or-treat. Free for the whole family.</span>
+<span style="align-self: flex-start; margin-top: auto; background: {{ c.primary }}; color: {{ c.light }}; font-family: {{ font.body }}; font-weight: 600; font-size: 12px; padding: 8px 10px; border-radius: 6px;">Plan your visit</span>
+</div>
+</div>
+<span style="font-size: 13px; color: #5B6270;">Door hanger and website card, built from your kit.</span>
+<sc-if value="{{ saved }}" hint-placeholder-val="{{ false }}">
+<div role="status" class="ok" style="font-size: 14px; padding: 12px 14px;">Brand kit saved. Every campus and team now builds from it.</div>
+</sc-if>
+</aside>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { primary: '#1C2B4A', accent: '#E8674A', light: '#F3E9DC', font: 0, saved: false,
+      locks: { colors: true, fonts: true, logo: true, photos: false }, formal: 'usted' };
+  }
+  lum(hex) {
+    var h = (hex || '#000000').replace('#', '');
+    if (h.length === 3) h = h.split('').map(function (x) { return x + x; }).join('');
+    var rgb = [0, 2, 4].map(function (i) {
+      var v = parseInt(h.substr(i, 2), 16) / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+  }
+  ratio(a, b) {
+    var l1 = this.lum(a), l2 = this.lum(b);
+    var hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var pairs = [
+      { head: 'Manrope, sans-serif', headName: 'Manrope', body: 'Inter, sans-serif', bodyName: 'Inter', weight: 800 },
+      { head: '"Playfair Display", serif', headName: 'Playfair Display', body: '"Source Sans 3", sans-serif', bodyName: 'Source Sans 3' },
+      { head: '"Archivo Black", sans-serif', headName: 'Archivo Black', body: 'Archivo, sans-serif', bodyName: 'Archivo' },
+      { head: '"DM Serif Display", serif', headName: 'DM Serif Display', body: '"DM Sans", sans-serif', bodyName: 'DM Sans' }
+    ];
+    var fonts = pairs.map(function (p, i) {
+      return { head: p.head, body: p.body, headName: p.headName, bodyName: p.bodyName, cls: s.font === i ? 'fp-on' : 'fp',
+        pick: function () { self.setState({ font: i, saved: false }); } };
+    });
+    var r = this.ratio(s.primary, s.light);
+    var rText = (Math.round(r * 10) / 10).toFixed(1);
+    var lockDefs = [
+      { id: 'colors', label: 'Brand colors' },
+      { id: 'fonts', label: 'Fonts' },
+      { id: 'logo', label: 'Logo' },
+      { id: 'photos', label: 'Photos and images' }
+    ];
+    var locks = lockDefs.map(function (l) {
+      var on = !!s.locks[l.id];
+      return { label: l.label, locked: on, pill: on ? 'pill-on' : 'pill-off', state: on ? 'Locked by Central' : 'Campuses can change',
+        toggle: function () { var n = Object.assign({}, s.locks); n[l.id] = !on; self.setState({ locks: n, saved: false }); } };
+    });
+    function setter(key) { return function (e) { var o = { saved: false }; o[key] = e.target.value; self.setState(o); }; }
+    var lockups = [
+      { name: 'Harbor Church (main)', state: 'Light and dark uploaded', cls: 'ok' },
+      { name: 'Harbor Church · North Campus', state: 'Light and dark uploaded', cls: 'ok' },
+      { name: 'Harbor Church · East Campus', state: 'Light and dark uploaded', cls: 'ok' },
+      { name: 'Harbor Church · South Campus', state: 'Dark version missing', cls: 'warn' }
+    ];
+    var palettes = [
+      { name: 'Christmas at Harbor', meta: 'Series palette · Nov 30 – Jan 3', colors: [{ hex: '#7A1F2B' }, { hex: '#F3E9DC' }, { hex: '#C8A15A' }, { hex: '#1C2B4A' }] },
+      { name: 'Summer at Harbor', meta: 'Seasonal palette · Jun – Aug', colors: [{ hex: '#0F6E7A' }, { hex: '#F6C453' }, { hex: '#FFFFFF' }, { hex: '#1C2B4A' }] }
+    ];
+    var pairs = [
+      { say: 'Guests', not: 'Visitors' },
+      { say: 'Join us', not: 'Attend our service' },
+      { say: 'Kids', not: "Children's ministry programming" },
+      { say: 'Groups', not: 'Small group ministry' }
+    ];
+    var formal = [{ id: 'usted', label: 'Usted (formal)' }, { id: 'tu', label: 'Tú (friendly)' }].map(function (f) {
+      var on = s.formal === f.id;
+      return { label: f.label, on: on, cls: on ? 'pill-on' : 'pill-off', pick: function () { self.setState({ formal: f.id, saved: false }); } };
+    });
+    return {
+      lockups: lockups, palettes: palettes, pairs: pairs, formal: formal,
+      c: { primary: s.primary, accent: s.accent, light: s.light },
+      font: pairs[s.font],
+      fonts: fonts,
+      locks: locks,
+      contrastCls: r >= 4.5 ? 'ok' : 'warn',
+      contrastText: r >= 4.5
+        ? 'Readable: main and light colors have a ' + rText + ':1 contrast ratio (WCAG AA needs 4.5:1 for body text).'
+        : 'Hard to read: main and light colors have only a ' + rText + ':1 contrast ratio. WCAG AA needs 4.5:1 for body text.',
+      setPrimary: setter('primary'), setAccent: setter('accent'), setLight: setter('light'),
+      saved: s.saved,
+      saveLabel: s.saved ? 'Saved' : 'Save brand kit',
+      save: function () { self.setState({ saved: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

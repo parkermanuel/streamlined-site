@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Campus comms dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.stat{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px;flex:1 1 170px;box-sizing:border-box}
+.chip-ok,.chip-wait,.chip-new,.chip-bad{display:inline-block;font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:#E3F4EA;color:#17603C}
+.chip-wait{background:#FFF1DB;color:#8A4B00}
+.chip-new{background:#EAF0FF;color:#1E3FB8}
+.chip-bad{background:#FDECEC;color:#8E1F1F}
+.b1,.b2,.b3{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:10px;cursor:pointer;min-height:44px;white-space:nowrap}
+.b1{background:#2E55E6;color:#FFFFFF;border:0}
+.b2{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+.b3{background:#FFFFFF;color:#A42020;border:1px solid #E7B4B4}
+.slot{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #EEF0F4}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270; background: #F7F8FA; border: 1px solid #E4E6EB; border-radius: 999px; padding: 8px 12px;">Harbor Church · North Campus Comms</span>
+<div style="flex: 1 1 auto;"></div>
+<span class="chip-new">Campus Admin</span>
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: #1C2B4A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font: 700 13px/1 Inter, sans-serif;">ML</span>
+</div>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 22px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Good morning, Marcus</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Here's everything for North Campus today: your teams' requests and what Central sent.</p>
+</section>
+
+<div style="background: #FFF8EC; border: 1px solid #F0D29A; border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #8A4B00; line-height: 1.45;">You're the backup for <strong>South Campus review</strong> this week while their comms lead is out. Their requests show up here too.</div>
+<section style="display: flex; flex-wrap: wrap; gap: 12px;">
+<div class="stat"><span style="font: 800 30px/1 Manrope, sans-serif;">{{ waitingCount }}</span><span style="font-size: 14px; color: #3A404C;">Waiting on your review</span></div>
+<div class="stat"><span style="font: 800 30px/1 Manrope, sans-serif;">{{ centralCount }}</span><span style="font-size: 14px; color: #3A404C;">With Central now</span></div>
+<div class="stat"><span style="font: 800 30px/1 Manrope, sans-serif;">{{ newCampaigns }}</span><span style="font-size: 14px; color: #3A404C;">New from Central</span></div>
+<div class="stat"><span style="font: 800 30px/1 Manrope, sans-serif;">5</span><span style="font-size: 14px; color: #3A404C;">Going out this Sunday</span></div>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+
+<div class="card">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+<h2 style="margin: 0; flex: 1 1 auto; font: 700 19px/1.2 Manrope, Inter, sans-serif;">Your teams' requests</h2>
+<span style="font-size: 13px; color: #5B6270;">You review first, then it goes to Central</span>
+</div>
+<sc-for list="{{ queue }}" as="q" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 10px; padding: 14px 0; border-bottom: 1px solid #EEF0F4;">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+<span style="font-weight: 700; font-size: 15px;">{{ q.title }}</span>
+<span style="font-size: 13px; color: #5B6270;">{{ q.team }} · {{ q.kind }} · Due {{ q.due }}</span>
+</div>
+<sc-if value="{{ q.rush }}" hint-placeholder-val="{{ false }}"><span style="font: 700 11px/1 Inter, sans-serif; padding: 6px 8px; border-radius: 999px; background: #A42020; color: #FFFFFF; white-space: nowrap;">Urgent</span></sc-if>
+<span class="{{ q.chip }}">{{ q.status }}</span>
+</div>
+<sc-if value="{{ q.open }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<button type="button" class="b1" onClick="{{ q.approve }}">Approve &amp; send to Central</button>
+<button type="button" class="b2">Edit</button>
+<button type="button" class="b3" onClick="{{ q.reject }}">Send back</button>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 19px/1.2 Manrope, Inter, sans-serif;">From Central</h2>
+<sc-for list="{{ campaigns }}" as="c" hint-placeholder-count="2">
+<div style="display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid #EEF0F4; flex-wrap: wrap; align-items: center;">
+<div style="width: 64px; height: 64px; border-radius: 12px; background: #1C2B4A; border-bottom: 6px solid #E8674A; box-sizing: border-box; flex: 0 0 auto;"></div>
+<div style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+<span style="font-weight: 700; font-size: 15px;">{{ c.title }}</span>
+<span style="font-size: 13px; color: #5B6270;">{{ c.meta }}</span>
+</div>
+<sc-if value="{{ c.isNew }}" hint-placeholder-val="{{ true }}">
+<button type="button" class="b1" onClick="{{ c.accept }}">Add North details &amp; schedule</button>
+</sc-if>
+<sc-if value="{{ c.done }}" hint-placeholder-val="{{ false }}">
+<span class="chip-ok">Scheduled for North</span>
+</sc-if>
+</div>
+</sc-for>
+<span style="font-size: 13px; color: #5B6270;">Central's design stays locked. You only add North's details, like service times and address. 1 more campaign is scheduled and appears here Nov 29.</span>
+</div>
+</div>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<div class="card">
+<h2 style="margin: 0; font: 700 19px/1.2 Manrope, Inter, sans-serif;">This Sunday at North</h2>
+<sc-for list="{{ sunday }}" as="x" hint-placeholder-count="5">
+<div class="slot">
+<span style="font: 700 12px/1.2 Inter, sans-serif; color: #1E3FB8; min-width: 62px;">{{ x.when }}</span>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font: 600 14px/1.3 Inter, sans-serif;">{{ x.what }}</span>
+<span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ x.how }}</span>
+</div>
+</div>
+</sc-for>
+<button type="button" style="appearance: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: #14161B; color: #FFFFFF; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Download Sunday pack</button>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 700 19px/1.2 Manrope, Inter, sans-serif;">From your printer</h2>
+<sc-if value="{{ printerOpen }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270;">[Your print shop] · Fall Fest door hangers</span>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; background: #F7F8FA; border-radius: 10px; padding: 10px 12px;">The die-cut hole is close to the logo. OK to move it 1/8 inch down?</p>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<button type="button" class="b1" onClick="{{ answerYes }}">Yes, move it</button>
+<button type="button" class="b2" onClick="{{ askCreative }}">Ask Creative</button>
+</div>
+</div>
+</sc-if>
+<sc-if value="{{ printerDone }}" hint-placeholder-val="{{ false }}"><span role="status" style="font-size: 14px; color: #17603C;">{{ printerReply }}</span></sc-if>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 700 19px/1.2 Manrope, Inter, sans-serif;">North comms team</h2>
+<sc-for list="{{ team }}" as="t" hint-placeholder-count="3">
+<div style="display: flex; align-items: center; gap: 10px;">
+<span style="flex: 1 1 auto; font: 600 14px/1.3 Inter, sans-serif;">{{ t.name }}</span>
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270;">{{ t.role }}</span>
+</div>
+</sc-for>
+</div>
+</aside>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { q: { memorial: 'open', vbs: 'open', kids: 'open', students: 'open', baptism: 'central' }, c: { thanks: 'new', serve: 'done' }, printer: 'open' };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var defs = [
+      ['memorial', 'Memorial service slide', 'Pastor Dan R.', 'Sunday slides', 'Tomorrow', true],
+      ['vbs', 'VBS door hangers', 'Kids team', 'Print · 400', 'Nov 6'],
+      ['kids', 'Kids Christmas party slide', 'Kids team', 'Sunday slides', 'Nov 30'],
+      ['students', 'Winter retreat social post', 'Students', 'Social', 'Dec 1'],
+      ['baptism', 'Baptism Sunday stories', 'Groups', 'Social', 'Nov 10']
+    ];
+    function set(id, v) { var n = Object.assign({}, s.q); n[id] = v; self.setState({ q: n }); }
+    var queue = defs.map(function (d) {
+      var st = s.q[d[0]];
+      var map = { open: ['Needs your review', 'chip-wait'], central: ['With Central', 'chip-new'], back: ['Sent back', 'chip-bad'] };
+      return { title: d[1], team: d[2], kind: d[3], due: d[4], rush: !!d[5], status: map[st][0], chip: map[st][1], open: st === 'open',
+        approve: function () { set(d[0], 'central'); }, reject: function () { set(d[0], 'back'); } };
+    });
+    var waiting = defs.filter(function (d) { return s.q[d[0]] === 'open'; }).length;
+    var central = defs.filter(function (d) { return s.q[d[0]] === 'central'; }).length;
+    var cdefs = [
+      ['thanks', 'Thanksgiving Sunday', 'Slides, social posts and a thank-you email · Nov 23'],
+      ['serve', 'Serve Sunday', 'Slides and social · Nov 16']
+    ];
+    var campaigns = cdefs.map(function (c) {
+      var st = s.c[c[0]];
+      return { title: c[1], meta: c[2], isNew: st === 'new', done: st === 'done',
+        accept: function () { var n = Object.assign({}, s.c); n[c[0]] = 'done'; self.setState({ c: n }); } };
+    });
+    return {
+      queue: queue, waitingCount: String(waiting), centralCount: String(central),
+      newCampaigns: String(cdefs.filter(function (c) { return s.c[c[0]] === 'new'; }).length),
+      campaigns: campaigns,
+      printerOpen: s.printer === 'open', printerDone: s.printer !== 'open',
+      printerReply: s.printer === 'yes' ? 'Answered. The printer will move the hole and keep going.' : 'Sent to Central Creative. The printer sees that it is being checked.',
+      answerYes: function () { self.setState({ printer: 'yes' }); },
+      askCreative: function () { self.setState({ printer: 'creative' }); },
+      sunday: [
+        { when: 'Pre-service', what: 'Countdown and welcome slides', how: 'From Central · approved' },
+        { when: 'Welcome', what: 'Serve Sunday announcement', how: 'Campus pastor reads talking points' },
+        { when: 'Welcome', what: 'Kids Christmas party', how: 'Slide · waiting on your review' },
+        { when: 'Message', what: 'Sermon series bumper', how: 'From Central · approved' },
+        { when: 'After', what: 'Social stories posted', how: 'Scheduled for 1 PM' }
+      ],
+      team: [
+        { name: 'Marcus L.', role: 'Campus Admin' },
+        { name: 'Jenna R.', role: 'Editor · Designer' },
+        { name: 'Photo team (6)', role: 'Viewers' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

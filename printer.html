@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Printer order page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.b1,.b2{appearance:none;font:700 15px/1 Inter,system-ui,sans-serif;padding:14px 18px;border-radius:12px;cursor:pointer;min-height:52px}
+.b1{background:#2E55E6;color:#FFFFFF;border:0}
+.b2{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+.st-done,.st-now,.st-todo{display:flex;align-items:center;gap:8px;font:600 13px/1.2 Inter,system-ui,sans-serif}
+.st-done{color:#17603C}.st-now{color:#1E3FB8}.st-todo{color:#6B7280}
+.dot-done,.dot-now,.dot-todo{width:12px;height:12px;border-radius:999px;box-sizing:border-box;flex:0 0 auto}
+.dot-done{background:#1F7A4D}.dot-now{background:#FFFFFF;border:3px solid #2E55E6}.dot-todo{background:#FFFFFF;border:2px solid #C9CED8}
+.row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #EEF0F4;font-size:14px}
+.row span:first-child{flex:0 0 130px;color:#5B6270;font-weight:600}
+textarea,input{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:10px;padding:12px 14px;box-sizing:border-box;width:100%;min-height:44px}
+label{font:600 13px/1 Inter,system-ui,sans-serif;color:#3A404C}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1040px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Print order for [Your print shop]</span>
+</div>
+</header>
+
+<main style="max-width: 1040px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 20px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">Order HC-1042 · from Harbor Church, North Campus</span>
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Fall Fest door hangers</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Approved and ready to print. Confirm when you've got it so the church knows it's handled.</p>
+</section>
+
+<ol aria-label="Order progress" style="list-style: none; margin: 0; padding: 14px 16px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; display: flex; flex-wrap: wrap; gap: 10px 26px;">
+<sc-for list="{{ steps }}" as="s" hint-placeholder-count="4"><li class="{{ s.text }}"><span class="{{ s.dot }}"></span>{{ s.label }}</li></sc-for>
+</ol>
+
+<section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<div class="card" style="flex: 1 1 260px; align-items: center;">
+<div style="width: 170px; height: 400px; background: #1C2B4A; border-radius: 10px; display: flex; flex-direction: column; align-items: center; overflow: hidden; color: #FFFFFF; box-shadow: 0 10px 30px rgba(20,22,27,.18);">
+<div style="width: 56px; height: 56px; border-radius: 999px; background: #F7F8FA; margin-top: 18px;"></div>
+<div style="background: #E8674A; width: 100%; padding: 12px 0; margin-top: 22px; text-align: center; font: 800 22px/1 Manrope, sans-serif;">FALL FEST</div>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 6px; text-align: center;"><span style="font: 700 14px/1.2 Inter, sans-serif;">Sat, Oct 31 · 4–7 PM</span><span style="font: 400 11px/1.4 Inter, sans-serif; color: #F3E9DC;">Food trucks, bounce houses and trunk-or-treat. Free for the whole family. Guests welcome!</span></div>
+</div>
+<button type="button" class="b2" style="width: 100%;">Download print-ready PDF</button>
+<span style="font-size: 12px; color: #5B6270; text-align: center;">Includes bleed and crop marks · CMYK</span>
+</div>
+
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="card">
+<h2 style="margin: 0; font: 700 17px/1.2 Manrope, Inter, sans-serif;">Order details</h2>
+<div>
+<div class="row"><span>Size</span><span>4.25 × 11 in door hanger, die-cut hole</span></div>
+<div class="row"><span>Quantity</span><span>500</span></div>
+<div class="row"><span>Paper</span><span>[Stock the church set with you]</span></div>
+<div class="row"><span>Needed by</span><span>Fri, Nov 6</span></div>
+<div class="row"><span>Delivery</span><span>Pickup by North Campus · [Campus address]</span></div>
+<div class="row"><span>Questions</span><span>Pastor Dan R. · [Phone]</span></div>
+<div class="row" style="border-bottom: 0;"><span>Approved by</span><span>North Campus comms, Central Comms and Central Creative</span></div>
+</div>
+</div>
+
+<sc-if value="{{ notConfirmed }}" hint-placeholder-val="{{ true }}">
+<div class="card">
+<div style="display: flex; flex-direction: column; gap: 8px;"><label for="quote">Your quote (optional)</label><input id="quote" type="text" placeholder="$"></div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<button type="button" class="b1" onClick="{{ confirm }}" style="flex: 1 1 200px;">Confirm order</button>
+<button type="button" class="b2" onClick="{{ ask }}" style="flex: 1 1 160px;">Ask a question</button>
+</div>
+<sc-if value="{{ asking }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; gap: 8px;"><label for="q">Your question for the church</label><textarea id="q" rows="3" placeholder="The die-cut hole is close to the logo. OK to move it 1/8 inch down?"></textarea><button type="button" class="b2" onClick="{{ sendQ }}">Send question</button></div>
+</sc-if>
+<sc-if value="{{ qSent }}" hint-placeholder-val="{{ false }}"><span role="status" style="font-size: 14px; color: #17603C;">Question sent. The church will answer right here.</span></sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ confirmed }}" hint-placeholder-val="{{ false }}">
+<div class="card">
+<span role="status" style="font-size: 15px; color: #17603C; font-weight: 600;">{{ statusText }}</span>
+<sc-if value="{{ canAdvance }}" hint-placeholder-val="{{ true }}"><button type="button" class="b1" onClick="{{ advance }}">{{ advanceLabel }}</button></sc-if>
+</div>
+</sc-if>
+
+<p style="margin: 0; font-size: 13px; color: #5B6270; line-height: 1.5;">No account needed. This private link only works for this order and expires 30 days after it's complete. Harbor Church pays you directly, as usual.</p>
+</div>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { stage: 0, asking: false, qSent: false };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var labels = ['Received', 'Confirmed', 'Printing', 'Ready for pickup'];
+    var at = s.stage + 1;
+    var steps = labels.map(function (l, i) {
+      if (i < at || at === 4) return { label: l, dot: 'dot-done', text: 'st-done' };
+      if (i === at) return { label: l, dot: 'dot-now', text: 'st-now' };
+      return { label: l, dot: 'dot-todo', text: 'st-todo' };
+    });
+    var texts = ['', 'Confirmed. Harbor Church has been notified.', 'Marked as printing. The church can see it.', 'Ready for pickup. North Campus has been notified.'];
+    var next = ['', 'Mark as printing', 'Mark ready for pickup', ''];
+    return {
+      steps: steps, notConfirmed: s.stage === 0, confirmed: s.stage > 0,
+      statusText: texts[s.stage], canAdvance: s.stage > 0 && s.stage < 3, advanceLabel: next[s.stage],
+      asking: s.asking, qSent: s.qSent,
+      confirm: function () { self.setState({ stage: 1, asking: false }); },
+      advance: function () { self.setState({ stage: Math.min(3, s.stage + 1) }); },
+      ask: function () { self.setState({ asking: true, qSent: false }); },
+      sendQ: function () { self.setState({ asking: false, qSent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

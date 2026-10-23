@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Church setup</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.opt,.opt-on{appearance:none;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:14px;font-family:Inter,system-ui,sans-serif;color:#14161B;box-sizing:border-box;min-height:44px}
+.opt{background:#FFFFFF;border:1px solid #D5D9E0}
+.opt:hover{border-color:#9DB2F5}
+.opt-on{background:#EAF0FF;border:2px solid #2E55E6;padding:17px}
+.tag{display:inline-flex;align-items:center;gap:6px;font:600 14px/1 Inter,system-ui,sans-serif;padding:10px 12px;border-radius:10px;background:#FFFFFF;border:1px solid #E4E6EB;color:#14161B}
+.sub{display:inline-block;font:500 12px/1 Inter,system-ui,sans-serif;padding:6px 8px;border-radius:999px;background:#F1F3F6;color:#3A404C}
+.node{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:12px;background:#FFFFFF;border:1px solid #E4E6EB;min-width:150px;flex:1 1 150px;box-sizing:border-box}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1120px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Setup</span>
+</div>
+</header>
+
+<main style="max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; display: flex; flex-direction: column; gap: 28px;">
+<section style="display: flex; flex-direction: column; gap: 8px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Set up your church in four answers</h1>
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px;"><label for="addr" style="font: 600 14px/1 Inter, sans-serif; color: #3A404C;">Your Streamlined address</label><span style="display: inline-flex; align-items: center; border: 1px solid #D5D9E0; border-radius: 10px; overflow: hidden; background: #FFFFFF;"><input id="addr" type="text" placeholder="harbor" style="border: 0; padding: 10px 12px; font: 600 15px/1 Inter, sans-serif; width: 140px; min-height: 44px; outline-offset: -2px;"><span style="padding: 10px 12px; background: #F7F8FA; font: 600 15px/1 Inter, sans-serif; color: #5B6270;">.usestreamlined.com</span></span></div>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Same app for a one-campus plant or a 30,000-person multisite. Your answers shape who asks, who approves, and where it gets printed.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">1. How many locations?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<sc-for list="{{ sizeOpts }}" as="o" hint-placeholder-count="2">
+<button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}"><span style="font: 700 16px/1.2 Inter, sans-serif;">{{ o.label }}</span><span style="font-size: 14px; color: #5B6270;">{{ o.desc }}</span></button>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">2. Who sends requests?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<sc-for list="{{ groupOpts }}" as="o" hint-placeholder-count="2">
+<button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}"><span style="font: 700 16px/1.2 Inter, sans-serif;">{{ o.label }}</span><span style="font-size: 14px; color: #5B6270;">{{ o.desc }}</span></button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+<div class="tag" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+<span>{{ g.name }}</span>
+<sc-if value="{{ g.hasTeams }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-wrap: wrap; gap: 4px;">
+<sc-for list="{{ g.teams }}" as="t" hint-placeholder-count="3"><span class="sub">{{ t.name }}</span></sc-for>
+</div>
+</sc-if>
+</div>
+</sc-for>
+<button type="button" style="appearance: none; font: 600 14px/1 Inter, sans-serif; padding: 10px 14px; border-radius: 10px; border: 1px dashed #9DB2F5; background: #FFFFFF; color: #1E3FB8; cursor: pointer; min-height: 44px;">+ Add</button>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">3. Who approves?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<sc-for list="{{ chainOpts }}" as="o" hint-placeholder-count="3">
+<button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}"><span style="font: 700 16px/1.2 Inter, sans-serif;">{{ o.label }}</span><span style="font-size: 14px; color: #5B6270;">{{ o.desc }}</span></button>
+</sc-for>
+</div>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">4. Where does it get printed?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+<sc-for list="{{ printOpts }}" as="o" hint-placeholder-count="2">
+<button type="button" class="{{ o.cls }}" onClick="{{ o.pick }}"><span style="font: 700 16px/1.2 Inter, sans-serif;">{{ o.label }}</span><span style="font-size: 14px; color: #5B6270;">{{ o.desc }}</span></button>
+</sc-for>
+</div>
+</section>
+
+<section style="background: #14161B; color: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font: 800 20px/1.2 Manrope, Inter, sans-serif;">How a request moves at your church</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch;">
+<sc-for list="{{ flow }}" as="n" hint-placeholder-count="4">
+<div class="node" style="color: #14161B;">
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270; text-transform: uppercase; letter-spacing: 0.04em;">{{ n.step }}</span>
+<span style="font: 700 15px/1.3 Inter, sans-serif;">{{ n.who }}</span>
+<span style="font: 400 13px/1.35 Inter, sans-serif; color: #3A404C;">{{ n.does }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 14px; color: #C9CED8;">{{ example }}</p>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: 'multi', groupBy: 'both', chain: 'two', printer: 'each' };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    function opts(key, list) {
+      return list.map(function (o) {
+        return { label: o.label, desc: o.desc, cls: s[key] === o.id ? 'opt-on' : 'opt', pick: function () {
+          var next = {}; next[key] = o.id;
+          if (key === 'size') {
+            next.groupBy = o.id === 'single' ? 'teams' : 'both';
+            next.chain = o.id === 'single' ? 'one' : 'two';
+            next.printer = o.id === 'single' ? 'one' : 'each';
+          }
+          self.setState(next);
+        } };
+      });
+    }
+    var single = s.size === 'single';
+    var sizeOpts = opts('size', [
+      { id: 'single', label: 'One location', desc: 'A single campus, church plant or nonprofit office.' },
+      { id: 'multi', label: 'Multiple locations', desc: 'Multisite church or an organization with several sites.' }
+    ]);
+    var groupOpts = single
+      ? opts('groupBy', [
+          { id: 'teams', label: 'Ministry teams', desc: 'Kids, Students, Worship, Groups and others each request their own pieces.' },
+          { id: 'staff', label: 'Staff members', desc: 'Small staff? Each person requests directly. No teams needed.' }
+        ])
+      : opts('groupBy', [
+          { id: 'both', label: 'Campuses and their teams', desc: 'Each campus has its own teams. Kids at North is separate from Kids at East.' },
+          { id: 'campus', label: 'Campuses only', desc: 'Campus pastors and staff request for their whole campus.' }
+        ]);
+    var teamNames = ['Kids', 'Students', 'Worship', 'Groups', 'Outreach'];
+    var teams = teamNames.map(function (n) { return { name: n }; });
+    var groups;
+    if (single && s.groupBy === 'staff') {
+      groups = ['Lead Pastor', 'Associate Pastor', 'Kids Director', 'Worship Leader'].map(function (n) { return { name: n, hasTeams: false, teams: [] }; });
+    } else if (single) {
+      groups = teamNames.concat(['Guest Services']).map(function (n) { return { name: n, hasTeams: false, teams: [] }; });
+    } else {
+      groups = ['North Campus', 'East Campus', 'South Campus', 'Online'].map(function (n) {
+        return { name: n, hasTeams: s.groupBy === 'both', teams: teams.slice(0, 3) };
+      });
+    }
+    var chainOpts = opts('chain', [
+      { id: 'one', label: 'One approver', desc: 'One person checks the words and the design. Best for most single-campus churches.' },
+      { id: 'two', label: 'Comms, then Creative', desc: 'Comms checks the words first, then Creative checks the design.' },
+      { id: 'three', label: 'Campus or team review first', desc: 'Big campuses with their own comms team review first, then Central Comms and Creative. Smaller campuses go straight to Central.' }
+    ]);
+    var printOpts = opts('printer', [
+      { id: 'one', label: 'One printer for everything', desc: 'Your go-to local print shop handles every order.' },
+      { id: 'each', label: 'Each location picks its own', desc: 'Every campus orders from the printer closest to it.' }
+    ]);
+    var asker = single ? (s.groupBy === 'staff' ? 'A staff member' : 'A ministry team') : (s.groupBy === 'both' ? 'A campus team' : 'A campus pastor');
+    var flow = [{ step: 'Request', who: asker, does: 'Fills out a short form. The app builds an on-brand draft.' }];
+    if (s.chain === 'three') flow.push({ step: 'Approve', who: single ? 'Team lead' : 'Campus comms team', does: single ? 'Confirms this is what the team needs.' : 'Large campuses review first. Smaller campuses skip this step.' });
+    if (s.chain === 'one') {
+      flow.push({ step: 'Approve', who: 'Your approver', does: 'Checks the words and the design. Approve, edit or reject.' });
+    } else {
+      flow.push({ step: 'Approve', who: 'Comms', does: 'Checks the words. Approve, edit or reject.' });
+      flow.push({ step: 'Approve', who: 'Creative', does: 'Checks the design. Approve, edit or reject.' });
+    }
+    flow.push({ step: 'Deliver', who: s.printer === 'each' ? "That campus's printer" : 'Your printer', does: 'Prints it and confirms the order. Web and social go live.' });
+    var example = single
+      ? 'Example: the Kids team asks for a VBS door hanger. Your one approver taps Approve, and it goes straight to your print shop.'
+      : 'Example: Kids at North Campus asks for a VBS door hanger. Comms fixes the date, Creative approves the design, and North Campus’s printer confirms.';
+    return { sizeOpts: sizeOpts, groupOpts: groupOpts, groups: groups, chainOpts: chainOpts, printOpts: printOpts, flow: flow, example: example };
+  }
+}
+</script>
+</body>
+</html>

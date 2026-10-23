@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Executive summary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.kpi{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:6px;flex:1 1 180px;box-sizing:border-box}
+.seg,.seg-on{appearance:none;border:0;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:8px;cursor:pointer;min-height:40px}
+.seg{background:transparent;color:#5B6270}
+.seg-on{background:#FFFFFF;color:#14161B;box-shadow:0 1px 3px rgba(20,22,27,.15)}
+.step{appearance:none;width:40px;height:40px;border-radius:10px;border:1px solid #D5D9E0;background:#FFFFFF;font:700 18px/1 Inter,sans-serif;color:#14161B;cursor:pointer}
+.tbl th,.tbl td{padding:12px 10px;border-bottom:1px solid #EEF0F4;text-align:right;font:500 14px/1.3 Inter,sans-serif;white-space:nowrap}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl th{font-weight:700;color:#3A404C;font-size:13px}
+.bar{height:10px;border-radius:999px;background:#EEF0F4;overflow:hidden;min-width:80px}
+.formula{font:500 14px/1.6 Inter,sans-serif;background:#F7F8FA;border-radius:12px;padding:14px 16px;color:#14161B}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1180px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Executive summary</span>
+<div style="flex: 1 1 auto;"></div>
+<div role="group" aria-label="Period" style="display: flex; gap: 4px; background: #EEF0F4; padding: 4px; border-radius: 10px;">
+<sc-for list="{{ periods }}" as="p" hint-placeholder-count="2"><button type="button" class="{{ p.cls }}" onClick="{{ p.pick }}">{{ p.label }}</button></sc-for>
+</div>
+<button type="button" style="appearance: none; border: 1px solid #D5D9E0; background: #FFFFFF; font: 700 14px/1 Inter, sans-serif; padding: 10px 14px; border-radius: 10px; min-height: 44px; cursor: pointer;">Download PDF</button>
+</div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 22px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<span style="align-self: flex-start; font: 700 12px/1 Inter, sans-serif; color: #8A4B00; background: #FFF1DB; padding: 7px 10px; border-radius: 999px;">Sample data for the demo</span>
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">{{ v.headline }}</h1>
+<p style="margin: 0; font-size: 16px; color: #3A404C; max-width: 760px; line-height: 1.5;">{{ v.lead }}</p>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 12px;">
+<div class="kpi"><span style="font: 800 32px/1 Manrope, sans-serif;">{{ hours }}</span><span style="font-size: 14px; color: #3A404C;">Estimated staff hours saved</span><span style="font-size: 12px; color: #5B6270;">From the formula below</span></div>
+<div class="kpi"><span style="font: 800 32px/1 Manrope, sans-serif;">{{ v.requests }}</span><span style="font-size: 14px; color: #3A404C;">Requests completed</span><span style="font-size: 12px; color: #5B6270;">{{ v.reqNote }}</span></div>
+<div class="kpi"><span style="font: 800 32px/1 Manrope, sans-serif;">{{ v.days }} days</span><span style="font-size: 14px; color: #3A404C;">Average request to approval</span><span style="font-size: 12px; color: #5B6270;">Business days, from submit to final approval</span></div>
+<div class="kpi"><span style="font: 800 32px/1 Manrope, sans-serif;">{{ v.ontime }}%</span><span style="font-size: 14px; color: #3A404C;">Delivered by the needed-by date</span><span style="font-size: 12px; color: #5B6270;">{{ v.ontimeNote }}</span></div>
+</section>
+
+<section class="card">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+<h2 style="margin: 0; flex: 1 1 auto; font: 800 20px/1.2 Manrope, Inter, sans-serif;">How we estimate hours saved</h2>
+<span style="font-size: 13px; color: #5B6270;">Adjust the minutes to match your team. Your Comms lead sets them once.</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;">
+<sc-for list="{{ inputs }}" as="i" hint-placeholder-count="3">
+<div style="border: 1px solid #E4E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font: 600 14px/1.35 Inter, sans-serif;">{{ i.label }}</span>
+<div style="display: flex; align-items: center; gap: 10px;">
+<button type="button" class="step" onClick="{{ i.down }}" aria-label="{{ i.downLabel }}">−</button>
+<span style="font: 800 22px/1 Manrope, sans-serif; min-width: 90px; text-align: center;">{{ i.value }} min</span>
+<button type="button" class="step" onClick="{{ i.up }}" aria-label="{{ i.upLabel }}">+</button>
+</div>
+<span style="font-size: 12px; color: #5B6270; line-height: 1.4;">{{ i.help }}</span>
+</div>
+</sc-for>
+</div>
+<div class="formula">
+<div>{{ line1 }}</div>
+<div>{{ line2 }}</div>
+<div>{{ line3 }}</div>
+<div style="margin-top: 6px; font-weight: 700;">{{ lineTotal }}</div>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<span style="font: 600 14px/1.3 Inter, sans-serif;">Staff cost per hour</span>
+<button type="button" class="step" onClick="{{ rateDown }}" aria-label="Lower hourly cost">−</button>
+<span style="font: 800 20px/1 Manrope, sans-serif;">${{ rate }}</span>
+<button type="button" class="step" onClick="{{ rateUp }}" aria-label="Raise hourly cost">+</button>
+<span style="font-size: 14px; color: #3A404C;">= about <strong>${{ value }}</strong> of staff time {{ v.periodWord }}</span>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5B6270; line-height: 1.5;">This is an estimate, not a timesheet. The counts come from Streamlined's own history. The minutes and hourly cost are your team's assumptions, so adjust them to what's true for you. Hours saved go back to ministry; this isn't a staffing recommendation.</p>
+</section>
+
+<section class="card" style="overflow-x: auto;">
+<h2 style="margin: 0; font: 800 20px/1.2 Manrope, Inter, sans-serif;">By campus</h2>
+<table class="tbl" style="border-collapse: collapse; width: 100%; min-width: 640px;">
+<thead><tr><th scope="col">Campus</th><th scope="col">Requests</th><th scope="col">Avg days to approve</th><th scope="col">Sent back</th><th scope="col">On time</th><th scope="col" style="text-align: left;">Share of requests</th></tr></thead>
+<tbody>
+<sc-for list="{{ campuses }}" as="c" hint-placeholder-count="4">
+<tr><td style="font-weight: 700;">{{ c.name }}</td><td>{{ c.req }}</td><td>{{ c.days }}</td><td>{{ c.back }}%</td><td>{{ c.ontime }}%</td><td style="text-align: left;"><div class="bar"><div style="height: 10px; width: {{ c.share }}; background: #2E55E6; border-radius: 999px;"></div></div></td></tr>
+</sc-for>
+</tbody>
+</table>
+<span style="font-size: 13px; color: #5B6270;">"Sent back" counts requests rejected with a note. A falling rate means campuses are making better requests.</span>
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;">
+<div class="card">
+<h2 style="margin: 0; font: 800 18px/1.2 Manrope, Inter, sans-serif;">What went out</h2>
+<sc-for list="{{ kinds }}" as="k" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 10px;"><span style="flex: 0 0 140px; font: 600 14px/1.3 Inter, sans-serif;">{{ k.label }}</span><div class="bar" style="flex: 1 1 auto;"><div style="height: 10px; width: {{ k.share }}; background: #1F7A4D; border-radius: 999px;"></div></div><span style="flex: 0 0 34px; text-align: right; font: 700 14px/1 Inter, sans-serif;">{{ k.n }}</span></div>
+</sc-for>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 800 18px/1.2 Manrope, Inter, sans-serif;">Worth your attention</h2>
+<sc-for list="{{ notes }}" as="n" hint-placeholder-count="3">
+<div style="display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.45;"><span style="width: 8px; height: 8px; border-radius: 999px; background: {{ n.color }}; margin-top: 7px; flex: 0 0 auto;"></span><span>{{ n.text }}</span></div>
+</sc-for>
+</div>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { period: 'pilot', tpl: 45, appr: 15, kit: 120, rate: 30 };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var pilot = s.period === 'pilot';
+    var periods = [{ id: 'pilot', label: '60-day pilot' }, { id: 'year', label: 'All campuses · year' }].map(function (p) {
+      return { label: p.label, cls: s.period === p.id ? 'seg-on' : 'seg', pick: function () { self.setState({ period: p.id }); } };
+    });
+    var d = pilot
+      ? { templated: 70, custom: 14, steps: 196, kits: 2, kitUnits: 1, requests: 84, days: '1.4', ontime: 92,
+          headline: 'North Campus pilot: 60 days', lead: 'One campus ran its real requests through Streamlined while everything else stayed the same. Here is what happened.',
+          reqNote: '70 from templates, 14 custom projects', ontimeNote: '77 of 84 requests', periodWord: 'in 60 days' }
+      : { templated: 1240, custom: 180, steps: 3550, kits: 14, kitUnits: 4, requests: 1420, days: '1.6', ontime: 90,
+          headline: 'All campuses: first year', lead: 'Every campus, every request, one place. Projected from pilot results for the year view.',
+          reqNote: '1,240 from templates, 180 custom projects', ontimeNote: '1,278 of 1,420 requests', periodWord: 'this year' };
+    var tplMin = d.templated * s.tpl, apprMin = d.steps * s.appr, kitMin = d.kits * d.kitUnits * s.kit;
+    var totalMin = tplMin + apprMin + kitMin;
+    var hours = Math.round(totalMin / 60);
+    function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    function adj(key, step, min, max) {
+      return { up: function () { var o = {}; o[key] = Math.min(max, s[key] + step); self.setState(o); },
+               down: function () { var o = {}; o[key] = Math.max(min, s[key] - step); self.setState(o); } };
+    }
+    var a1 = adj('tpl', 5, 0, 240), a2 = adj('appr', 5, 0, 120), a3 = adj('kit', 15, 0, 600), ar = adj('rate', 5, 10, 150);
+    var inputs = [
+      { label: 'Minutes saved on each templated request', value: s.tpl, up: a1.up, down: a1.down, upLabel: 'More minutes per templated request', downLabel: 'Fewer minutes per templated request', help: 'Design time a designer no longer spends building routine pieces from scratch.' },
+      { label: 'Minutes saved on each approval step', value: s.appr, up: a2.up, down: a2.down, upLabel: 'More minutes per approval', downLabel: 'Fewer minutes per approval', help: 'Emails, texts and "which version?" back-and-forth that no longer happen.' },
+      { label: 'Minutes saved per campus on each churchwide campaign', value: s.kit, up: a3.up, down: a3.down, upLabel: 'More minutes per campaign', downLabel: 'Fewer minutes per campaign', help: 'Each campus no longer rebuilds the same campaign on its own.' }
+    ];
+    var campuses = pilot
+      ? [{ name: 'North Campus (pilot)', req: 84, days: '1.4', back: 11, ontime: 92, share: '100%' }]
+      : [
+          { name: 'North Campus', req: 412, days: '1.4', back: 9, ontime: 93, share: '100%' },
+          { name: 'East Campus', req: 368, days: '1.6', back: 12, ontime: 90, share: '89%' },
+          { name: 'South Campus', req: 330, days: '1.9', back: 15, ontime: 86, share: '80%' },
+          { name: 'Online', req: 310, days: '1.3', back: 7, ontime: 92, share: '75%' }
+        ];
+    var kindsRaw = pilot ? [['Social posts', 29], ['Sunday slides', 21], ['Print', 14], ['Website updates', 12], ['Email', 8]] : [['Social posts', 486], ['Sunday slides', 352], ['Print', 241], ['Website updates', 198], ['Email', 143]];
+    var maxK = kindsRaw[0][1];
+    var kinds = kindsRaw.map(function (k) { return { label: k[0], n: fmt(k[1]), share: Math.round(k[1] / maxK * 100) + '%' }; });
+    var notes = pilot ? [
+      { color: '#1F7A4D', text: 'Requests sent back fell from 18% in the first two weeks to 6% in the last two, as campus staff learned the form.' },
+      { color: '#B07A00', text: '7 late requests were all print with less than 10 business days of lead time.' },
+      { color: '#2E55E6', text: 'Kids and Students sent 41% of requests, so their templates are worth refining first.' }
+    ] : [
+      { color: '#B07A00', text: 'South Campus is slowest to approve (1.9 days). It has no campus comms lead, so everything waits on Central.' },
+      { color: '#1F7A4D', text: 'Online has the fewest sent back (7%). Its form habits are worth sharing with other campuses.' },
+      { color: '#2E55E6', text: 'Storage is at 1.4 of 2 TB, mostly video. Plan for an add-on before Easter.' }
+    ];
+    return {
+      periods: periods, v: { headline: d.headline, lead: d.lead, requests: fmt(d.requests), days: d.days, ontime: d.ontime, reqNote: d.reqNote, ontimeNote: d.ontimeNote, periodWord: d.periodWord },
+      hours: fmt(hours), inputs: inputs,
+      line1: fmt(d.templated) + ' templated requests × ' + s.tpl + ' min = ' + fmt(tplMin) + ' min',
+      line2: fmt(d.steps) + ' approval steps × ' + s.appr + ' min = ' + fmt(apprMin) + ' min',
+      line3: d.kits + ' campaigns × ' + d.kitUnits + (d.kitUnits === 1 ? ' campus' : ' campuses') + ' × ' + s.kit + ' min = ' + fmt(kitMin) + ' min',
+      lineTotal: fmt(totalMin) + ' min ÷ 60 = about ' + fmt(hours) + ' hours',
+      rate: s.rate, rateUp: ar.up, rateDown: ar.down, value: fmt(hours * s.rate),
+      campuses: campuses, kinds: kinds, notes: notes
+    };
+  }
+}
+</script>
+</body>
+</html>

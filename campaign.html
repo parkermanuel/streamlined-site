@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Churchwide campaign</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.mode,.mode-on{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 16px;border-radius:8px;cursor:pointer;min-height:40px;border:0}
+.mode{background:transparent;color:#5B6270}
+.mode-on{background:#FFFFFF;color:#14161B;box-shadow:0 1px 3px rgba(20,22,27,.15)}
+.kit,.kit-off{appearance:none;display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:12px;cursor:pointer;font:600 14px/1.3 Inter,system-ui,sans-serif;min-height:52px;box-sizing:border-box}
+.kit{background:#FFFFFF;border:1px solid #9DB2F5;color:#14161B}
+.kit-off{background:#F7F8FA;border:1px solid #E4E6EB;color:#6B7280}
+.box-on,.box-off{width:22px;height:22px;border-radius:6px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.box-on{background:#2E55E6}
+.box-off{background:#FFFFFF;border:2px solid #C9CED8}
+.chip-ok,.chip-wait,.chip-draft,.chip-new{display:inline-block;font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:#E3F4EA;color:#17603C}
+.chip-wait{background:#FFF1DB;color:#8A4B00}
+.chip-draft{background:#EEF0F4;color:#4A5160}
+.chip-new{background:#EAF0FF;color:#1E3FB8}
+.sw,.sw-on{appearance:none;width:52px;height:32px;border-radius:999px;cursor:pointer;position:relative;border:0;flex:0 0 auto}
+.sw{background:#C9CED8}.sw-on{background:#2E55E6}
+.knob,.knob-on{position:absolute;top:4px;width:24px;height:24px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.knob{left:4px}.knob-on{left:24px}
+.u,.u-on{border:1px solid #D5D9E0;background:#FFFFFF;color:#3A404C}
+.u-on{background:#14161B;color:#FFFFFF;border-color:#14161B}
+.week{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:12px;background:#F7F8FA;border:1px solid #E4E6EB;min-width:120px;flex:1 1 120px;box-sizing:border-box}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1180px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Campaigns</span>
+<div style="flex: 1 1 auto;"></div>
+<div role="group" aria-label="Church type" style="display: flex; align-items: center; gap: 4px; background: #EEF0F4; padding: 4px; border-radius: 10px;">
+<sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+<button type="button" class="{{ m.cls }}" onClick="{{ m.pick }}">{{ m.label }}</button>
+</sc-for>
+</div>
+</div>
+</header>
+
+<main style="max-width: 1180px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 24px;">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<span style="align-self: flex-start; font: 700 12px/1 Inter, sans-serif; color: #1E3FB8; background: #EAF0FF; padding: 7px 10px; border-radius: 999px;">{{ who.badge }}</span>
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Christmas at {{ who.church }}</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Build it once. Every {{ who.unit }} gets the same on-brand kit, ready to use, in English and Spanish.</p>
+<button type="button" onClick="{{ openUrgent }}" style="appearance: none; align-self: flex-start; margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #E7B4B4; background: #FFFFFF; color: #A42020; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"></path><path d="M12 10v4M12 17h.01"></path></svg>Send an urgent message</button>
+</section>
+<sc-if value="{{ urgentSent }}" hint-placeholder-val="{{ false }}">
+<div role="status" style="background: #E3F4EA; border: 1px solid #B9E2C9; border-radius: 12px; padding: 14px 16px; color: #17603C; font-size: 15px; line-height: 1.45;"><strong>Urgent message sent</strong> to every {{ who.unit }}: website banner, email, text and social, in English and Spanish. It's logged with who approved it.</div>
+</sc-if>
+
+<section style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+<div style="flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<div class="card">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">What's in the kit</h2>
+<span style="font-size: 14px; color: #5B6270;">{{ kitCount }} pieces selected</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px;">
+<sc-for list="{{ kit }}" as="k" hint-placeholder-count="8">
+<button type="button" class="{{ k.cls }}" onClick="{{ k.toggle }}" aria-pressed="{{ k.on }}">
+<span class="{{ k.box }}"><sc-if value="{{ k.on }}" hint-placeholder-val="{{ true }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if></span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><span>{{ k.label }}</span><span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ k.note }}</span></span>
+</button>
+</sc-for>
+</div>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">When it goes out</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<sc-for list="{{ weeks }}" as="w" hint-placeholder-count="4">
+<div class="week">
+<span style="font: 700 13px/1 Inter, sans-serif; color: #1E3FB8;">{{ w.when }}</span>
+<span style="font: 600 14px/1.3 Inter, sans-serif;">{{ w.what }}</span>
+</div>
+</sc-for>
+</div>
+<span style="font-size: 13px; color: #5B6270;">Everything lands on the shared calendar so no {{ who.unit }} double-books a Sunday announcement.</span>
+</div>
+</div>
+
+<aside style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+<div class="card">
+<h2 style="margin: 0; font: 700 18px/1.2 Manrope, Inter, sans-serif;">Send to every {{ who.unit }}</h2>
+<sc-for list="{{ recipients }}" as="r" hint-placeholder-count="5">
+<div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #EEF0F4; flex-wrap: wrap;">
+<div style="flex: 1 1 140px; display: flex; flex-direction: column; gap: 2px;">
+<span style="font-weight: 700; font-size: 15px;">{{ r.name }}</span>
+<span style="font-size: 12px; color: #5B6270;">{{ r.lead }}</span>
+</div>
+<span class="{{ r.chip }}">{{ r.status }}</span>
+</div>
+</sc-for>
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0;">
+<span style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 14px;">Keep it hidden until Nov 29</strong><span style="font-size: 12px; color: #5B6270; line-height: 1.4;">Campuses and volunteers can't see it before then, so the series stays a surprise.</span></span>
+<button type="button" class="{{ hideCls }}" onClick="{{ toggleHide }}" role="switch" aria-checked="{{ hidden }}" aria-label="Keep it hidden until Nov 29"><span class="{{ hideKnob }}"></span></button>
+</div>
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<button type="button" onClick="{{ launch }}" style="appearance: none; border: 0; background: #2E55E6; color: #FFFFFF; font: 700 16px/1 Inter, sans-serif; padding: 16px 18px; border-radius: 12px; min-height: 52px; cursor: pointer;">Launch to all {{ recipientCount }} {{ who.units }}</button>
+<span style="font-size: 13px; color: #5B6270;">{{ who.approvalNote }}</span>
+</sc-if>
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div role="status" class="chip-ok" style="font-size: 14px; padding: 12px 14px; border-radius: 12px; white-space: normal; line-height: 1.4;">{{ launchedText }}</div>
+</sc-if>
+</div>
+</aside>
+</section>
+</main>
+<sc-if value="{{ showUrgent }}" hint-placeholder-val="{{ false }}">
+<div style="position: fixed; inset: 0; background: rgba(20,22,27,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30;">
+<div role="dialog" aria-modal="true" aria-labelledby="urg-title" style="width: 100%; max-width: 520px; background: #FFFFFF; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; box-shadow: 0 20px 50px rgba(20,22,27,.3);">
+<h2 id="urg-title" style="margin: 0; font: 800 22px/1.2 Manrope, Inter, sans-serif;">Urgent message to every {{ who.unit }}</h2>
+<p style="margin: 0; font-size: 14px; color: #3A404C; line-height: 1.45;">For things like weather closings or a service change. It skips the normal steps but still needs one Owner or Central Admin to send it.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{ urgentTypes }}" as="u" hint-placeholder-count="4"><button type="button" class="{{ u.cls }}" onClick="{{ u.pick }}" style="border-radius: 999px; min-height: 44px; padding: 10px 14px; font: 600 14px/1 Inter, sans-serif; cursor: pointer;">{{ u.label }}</button></sc-for>
+</div>
+<label for="umsg" style="font: 600 13px/1 Inter, sans-serif; color: #3A404C;">Message</label>
+<textarea id="umsg" rows="3" value="{{ urgentText }}" onChange="{{ onUrgentText }}" placeholder="Write your message" style="font: 400 15px/1.4 Inter, sans-serif; border: 1px solid #D5D9E0; border-radius: 10px; padding: 12px 14px; box-sizing: border-box; width: 100%;"></textarea>
+<span style="font-size: 13px; color: #5B6270;">Goes to: website banner · email · text · social · Sunday slide. A Spanish version is written automatically and your Spanish reviewer is notified.</span>
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<button type="button" onClick="{{ sendUrgent }}" style="appearance: none; flex: 1 1 200px; border: 0; background: #A42020; color: #FFFFFF; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">Approve and send now</button>
+<button type="button" onClick="{{ closeUrgent }}" style="appearance: none; flex: 0 0 auto; border: 1px solid #D5D9E0; background: #FFFFFF; color: #14161B; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">Cancel</button>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'multi', sent: false, hidden: true, urgent: false, urgentSent: false, utype: 'weather',
+      kit: { series: true, slides: true, social: true, stories: true, email: true, web: true, hangers: true, talking: true, bumper: false } };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var multi = s.mode === 'multi';
+    var modes = [{ id: 'multi', label: 'Multisite' }, { id: 'single', label: 'Single campus' }].map(function (m) {
+      return { label: m.label, cls: s.mode === m.id ? 'mode-on' : 'mode', pick: function () { self.setState({ mode: m.id, sent: false }); } };
+    });
+    var who = multi
+      ? { church: 'Harbor', badge: 'Central → all campuses', unit: 'campus', units: 'campuses',
+          approvalNote: 'Already approved by Comms and Creative, so campuses can use it right away.' }
+      : { church: 'Pinecrest', badge: 'Church office → all teams', unit: 'team', units: 'teams',
+          approvalNote: 'Already approved by your communications lead, so teams can use it right away.' };
+    var kitDefs = [
+      { id: 'series', label: 'Series graphic', note: 'Wide, square and vertical' },
+      { id: 'slides', label: 'Sunday slides', note: 'Announcement and lyric backgrounds' },
+      { id: 'social', label: 'Social posts', note: 'Instagram and Facebook' },
+      { id: 'stories', label: 'Stories', note: '1080×1920' },
+      { id: 'email', label: 'Email', note: 'Ready to send to your list' },
+      { id: 'web', label: 'Website banner', note: 'Goes live on approval' },
+      { id: 'hangers', label: 'Door hangers', note: multi ? 'Each campus orders locally' : 'Sent to your printer' },
+      { id: 'talking', label: 'Talking points', note: 'For hosts and team leaders' },
+      { id: 'bumper', label: 'Video bumper', note: '10 seconds' }
+    ];
+    var kit = kitDefs.map(function (k) {
+      var on = !!s.kit[k.id];
+      return { label: k.label, note: k.note, on: on, cls: on ? 'kit' : 'kit-off', box: on ? 'box-on' : 'box-off',
+        toggle: function () { var n = Object.assign({}, s.kit); n[k.id] = !on; self.setState({ kit: n }); } };
+    });
+    var kitCount = kitDefs.filter(function (k) { return s.kit[k.id]; }).length;
+    var weeks = [
+      { when: 'Nov 30', what: 'Series graphic, slides and website banner' },
+      { when: 'Dec 7', what: 'Social posts and invite email' },
+      { when: 'Dec 14', what: 'Door hangers in neighborhoods' },
+      { when: 'Dec 21', what: 'Stories and final reminder' }
+    ];
+    var list = multi
+      ? [['North Campus', 'Pastor Dan R.'], ['East Campus', 'Pastor Maria L.'], ['South Campus', 'Pastor Kevin T.'], ['Online', 'Online team']]
+      : [['Kids', 'Kids director'], ['Students', 'Student pastor'], ['Worship', 'Worship leader'], ['Groups', 'Groups director'], ['Guest Services', 'Guest services lead']];
+    var after = [['Downloaded', 'chip-ok'], ['Scheduled', 'chip-ok'], ['Opened', 'chip-new'], ['Not opened yet', 'chip-wait'], ['Downloaded', 'chip-ok']];
+    var recipients = list.map(function (r, i) {
+      return { name: r[0], lead: r[1], status: s.sent ? (s.hidden ? 'Gets it Nov 29' : after[i][0]) : (s.hidden ? 'Hidden until Nov 29' : 'Ready'), chip: s.sent ? (s.hidden ? 'chip-new' : after[i][1]) : 'chip-draft' };
+    });
+    return {
+      modes: modes, who: who, kit: kit, kitCount: kitCount, weeks: weeks, recipients: recipients,
+      recipientCount: list.length, sent: s.sent, notSent: !s.sent,
+      hidden: s.hidden, hideCls: s.hidden ? 'sw-on' : 'sw', hideKnob: s.hidden ? 'knob-on' : 'knob',
+      toggleHide: function () { self.setState({ hidden: !s.hidden }); },
+      launchedText: s.hidden ? 'Scheduled. Each ' + who.unit + ' gets the kit on Nov 29, and it stays hidden until then.' : 'Launched. Each ' + who.unit + ' got a notice and the kit is on their Promote tab.',
+      showUrgent: s.urgent, urgentSent: s.urgentSent,
+      openUrgent: function () { self.setState({ urgent: true, urgentSent: false }); },
+      closeUrgent: function () { self.setState({ urgent: false }); },
+      sendUrgent: function () { self.setState({ urgent: false, urgentSent: true }); },
+      urgentTypes: [['weather', 'Weather closing'], ['change', 'Service change'], ['safety', 'Safety notice'], ['other', 'Other']].map(function (u) {
+        return { label: u[1], cls: s.utype === u[0] ? 'u-on' : 'u', pick: function () { self.setState({ utype: u[0], utext: null }); } };
+      }),
+      onUrgentText: function (e) { self.setState({ utext: e.target.value }); },
+      urgentText: s.utext != null ? s.utext : { weather: 'Due to icy roads, all in-person services this Sunday are canceled. Join us online at 9 and 11 AM.', change: 'This Sunday only, services will be at 10 AM at every campus.', safety: 'The north parking lot is closed this Sunday. Please use the south entrance.', other: '' }[s.utype],
+      launch: function () { self.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

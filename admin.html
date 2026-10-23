@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.tab,.tab-on{appearance:none;border:0;font:600 15px/1 Inter,system-ui,sans-serif;padding:12px 16px;border-radius:10px;cursor:pointer;white-space:nowrap;min-height:44px}
+.tab{background:transparent;color:#5B6270}
+.tab:hover{background:#EEF0F4;color:#14161B}
+.tab-on{background:#14161B;color:#FFFFFF}
+.sw,.sw-on{appearance:none;width:52px;height:32px;border-radius:999px;cursor:pointer;position:relative;border:0;flex:0 0 auto}
+.sw{background:#C9CED8}.sw-on{background:#2E55E6}
+.knob,.knob-on{position:absolute;top:4px;width:24px;height:24px;border-radius:999px;background:#FFFFFF;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.knob{left:4px}.knob-on{left:24px}
+.chip-ok,.chip-wait,.chip-off{display:inline-block;font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:#E3F4EA;color:#17603C}.chip-wait{background:#FFF1DB;color:#8A4B00}.chip-off{background:#EEF0F4;color:#4A5160}
+.b1,.b2{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:11px 14px;border-radius:10px;cursor:pointer;min-height:44px;white-space:nowrap}
+.b1{background:#2E55E6;color:#FFFFFF;border:0}.b2{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #EEF0F4;flex-wrap:wrap}
+.fact{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #EEF0F4}
+select{font:600 14px/1 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:8px;padding:10px 12px;min-height:44px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1100px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Admin center</span>
+<div style="flex: 1 1 auto;"></div>
+<span style="font: 700 12px/1 Inter, sans-serif; background: #14161B; color: #FFFFFF; padding: 7px 10px; border-radius: 999px;">Owner</span>
+</div>
+<nav aria-label="Admin" style="max-width: 1100px; margin: 0 auto; padding: 0 20px 12px; display: flex; gap: 6px; overflow-x: auto;">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}">{{ t.label }}</button></sc-for>
+</nav>
+</header>
+
+<main style="max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 20px;">
+
+<sc-if value="{{ isCoverage }}" hint-placeholder-val="{{ true }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Approval coverage</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Nothing should wait because one person is on vacation.</p>
+</section>
+<div class="card">
+<h2 style="margin: 0; font: 700 17px/1.2 Manrope, Inter, sans-serif;">Every approval step has a backup</h2>
+<sc-for list="{{ coverage }}" as="c" hint-placeholder-count="4">
+<div class="row">
+<div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">{{ c.step }}</strong><span style="font-size: 13px; color: #5B6270;">Main: {{ c.main }}</span></div>
+<div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 2px;"><span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270;">Backup</span><span style="font-size: 14px; font-weight: 600;">{{ c.backup }}</span></div>
+<span class="{{ c.chip }}">{{ c.status }}</span>
+</div>
+</sc-for>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 700 17px/1.2 Manrope, Inter, sans-serif;">Rules that keep things moving</h2>
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="4">
+<div class="row">
+<span style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">{{ r.title }}</strong><span style="font-size: 13px; color: #5B6270; line-height: 1.4;">{{ r.body }}</span></span>
+<button type="button" class="{{ r.cls }}" onClick="{{ r.toggle }}" role="switch" aria-checked="{{ r.on }}" aria-label="{{ r.title }}"><span class="{{ r.knob }}"></span></button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isBudgets }}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Print budgets</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Every campus sees its cost before it orders. Nothing goes over budget without someone saying yes. Sample numbers.</p>
+</section>
+<div class="card" style="overflow-x: auto;">
+<table style="border-collapse: collapse; width: 100%; min-width: 560px;">
+<thead><tr>
+<th scope="col" style="text-align: left; padding: 10px; border-bottom: 1px solid #EEF0F4; font: 700 13px/1 Inter, sans-serif; color: #3A404C;">Campus</th>
+<th scope="col" style="text-align: right; padding: 10px; border-bottom: 1px solid #EEF0F4; font: 700 13px/1 Inter, sans-serif; color: #3A404C;">Monthly budget</th>
+<th scope="col" style="text-align: right; padding: 10px; border-bottom: 1px solid #EEF0F4; font: 700 13px/1 Inter, sans-serif; color: #3A404C;">Used</th>
+<th scope="col" style="text-align: left; padding: 10px; border-bottom: 1px solid #EEF0F4; font: 700 13px/1 Inter, sans-serif; color: #3A404C;">This month</th>
+<th scope="col" style="text-align: right; padding: 10px; border-bottom: 1px solid #EEF0F4; font: 700 13px/1 Inter, sans-serif; color: #3A404C;">Central's OK above</th>
+</tr></thead>
+<tbody>
+<sc-for list="{{ budgets }}" as="b" hint-placeholder-count="4">
+<tr>
+<td style="padding: 12px 10px; border-bottom: 1px solid #EEF0F4; font-weight: 700;">{{ b.name }}</td>
+<td style="padding: 12px 10px; border-bottom: 1px solid #EEF0F4; text-align: right;">{{ b.budget }}</td>
+<td style="padding: 12px 10px; border-bottom: 1px solid #EEF0F4; text-align: right;">{{ b.used }}</td>
+<td style="padding: 12px 10px; border-bottom: 1px solid #EEF0F4;"><div style="height: 10px; border-radius: 999px; background: #EEF0F4; overflow: hidden; min-width: 100px;"><div style="height: 10px; width: {{ b.pct }}; background: {{ b.color }};"></div></div></td>
+<td style="padding: 12px 10px; border-bottom: 1px solid #EEF0F4; text-align: right;">{{ b.limit }}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+<span style="font-size: 13px; color: #5B6270;">South Campus is at 95% of its budget, so its next order will ask Central first.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ isIntegrations }}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Connected tools</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Keep the tools you use. Streamlined works alongside them so nobody keeps two of anything.</p>
+</section>
+<div class="card">
+<sc-for list="{{ apps }}" as="a" hint-placeholder-count="6">
+<div class="row">
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 10px; background: {{ a.color }}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font: 800 15px/1 Manrope, sans-serif; flex: 0 0 auto;">{{ a.mono }}</span>
+<span style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">{{ a.name }}</strong><span style="font-size: 13px; color: #5B6270; line-height: 1.4;">{{ a.does }}</span></span>
+<span class="{{ a.chip }}">{{ a.state }}</span>
+<button type="button" class="b2" onClick="{{ a.toggle }}">{{ a.action }}</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Plan and billing</h1>
+</section>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px;">
+<div class="card">
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">Your plan</span>
+<strong style="font: 800 26px/1.1 Manrope, Inter, sans-serif;">Enterprise</strong>
+<span style="font-size: 14px; color: #3A404C; line-height: 1.5;">4 campuses and Online · qualifies with 10,000+ weekly attendance · $1,200 a month for up to 12 campuses · billed yearly at $14,400</span>
+<span style="font-size: 14px; color: #3A404C;">Your address: <strong>harbor.usestreamlined.com</strong></span>
+<span style="font-size: 13px; color: #5B6270;">Renews Jan 4 · Pay by card, ACH or invoice</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="b2">Change plan</button><button type="button" class="b2">Update billing contact</button></div>
+</div>
+<div class="card">
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">Storage</span>
+<strong style="font: 800 26px/1.1 Manrope, Inter, sans-serif;">1.4 of 2.5 TB used</strong>
+<div style="height: 12px; border-radius: 999px; background: #EEF0F4; overflow: hidden;"><div style="width: 56%; height: 12px; background: #2E55E6;"></div></div>
+<span style="font-size: 13px; color: #5B6270;">2 TB included with Enterprise, plus a 500 GB add-on</span>
+<span style="font-size: 13px; color: #3A404C; line-height: 1.5;">Video 1.1 TB · Photos 210 GB · Print files 60 GB · Other 30 GB</span>
+<span style="font-size: 13px; color: #5B6270;">We'll email Owners at 80% and 95%. Nothing is ever deleted automatically.</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="b2">Add storage</button><button type="button" class="b2">Archive old video</button></div>
+</div>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 700 17px/1.2 Manrope, Inter, sans-serif;">Invoices</h2>
+<sc-for list="{{ invoices }}" as="iv" hint-placeholder-count="3">
+<div class="row"><span style="flex: 1 1 160px; font-weight: 600;">{{ iv.date }}</span><span style="flex: 1 1 200px; color: #3A404C;">{{ iv.what }}</span><span style="font-weight: 700;">{{ iv.amt }}</span><span class="{{ iv.chip }}">{{ iv.status }}</span><button type="button" class="b2">PDF</button></div>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{ isSecurity }}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Security and your data</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">A one-page summary for your IT and finance teams.</p>
+</section>
+<div class="card">
+<sc-for list="{{ facts }}" as="f" hint-placeholder-count="8">
+<div class="fact">
+<span style="width: 30px; height: 30px; border-radius: 8px; background: #14161B; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 3px;"><strong style="font-size: 15px;">{{ f.title }}</strong><span style="font-size: 14px; color: #3A404C; line-height: 1.45;">{{ f.body }}</span></span>
+</div>
+</sc-for>
+</div>
+<div class="card">
+<h2 style="margin: 0; font: 700 17px/1.2 Manrope, Inter, sans-serif;">Documents for your team</h2>
+<sc-for list="{{ docs }}" as="d" hint-placeholder-count="4">
+<div class="row"><span style="flex: 1 1 auto; font-weight: 600;">{{ d.name }}</span><span class="chip-off">{{ d.state }}</span></div>
+</sc-for>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="b2">Export all our data</button><button type="button" class="b2">Download activity log</button></div>
+</div>
+</sc-if>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'coverage', rules: { escalate: true, overdue: true, rush: true, ooo: true }, apps: { pc: true, gcal: true, slack: true, teams: false, mail: false, sso: true } };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var tdefs = [['coverage', 'Approval coverage'], ['budgets', 'Print budgets'], ['integrations', 'Connected tools'], ['plan', 'Plan and billing'], ['security', 'Security and data']];
+    var tabs = tdefs.map(function (t) { return { label: t[1], cls: s.tab === t[0] ? 'tab-on' : 'tab', pick: function () { self.setState({ tab: t[0] }); } }; });
+    var coverage = [
+      { step: 'Campus review · North', main: 'Marcus L.', backup: 'Jenna R.', status: 'Covered', chip: 'chip-ok' },
+      { step: 'Central Comms', main: 'Alicia P. · out until Nov 2', backup: 'Jordan M.', status: 'Backup active', chip: 'chip-wait' },
+      { step: 'Central Creative', main: 'Sam K.', backup: 'Tori B.', status: 'Covered', chip: 'chip-ok' },
+      { step: 'Spanish review', main: 'Lucía G.', backup: 'Pastor Maria L.', status: 'Covered', chip: 'chip-ok' }
+    ];
+    function sw(key, title, body) {
+      var on = !!s.rules[key];
+      return { title: title, body: body, on: on, cls: on ? 'sw-on' : 'sw', knob: on ? 'knob-on' : 'knob',
+        toggle: function () { var n = Object.assign({}, s.rules); n[key] = !on; self.setState({ rules: n }); } };
+    }
+    var rules = [
+      sw('ooo', 'Use backups while someone is out', 'When an approver sets an out-of-office, their steps go to their backup automatically.'),
+      sw('escalate', 'Send to the backup after 48 hours', 'If a step sits unanswered for 48 business hours, the backup can approve it too.'),
+      sw('overdue', 'Alert Admins about anything overdue', 'A daily note lists requests past their needed-by date and who is holding them.'),
+      sw('rush', 'Allow rush requests', 'Campus staff can mark something urgent with a reason. It jumps the queue and texts the on-call approver.')
+    ];
+    var adefs = [
+      ['pc', 'PC', '#1F4E9C', 'Planning Center', 'Events and service times flow into the calendar and request forms. No retyping.'],
+      ['gcal', 'G', '#1F7A4D', 'Google Calendar', 'The shared calendar shows up in staff calendars, read-only.'],
+      ['slack', 'S', '#4A154B', 'Slack', 'Approval requests and alerts in the channels you choose.'],
+      ['teams', 'T', '#4B53BC', 'Microsoft Teams', 'Same as Slack, for churches on Microsoft 365.'],
+      ['mail', 'M', '#B07A00', 'Email newsletter tool', 'Approved emails go to your newsletter tool as drafts, ready to send.'],
+      ['sso', 'SSO', '#14161B', 'Church sign-in (SSO)', 'Staff sign in with your church Google or Microsoft account.']
+    ];
+    var apps = adefs.map(function (a) {
+      var on = !!s.apps[a[0]];
+      return { mono: a[1], color: a[2], name: a[3], does: a[4], state: on ? 'Connected' : 'Not connected', chip: on ? 'chip-ok' : 'chip-off',
+        action: on ? 'Disconnect' : 'Connect', toggle: function () { var n = Object.assign({}, s.apps); n[a[0]] = !on; self.setState({ apps: n }); } };
+    });
+    var invoices = [
+      { date: 'Jan 4', what: 'Enterprise · yearly', amt: '$14,400', status: 'Upcoming', chip: 'chip-off' },
+      { date: 'Nov 3', what: 'Storage add-on · 500 GB', amt: '[Add-on price]', status: 'Paid', chip: 'chip-ok' },
+      { date: 'Oct 4', what: 'Pilot · 60 days', amt: '$0', status: 'Free', chip: 'chip-ok' }
+    ];
+    var facts = [
+      { title: 'Your data is yours', body: 'You own everything you upload or create. Export all of it at any time, in standard file formats.' },
+      { title: 'Encrypted everywhere', body: 'Data is encrypted while it travels and while it is stored.' },
+      { title: 'Backed up every day', body: 'Daily backups, so a mistake or outage never means lost work. Every piece also keeps its version history.' },
+      { title: 'Stored in the United States', body: 'Files and data are kept in U.S. data centers.' },
+      { title: 'Only the right people see things', body: 'Roles control every screen, file and approval. Unannounced items stay hidden until their date.' },
+      { title: 'Every action is logged', body: 'Approvals, edits, role changes and downloads are recorded with who and when. Admins can export the log.' },
+      { title: 'Sign-in you control', body: 'Two-step sign-in for anyone above Viewer, or your own Google or Microsoft church sign-in.' },
+      { title: 'Payments handled by a payment processor', body: 'We never see or store card or bank numbers.' },
+      { title: 'Your content is not used to train AI', body: "Streamlined's writing help runs on Anthropic's Claude through its commercial service. Anthropic's policy is not to train its models on commercial customers' inputs or outputs by default." },
+      { title: 'If you ever leave', body: 'You keep 90 days to export everything: files, templates, history and brand kit. After that, your data is deleted for good.' }
+    ];
+    var docs = [
+      { name: 'Terms of service', state: 'Drafted · lawyer review next' },
+      { name: 'Privacy policy', state: 'Drafted · lawyer review next' },
+      { name: 'Data processing agreement', state: 'Drafted · lawyer review next' },
+      { name: 'Security overview (PDF)', state: 'Drafted · lawyer review next' }
+    ];
+    return {
+      tabs: tabs, isCoverage: s.tab === 'coverage', isBudgets: s.tab === 'budgets',
+      budgets: [
+        { name: 'North Campus', budget: '$1,200', used: '$640', pct: '53%', color: '#2E55E6', limit: '$500' },
+        { name: 'East Campus', budget: '$1,000', used: '$420', pct: '42%', color: '#2E55E6', limit: '$500' },
+        { name: 'South Campus', budget: '$800', used: '$760', pct: '95%', color: '#B07A00', limit: '$300' },
+        { name: 'Online', budget: '$300', used: '$0', pct: '0%', color: '#2E55E6', limit: '$150' }
+      ], isIntegrations: s.tab === 'integrations', isPlan: s.tab === 'plan', isSecurity: s.tab === 'security',
+      coverage: coverage, rules: rules, apps: apps, invoices: invoices, facts: facts, docs: docs
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Designer studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.card{background:#FFFFFF;border:1px solid #E4E6EB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:12px;box-sizing:border-box}
+.tab,.tab-on{appearance:none;border:0;font:600 15px/1 Inter,system-ui,sans-serif;padding:12px 16px;border-radius:10px;cursor:pointer;white-space:nowrap;min-height:44px}
+.tab{background:transparent;color:#5B6270}
+.tab:hover{background:#EEF0F4;color:#14161B}
+.tab-on{background:#14161B;color:#FFFFFF}
+.tpl,.tpl-on{appearance:none;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:12px;color:#14161B;box-sizing:border-box;font-family:Inter,system-ui,sans-serif;min-height:44px}
+.tpl{background:#FFFFFF;border:1px solid #E4E6EB}
+.tpl:hover{border-color:#9DB2F5}
+.tpl-on{background:#EAF0FF;border:2px solid #2E55E6;padding:11px}
+.layer{appearance:none;display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid #E4E6EB;background:#FFFFFF;cursor:pointer;font:600 14px/1.3 Inter,system-ui,sans-serif;color:#14161B;min-height:48px;box-sizing:border-box}
+.layer:hover{border-color:#9DB2F5}
+.lock-on,.lock-off,.lock-auto{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 Inter,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.lock-on{background:#14161B;color:#FFFFFF}
+.lock-off{background:#E3F4EA;color:#17603C}
+.lock-auto{background:#EAF0FF;color:#1E3FB8}
+.size,.size-on{appearance:none;font:600 13px/1.2 Inter,system-ui,sans-serif;padding:10px 12px;border-radius:999px;cursor:pointer;min-height:44px}
+.size{background:#FFFFFF;color:#3A404C;border:1px solid #D5D9E0}
+.size-on{background:#14161B;color:#FFFFFF;border:1px solid #14161B}
+.chip-ok,.chip-wait,.chip-new,.chip-draft{display:inline-block;font:600 12px/1 Inter,system-ui,sans-serif;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.chip-ok{background:#E3F4EA;color:#17603C}
+.chip-wait{background:#FFF1DB;color:#8A4B00}
+.chip-new{background:#EAF0FF;color:#1E3FB8}
+.chip-draft{background:#EEF0F4;color:#4A5160}
+.fit-ok,.fit-warn{display:flex;gap:8px;align-items:flex-start;font:500 13px/1.4 Inter,sans-serif;padding:10px 12px;border-radius:10px}
+.fit-ok{background:#F3FAF6;color:#17603C}
+.fit-warn{background:#FFF4E5;color:#8A4B00}
+.b1,.b2{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:12px 16px;border-radius:10px;cursor:pointer;min-height:44px;white-space:nowrap}
+.b1{background:#2E55E6;color:#FFFFFF;border:0}
+.b2{background:#FFFFFF;color:#14161B;border:1px solid #D5D9E0}
+.sw{width:30px;height:30px;border-radius:8px;border:1px solid #E4E6EB}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270; background: #F7F8FA; border: 1px solid #E4E6EB; border-radius: 999px; padding: 8px 12px;">Harbor Church · Design studio</span>
+<div style="flex: 1 1 auto;"></div>
+<span class="chip-ok">Editor · Designer</span>
+<span aria-hidden="true" style="width: 40px; height: 40px; border-radius: 999px; background: #8A4FD6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font: 700 13px/1 Inter, sans-serif;">TB</span>
+</div>
+<nav aria-label="Studio" style="max-width: 1240px; margin: 0 auto; padding: 0 20px 12px; display: flex; gap: 6px; overflow-x: auto;">
+<sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2">
+<button type="button" class="{{ t.cls }}" onClick="{{ t.pick }}">{{ t.label }}</button>
+</sc-for>
+</nav>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 80px; display: flex; flex-direction: column; gap: 22px;">
+
+<sc-if value="{{ isProjects }}" hint-placeholder-val="{{ true }}">
+<section style="display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Your creative projects</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">The routine pieces fill themselves from your templates. This is the work that needs you: new series, new looks, and anything a template doesn't cover yet.</p>
+</section>
+<section class="card">
+<div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;"><h2 style="margin: 0; flex: 1 1 auto; font: 800 18px/1.2 Manrope, Inter, sans-serif;">Team workload</h2><span style="font-size: 13px; color: #5B6270;">Open projects this week · set by Central Creative</span></div>
+<sc-for list="{{ workload }}" as="w" hint-placeholder-count="4">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<span style="flex: 0 0 150px; font: 700 14px/1.3 Inter, sans-serif;">{{ w.name }}</span>
+<div style="flex: 1 1 200px; height: 10px; border-radius: 999px; background: #EEF0F4; overflow: hidden;"><div style="height: 10px; width: {{ w.pct }}; background: {{ w.color }};"></div></div>
+<span style="flex: 0 0 auto; font: 600 13px/1 Inter, sans-serif; color: #3A404C;">{{ w.label }}</span>
+</div>
+</sc-for>
+<span style="font-size: 13px; color: #5B6270;">New custom projects go to whoever has room first. Central Creative can reassign anything.</span>
+</section>
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;">
+<sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+<div class="card">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+<span class="{{ p.chip }}">{{ p.status }}</span>
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270;">Due {{ p.due }}</span>
+</div>
+<strong style="font: 800 19px/1.25 Manrope, Inter, sans-serif;">{{ p.title }}</strong>
+<span style="font-size: 13px; color: #5B6270;">{{ p.from }}</span>
+<p style="margin: 0; font-size: 14px; color: #3A404C; line-height: 1.5;">{{ p.brief }}</p>
+<sc-if value="{{ p.routed }}" hint-placeholder-val="{{ false }}">
+<div class="fit-warn"><span>No template covered this request, so it came straight to you instead of getting stuck.</span></div>
+</sc-if>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto;">
+<sc-if value="{{ p.canStart }}" hint-placeholder-val="{{ true }}"><button type="button" class="b1" onClick="{{ p.start }}">Start project</button></sc-if>
+<sc-if value="{{ p.canSend }}" hint-placeholder-val="{{ false }}"><button type="button" class="b1" onClick="{{ p.send }}">Send for approval</button></sc-if>
+<sc-if value="{{ p.canTemplate }}" hint-placeholder-val="{{ false }}"><button type="button" class="b2" onClick="{{ goTemplates }}">Turn into a template</button></sc-if>
+</div>
+</div>
+</sc-for>
+</section>
+</sc-if>
+
+<sc-if value="{{ isTemplates }}" hint-placeholder-val="{{ false }}">
+<section style="display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap;">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">Templates</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">You design it in the tool you love. Bring it in, mark what campuses can change, and everything else stays exactly as you made it.</p>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">
+<button type="button" class="b2">Bring in from Figma</button>
+<button type="button" class="b2">Bring in from Canva</button>
+<button type="button" class="b2">Upload PDF or Adobe file</button>
+</div>
+</section>
+
+<section style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<nav aria-label="Templates" class="card" style="flex: 1 1 240px; min-width: 0;">
+<sc-for list="{{ templates }}" as="tp" hint-placeholder-count="5">
+<button type="button" class="{{ tp.cls }}" onClick="{{ tp.pick }}">
+<div style="display: flex; align-items: center; gap: 8px; width: 100%;"><span style="flex: 1 1 auto; font: 700 14px/1.3 Inter, sans-serif;">{{ tp.name }}</span><span class="{{ tp.chip }}">{{ tp.state }}</span></div>
+<span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ tp.meta }}</span>
+</button>
+</sc-for>
+</nav>
+
+<div style="flex: 999 1 640px; min-width: 0; display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start;">
+<div class="card" style="flex: 1 1 280px; align-items: center; min-width: 0;">
+<div style="display: flex; align-items: center; gap: 8px; width: 100%; flex-wrap: wrap;">
+<strong style="flex: 1 1 auto; font: 800 18px/1.2 Manrope, Inter, sans-serif;">{{ sel.name }}</strong>
+<div role="group" aria-label="Preview language" style="display: flex; gap: 2px; background: #EEF0F4; padding: 3px; border-radius: 999px;">
+<sc-for list="{{ langs }}" as="l" hint-placeholder-count="2"><button type="button" class="{{ l.cls }}" onClick="{{ l.pick }}" style="border-radius: 999px; min-height: 36px; padding: 8px 12px;">{{ l.label }}</button></sc-for>
+</div>
+</div>
+<div style="width: {{ sel.w }}; height: {{ sel.h }}; background: #1C2B4A; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; overflow: hidden; color: #FFFFFF; box-sizing: border-box; padding-bottom: 14px; box-shadow: 0 10px 30px rgba(20,22,27,.18);">
+<div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+<div style="margin-top: 16px; display: flex; align-items: center; gap: 6px; font: 800 12px/1 Manrope, sans-serif; letter-spacing: .08em; outline: 2px dashed rgba(255,255,255,.35); outline-offset: 4px; padding: 2px;">HARBOR CHURCH</div>
+<div style="background: #E8674A; width: 100%; padding: 12px 10px; margin-top: 18px; text-align: center; font: 800 20px/1.05 Manrope, sans-serif; box-sizing: border-box; text-transform: uppercase; outline: 2px dashed rgba(255,255,255,.7); outline-offset: -4px;">{{ copy.headline }}</div>
+</div>
+<div style="padding: 0 14px; display: flex; flex-direction: column; gap: 8px; text-align: center;">
+<span style="font: 700 14px/1.2 Inter, sans-serif; outline: 2px dashed rgba(255,255,255,.5); outline-offset: 3px;">{{ copy.when }}</span>
+<span style="font: 400 11px/1.4 Inter, sans-serif; color: #F3E9DC; outline: 2px dashed rgba(255,255,255,.5); outline-offset: 3px;">{{ copy.details }}</span>
+</div>
+<span style="font: 400 10px/1.3 Inter, sans-serif; color: #F3E9DC; padding: 0 12px; text-align: center;">{{ copy.campus }}</span>
+</div>
+<span style="font-size: 12px; color: #5B6270; text-align: center;">Dashed outlines show what campuses can change. Preview uses the longest copy we've seen so you can check the fit.</span>
+</div>
+
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div class="card">
+<h2 style="margin: 0; font: 700 16px/1.2 Inter, sans-serif;">What campuses can change</h2>
+<span style="font-size: 13px; color: #5B6270; margin-top: -6px;">Tap a layer to lock or unlock it.</span>
+<sc-for list="{{ layers }}" as="ly" hint-placeholder-count="7">
+<button type="button" class="layer" onClick="{{ ly.toggle }}" aria-pressed="{{ ly.locked }}">
+<span style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px;"><span>{{ ly.name }}</span><span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ ly.rule }}</span></span>
+<span class="{{ ly.cls }}">{{ ly.state }}</span>
+</button>
+</sc-for>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 16px/1.2 Inter, sans-serif;">Fit check</h2>
+<sc-for list="{{ fits }}" as="f" hint-placeholder-count="3">
+<div class="{{ f.cls }}"><span>{{ f.text }}</span></div>
+</sc-for>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 16px/1.2 Inter, sans-serif;">Make every size from this design</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{ sizes }}" as="z" hint-placeholder-count="5">
+<button type="button" class="{{ z.cls }}" onClick="{{ z.toggle }}" aria-pressed="{{ z.on }}">{{ z.label }}</button>
+</sc-for>
+</div>
+<span style="font-size: 13px; color: #5B6270;">You approve each new size once before campuses can use it.</span>
+</div>
+
+<div class="card">
+<h2 style="margin: 0; font: 700 16px/1.2 Inter, sans-serif;">Colors allowed in this template</h2>
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<span class="sw" style="background: #1C2B4A;" role="img" aria-label="Harbor Navy"></span>
+<span class="sw" style="background: #E8674A;" role="img" aria-label="Coral"></span>
+<span class="sw" style="background: #F3E9DC;" role="img" aria-label="Sand"></span>
+<span class="sw" style="background: #FFFFFF;" role="img" aria-label="White"></span>
+<span style="font-size: 13px; color: #5B6270;">From your brand kit. Add a seasonal palette for a series without changing the brand.</span>
+</div>
+</div>
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<button type="button" class="b1" onClick="{{ publish }}" style="flex: 1 1 200px; min-height: 52px; font-size: 16px;">{{ publishLabel }}</button>
+<button type="button" class="b2" style="flex: 1 1 140px; min-height: 52px;">Save draft</button>
+</div>
+<sc-if value="{{ published }}" hint-placeholder-val="{{ false }}">
+<div role="status" class="fit-ok" style="font-size: 14px;"><span>Published. Campuses and teams can request this right away, and every draft will follow your locks.</span></div>
+</sc-if>
+</div>
+</div>
+</section>
+</sc-if>
+
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      tab: 'templates', tpl: 'hanger', lang: 'en', published: false,
+      proj: { christmas: 'new', vbs: 'new', baptism: 'doing' },
+      locks: { bg: true, logo: 'auto', headline: false, when: false, details: false, photo: false, campus: 'auto' },
+      sizes: { hanger: true, postcard: true, square: true, story: true, slide: false, web: false }
+    };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var tabs = [{ id: 'projects', label: 'Projects' }, { id: 'templates', label: 'Templates' }].map(function (t) {
+      return { label: t.label, cls: s.tab === t.id ? 'tab-on' : 'tab', pick: function () { self.setState({ tab: t.id }); } };
+    });
+    var pdefs = [
+      ['christmas', 'Christmas at Harbor series art', 'Central Creative · custom project', 'Nov 14', 'Main series look for all campuses. Wide, square and vertical. Warm, not cheesy. This becomes the Christmas templates.', false],
+      ['vbs', 'VBS theme for Kids', 'North Campus Kids team · no template yet', 'Nov 20', 'Summer VBS look the Kids team can reuse for door hangers, slides and social.', true],
+      ['baptism', 'Baptism Sunday bumper refresh', 'All campuses · custom project', 'Nov 10', '10-second bumper with new footage from the last baptism Sunday.', false]
+    ];
+    function setP(id, v) { var n = Object.assign({}, s.proj); n[id] = v; self.setState({ proj: n }); }
+    var smap = { 'new': ['New', 'chip-new'], doing: ['In progress', 'chip-wait'], review: ['In approval', 'chip-ok'] };
+    var projects = pdefs.map(function (p) {
+      var st = s.proj[p[0]];
+      return { title: p[1], from: p[2], due: p[3], brief: p[4], routed: p[5], status: smap[st][0], chip: smap[st][1],
+        canStart: st === 'new', canSend: st === 'doing', canTemplate: st === 'review',
+        start: function () { setP(p[0], 'doing'); }, send: function () { setP(p[0], 'review'); } };
+    });
+    var tdefs = [
+      ['hanger', 'Door hanger', '4.25 × 11 in · used 38 times', 'Published', 'chip-ok', '170px', '400px'],
+      ['social', 'Event social post', 'Square and story · used 61 times', 'Published', 'chip-ok', '260px', '260px'],
+      ['slide', 'Sunday announcement slide', '16:9 · used 44 times', 'Published', 'chip-ok', '300px', '169px'],
+      ['web', 'Website event card', '1200 × 630 · used 19 times', 'Published', 'chip-ok', '300px', '158px'],
+      ['yard', 'Yard sign', '18 × 24 in · new', 'Draft', 'chip-draft', '240px', '320px']
+    ];
+    var templates = tdefs.map(function (t) {
+      return { name: t[1], meta: t[2], state: t[3], chip: t[4], cls: s.tpl === t[0] ? 'tpl-on' : 'tpl',
+        pick: function () { self.setState({ tpl: t[0], published: false }); } };
+    });
+    var cur = tdefs.filter(function (t) { return t[0] === s.tpl; })[0] || tdefs[0];
+    var es = s.lang === 'es';
+    var copy = es
+      ? { headline: 'Festival de Otoño', when: 'sáb 31 de oct · 4–7 PM', details: 'Food trucks, inflables y dulces para los niños. Gratis para toda la familia. Estacionamiento B, entrada por la calle Main.', campus: 'Harbor Church · Campus Norte · [Dirección]' }
+      : { headline: 'Fall Fest', when: 'Sat, Oct 31 · 4–7 PM', details: 'Food trucks, bounce houses and trunk-or-treat. Free for the whole family. Park in Lot B.', campus: 'Harbor Church · North Campus · [Address]' };
+    var ldefs = [
+      ['bg', 'Background and layout', 'Your design'],
+      ['logo', 'Logo', 'Picks the light or dark logo for the background'],
+      ['headline', 'Headline', 'Up to 22 characters'],
+      ['when', 'Date and time', 'Required'],
+      ['details', 'Details', 'Up to 120 characters'],
+      ['photo', 'Photo', 'Only from the approved library; kids need a photo release'],
+      ['campus', 'Campus name and address', 'Filled in from the campus profile']
+    ];
+    var layers = ldefs.map(function (l) {
+      var v = s.locks[l[0]];
+      var auto = v === 'auto';
+      return { name: l[1], rule: l[2], locked: v === true, cls: auto ? 'lock-auto' : (v ? 'lock-on' : 'lock-off'),
+        state: auto ? 'Automatic' : (v ? 'Locked' : 'Campuses can edit'),
+        toggle: function () { if (auto) return; var n = Object.assign({}, s.locks); n[l[0]] = !v; self.setState({ locks: n, published: false }); } };
+    });
+    var hl = copy.headline.length, dl = copy.details.length;
+    var fits = [
+      { cls: hl <= 22 ? 'fit-ok' : 'fit-warn', text: (es ? 'Spanish' : 'English') + ' headline is ' + hl + ' characters' + (hl <= 22 ? ', within the 22 limit.' : ', over the 22 limit. Shorten it or let it shrink to fit.') },
+      { cls: dl <= 120 ? 'fit-ok' : 'fit-warn', text: (es ? 'Spanish' : 'English') + ' details are ' + dl + ' characters' + (dl <= 120 ? ', within the 120 limit.' : ', ' + (dl - 120) + ' over the 120 limit. Raise the limit or allow smaller text for Spanish.') },
+      { cls: 'fit-ok', text: 'Text on navy passes WCAG AA contrast for body text (4.5:1 or better).' }
+    ];
+    var zdefs = [['hanger', 'Door hanger'], ['postcard', 'Postcard 6 × 4'], ['square', 'Square 1080'], ['story', 'Story 1080 × 1920'], ['slide', 'Slide 16:9'], ['web', 'Web card']];
+    var sizes = zdefs.map(function (z) {
+      var on = !!s.sizes[z[0]];
+      return { label: z[1], on: on, cls: on ? 'size-on' : 'size', toggle: function () { var n = Object.assign({}, s.sizes); n[z[0]] = !on; self.setState({ sizes: n }); } };
+    });
+    var langs = [{ id: 'en', label: 'English' }, { id: 'es', label: 'Español' }].map(function (l) {
+      return { label: l.label, cls: s.lang === l.id ? 'size-on' : 'size', pick: function () { self.setState({ lang: l.id }); } };
+    });
+    return {
+      tabs: tabs, isProjects: s.tab === 'projects', isTemplates: s.tab === 'templates',
+      workload: [
+        { name: 'Tori B. (Central)', pct: '60%', color: '#2E55E6', label: '3 of 5 projects' },
+        { name: 'Sam K. (Central)', pct: '40%', color: '#2E55E6', label: '2 of 5 projects' },
+        { name: 'Jenna R. (North)', pct: '100%', color: '#B07A00', label: '4 of 4 · full' },
+        { name: 'Eli T. (East)', pct: '25%', color: '#2E55E6', label: '1 of 4 projects' }
+      ],
+      projects: projects, goTemplates: function () { self.setState({ tab: 'templates', tpl: 'yard' }); },
+      templates: templates, sel: { name: cur[1], w: cur[5], h: cur[6] }, copy: copy,
+      layers: layers, fits: fits, sizes: sizes, langs: langs,
+      published: s.published, publishLabel: s.published ? 'Published' : (cur[3] === 'Draft' ? 'Publish template' : 'Publish changes'),
+      publish: function () { self.setState({ published: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Streamlined · Live demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0F1115}
+a.role{display:flex;flex-direction:column;gap:6px;padding:18px;border-radius:16px;background:#FFFFFF;border:1px solid #E4E6EB;text-decoration:none;color:#14161B;box-sizing:border-box;min-height:120px}
+a.role:hover{border-color:#2E55E6;box-shadow:0 6px 20px rgba(20,22,27,.12)}
+.tag{align-self:flex-start;font:700 11px/1 Inter,system-ui,sans-serif;padding:6px 9px;border-radius:999px;background:#EAF0FF;color:#1E3FB8}
+input{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFFFFF;border:1px solid #D5D9E0;border-radius:10px;padding:12px 14px;box-sizing:border-box;width:100%;min-height:48px}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #0F1115; font-family: Inter, system-ui, sans-serif; color: #FFFFFF;">
+<div style="max-width: 1120px; margin: 0 auto; padding: 40px 20px 64px; display: flex; flex-direction: column; gap: 32px;">
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+<svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#FFFFFF"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#14161B" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#2E55E6" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="flex: 1 1 auto;"></span>
+<a href="index.html" style="color: #C9CED8; text-decoration: none; font: 600 14px/1 Inter, sans-serif; padding: 10px 6px;">Back to home</a>
+<a href="maines.html" lang="es" style="color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; border: 1px solid #5B6270; border-radius: 999px; padding: 10px 14px;">Ver en español</a>
+</div>
+
+<section style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
+<div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(34px, 5vw, 52px); line-height: 1.04; letter-spacing: -0.03em;">One place for every request, every campus, every team.</h1>
+<p style="margin: 0; font-size: 17px; line-height: 1.5; color: #C9CED8;">Pick a role to see Streamlined the way that person would on a normal Monday.</p>
+</div>
+<form style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; color: #14161B; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box;">
+<strong style="font: 800 20px/1.2 Manrope, Inter, sans-serif;">Sign in to Harbor Church</strong>
+<span style="font-size: 13px; color: #5B6270; margin-top: -6px;">harbor.usestreamlined.com</span>
+<a href="#roles" style="display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; border-radius: 10px; border: 1px solid #D5D9E0; text-decoration: none; color: #14161B; font: 600 15px/1 Inter, sans-serif;">Continue with your church sign-in (SSO)</a>
+<div style="display: flex; align-items: center; gap: 10px; color: #6B7280; font-size: 13px;"><span style="flex: 1 1 auto; height: 1px; background: #E4E6EB;"></span>or<span style="flex: 1 1 auto; height: 1px; background: #E4E6EB;"></span></div>
+<label for="em" style="font: 600 13px/1 Inter, sans-serif; color: #3A404C;">Email</label>
+<input id="em" type="email" placeholder="you@harborchurch.org">
+<a href="#roles" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 10px; background: #2E55E6; color: #FFFFFF; text-decoration: none; font: 700 15px/1 Inter, sans-serif;">Email me a sign-in link</a>
+<span style="font-size: 12px; color: #5B6270;">No password to remember. Anyone who can edit or approve also confirms with a second step.</span>
+</form>
+</section>
+
+<section id="roles" style="display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font: 800 22px/1.2 Manrope, Inter, sans-serif;">Who are you today?</h2>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px;">
+<a class="role" href="exec.html"><span class="tag">Executive team</span><strong style="font-size: 17px;">Executive summary</strong><span style="font-size: 14px; color: #5B6270;">Pilot results, campus by campus, and an estimate of staff hours saved.</span></a>
+<a class="role" href="main.html"><span class="tag">Requester</span><strong style="font-size: 17px;">Campus pastor</strong><span style="font-size: 14px; color: #5B6270;">Ask for a door hanger, web update or slides in two minutes.</span></a>
+<a class="role" href="campusdash.html"><span class="tag">Campus Admin</span><strong style="font-size: 17px;">Campus comms lead</strong><span style="font-size: 14px; color: #5B6270;">Review your campus's requests and localize Central's campaigns.</span></a>
+<a class="role" href="approver.html"><span class="tag">Central Admin</span><strong style="font-size: 17px;">Central Comms or Creative</strong><span style="font-size: 14px; color: #5B6270;">Approve, edit, reject or pin comments. Includes Spanish review.</span></a>
+<a class="role" href="campaign.html"><span class="tag">Central Admin</span><strong style="font-size: 17px;">Launch a campaign</strong><span style="font-size: 14px; color: #5B6270;">Build Christmas once. Every campus or team gets the kit.</span></a>
+<a class="role" href="designer.html"><span class="tag">Editor</span><strong style="font-size: 17px;">Designer</strong><span style="font-size: 14px; color: #5B6270;">Build templates, lock what matters and take on custom projects.</span></a>
+<a class="role" href="volunteer.html"><span class="tag">Viewer</span><strong style="font-size: 17px;">Volunteer on a phone</strong><span style="font-size: 14px; color: #5B6270;">Sign in by email link, grab approved posts and share. English or Spanish.</span></a>
+<a class="role" href="printer.html"><span class="tag">Print shop</span><strong style="font-size: 17px;">Local printer</strong><span style="font-size: 14px; color: #5B6270;">Get the approved file, confirm the order, and keep the church updated.</span></a>
+<a class="role" href="notify.html"><span class="tag">Everyone</span><strong style="font-size: 17px;">Notifications</strong><span style="font-size: 14px; color: #5B6270;">Email, text or Slack, language, and quiet Sunday mornings.</span></a>
+<a class="role" href="assets.html"><span class="tag">Everyone</span><strong style="font-size: 17px;">Photo and file library</strong><span style="font-size: 14px; color: #5B6270;">Find approved photos and video. Kids' photos need a release before public use.</span></a>
+<a class="role" href="admin.html"><span class="tag">Owner</span><strong style="font-size: 17px;">Admin center</strong><span style="font-size: 14px; color: #5B6270;">Backup approvers, connected tools, billing, storage and security for IT.</span></a>
+<a class="role" href="calendar.html"><span class="tag">Everyone</span><strong style="font-size: 17px;">Shared calendar</strong><span style="font-size: 14px; color: #5B6270;">See every Sunday at a glance and catch conflicts early.</span></a>
+<a class="role" href="brand.html"><span class="tag">Owner</span><strong style="font-size: 17px;">Brand kit</strong><span style="font-size: 14px; color: #5B6270;">Set the logo, colors, fonts and voice once, for everyone.</span></a>
+<a class="role" href="access.html"><span class="tag">Owner</span><strong style="font-size: 17px;">People and safety</strong><span style="font-size: 14px; color: #5B6270;">Roles from Owner to Viewer, and the protections that are always on.</span></a>
+<a class="role" href="setup.html"><span class="tag">New church</span><strong style="font-size: 17px;">Set up a church</strong><span style="font-size: 14px; color: #5B6270;">Four answers fit Streamlined to one campus or thirty.</span></a>
+</div>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1600}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

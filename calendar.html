@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shared calendar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F7F8FA}
+a{color:#2E55E6}a:hover{color:#1E3FB8}
+.mode,.mode-on{appearance:none;font:700 14px/1 Inter,system-ui,sans-serif;padding:10px 16px;border-radius:8px;cursor:pointer;min-height:40px;border:0}
+.mode{background:transparent;color:#5B6270}
+.mode-on{background:#FFFFFF;color:#14161B;box-shadow:0 1px 3px rgba(20,22,27,.15)}
+.f,.f-on{appearance:none;display:inline-flex;align-items:center;gap:8px;font:600 14px/1 Inter,system-ui,sans-serif;padding:10px 14px;border-radius:999px;cursor:pointer;min-height:44px;white-space:nowrap}
+.f{background:#FFFFFF;color:#3A404C;border:1px solid #D5D9E0}
+.f-on{background:#14161B;color:#FFFFFF;border:1px solid #14161B}
+.dot{width:10px;height:10px;border-radius:999px;flex:0 0 auto}
+.c-all{background:#2E55E6}.c-a{background:#E8674A}.c-b{background:#1F7A4D}.c-c{background:#8A4FD6}.c-d{background:#B07A00}
+.item{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:12px;background:#FFFFFF;border:1px solid #E4E6EB;box-sizing:border-box}
+.item-clash{display:flex;flex-direction:column;gap:6px;padding:11px;border-radius:12px;background:#FFF8EC;border:2px solid #E0A33A;box-sizing:border-box}
+.st-ok,.st-wait,.st-draft{display:inline-block;font:600 11px/1 Inter,system-ui,sans-serif;padding:6px 8px;border-radius:999px;white-space:nowrap}
+.st-ok{background:#E3F4EA;color:#17603C}
+.st-wait{background:#FFF1DB;color:#8A4B00}
+.st-draft{background:#EEF0F4;color:#4A5160}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F7F8FA; font-family: Inter, system-ui, sans-serif; color: #14161B;">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #E4E6EB;">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#14161B"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#7C9BFF" stroke-width="2.4" stroke-linecap="round"></path></svg>
+<span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em;">Streamlined</span>
+<span style="font: 600 13px/1 Inter, sans-serif; color: #5B6270;">· Calendar</span>
+<div style="flex: 1 1 auto;"></div>
+<div role="group" aria-label="Church type" style="display: flex; align-items: center; gap: 4px; background: #EEF0F4; padding: 4px; border-radius: 10px;">
+<sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+<button type="button" class="{{ m.cls }}" onClick="{{ m.pick }}">{{ m.label }}</button>
+</sc-for>
+</div>
+</div>
+</header>
+
+<main style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 64px; display: flex; flex-direction: column; gap: 20px;">
+<section style="display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap;">
+<div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px;">
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 32px; letter-spacing: -0.02em;">December</h1>
+<p style="margin: 0; font-size: 16px; color: #5B6270;">Everything going out, by Sunday. {{ clashText }}</p>
+</div>
+<button type="button" style="appearance: none; border: 0; background: #2E55E6; color: #FFFFFF; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">+ Add to calendar</button>
+</section>
+
+<div role="group" aria-label="Show" style="display: flex; gap: 8px; flex-wrap: wrap;">
+<sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+<button type="button" class="{{ f.cls }}" onClick="{{ f.pick }}" aria-pressed="{{ f.on }}"><span class="{{ f.dot }}"></span>{{ f.label }}</button>
+</sc-for>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: #3A404C; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 12px; padding: 10px 14px;">
+<span style="width: 8px; height: 8px; border-radius: 999px; background: #1F7A4D;" aria-hidden="true"></span>
+<span>Synced with <strong>Planning Center</strong> and <strong>Google Calendar</strong> · 5 minutes ago. Events and service times come in automatically, so nobody keeps two calendars.</span>
+</div>
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; align-items: start;">
+<sc-for list="{{ weeks }}" as="w" hint-placeholder-count="4">
+<div style="background: #EEF0F4; border-radius: 16px; padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: baseline; gap: 8px; padding: 4px 4px 2px;">
+<span style="font: 800 18px/1 Manrope, Inter, sans-serif;">{{ w.label }}</span>
+<span style="font: 600 12px/1 Inter, sans-serif; color: #5B6270;">{{ w.count }}</span>
+</div>
+<sc-for list="{{ w.items }}" as="i" hint-placeholder-count="3">
+<div class="{{ i.cls }}">
+<div style="display: flex; align-items: center; gap: 8px;">
+<span class="{{ i.dot }}"></span>
+<span style="flex: 1 1 auto; font: 600 12px/1.2 Inter, sans-serif; color: #3A404C;">{{ i.who }}</span>
+<span class="{{ i.st }}">{{ i.status }}</span>
+</div>
+<span style="font: 700 15px/1.3 Inter, sans-serif;">{{ i.title }}</span>
+<span style="font: 500 12px/1.3 Inter, sans-serif; color: #5B6270;">{{ i.kind }}</span>
+<sc-if value="{{ i.clash }}" hint-placeholder-val="{{ false }}">
+<span style="font: 600 12px/1.35 Inter, sans-serif; color: #8A4B00;">Two stage announcements for {{ i.who }} this Sunday. Move one?</span>
+</sc-if>
+</div>
+</sc-for>
+<sc-if value="{{ w.empty }}" hint-placeholder-val="{{ false }}">
+<div style="padding: 14px; text-align: center; font-size: 13px; color: #5B6270;">Nothing scheduled</div>
+</sc-if>
+</div>
+</sc-for>
+</section>
+</main>
+</div>
+<a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { mode: 'multi', filter: 'all' };
+  }
+  renderVals() {
+    var s = this.state, self = this;
+    var multi = s.mode === 'multi';
+    var modes = [{ id: 'multi', label: 'Multisite' }, { id: 'single', label: 'Single campus' }].map(function (m) {
+      return { label: m.label, cls: s.mode === m.id ? 'mode-on' : 'mode', pick: function () { self.setState({ mode: m.id, filter: 'all' }); } };
+    });
+    var groups = multi
+      ? [['all', 'Churchwide', 'c-all'], ['a', 'North Campus', 'c-a'], ['b', 'East Campus', 'c-b'], ['c', 'South Campus', 'c-c'], ['d', 'Online', 'c-d']]
+      : [['all', 'Churchwide', 'c-all'], ['a', 'Kids', 'c-a'], ['b', 'Students', 'c-b'], ['c', 'Worship', 'c-c'], ['d', 'Groups', 'c-d']];
+    var gName = {}, gDot = {};
+    groups.forEach(function (g) { gName[g[0]] = g[1]; gDot[g[0]] = 'dot ' + g[2]; });
+    var filters = [{ id: 'all', label: 'Everything', dot: 'dot c-all' }].concat(groups.slice(1).map(function (g) { return { id: g[0], label: g[1], dot: 'dot ' + g[2] }; }))
+      .map(function (f) { var on = s.filter === f.id; return { label: f.label, dot: f.dot, on: on, cls: on ? 'f-on' : 'f', pick: function () { self.setState({ filter: f.id }); } }; });
+    var data = [
+      ['Dec 6', 'all', 'Christmas series launch', 'Series graphic · slides · website banner', 'ok', false],
+      ['Dec 6', 'a', multi ? 'Fall Fest thank-you' : 'Kids Christmas party', 'Stage announcement', 'ok', false],
+      ['Dec 13', 'all', 'Christmas invite push', 'Social posts · invite email', 'ok', false],
+      ['Dec 13', 'b', multi ? 'Serve team sign-ups' : 'Winter retreat sign-ups', 'Stage announcement', 'wait', true],
+      ['Dec 13', 'b', multi ? 'Christmas offering' : 'Student Christmas night', 'Stage announcement', 'wait', true],
+      ['Dec 13', 'c', multi ? 'Neighborhood door hangers' : 'Choir rehearsal reminder', multi ? 'Print · 300 copies' : 'Email to the team', 'ok', false],
+      ['Dec 20', 'all', 'Christmas Eve service times', 'Stories · email · website', 'wait', false],
+      ['Dec 20', 'all', 'New year series teaser', 'Central only · hidden from campuses until Dec 27', 'draft', false],
+      ['Dec 20', 'd', multi ? 'Online Christmas watch party' : 'Groups break schedule', 'Social post', 'draft', false],
+      ['Dec 24', 'all', 'Christmas Eve', 'Slides · bumper video · photo team', 'wait', false]
+    ];
+    var stMap = { ok: ['Approved', 'st-ok'], wait: ['In review', 'st-wait'], draft: ['Draft', 'st-draft'] };
+    var labels = ['Dec 6', 'Dec 13', 'Dec 20', 'Dec 24'];
+    var clashCount = 0;
+    var weeks = labels.map(function (l) {
+      var items = data.filter(function (d) { return d[0] === l && (s.filter === 'all' || d[1] === s.filter || d[1] === 'all'); }).map(function (d) {
+        if (d[5]) clashCount++;
+        return { who: gName[d[1]], dot: gDot[d[1]], title: d[2], kind: d[3], status: stMap[d[4]][0], st: stMap[d[4]][1], clash: d[5], cls: d[5] ? 'item-clash' : 'item' };
+      });
+      return { label: l === 'Dec 24' ? 'Dec 24 · Christmas Eve' : 'Sun, ' + l, count: items.length + (items.length === 1 ? ' item' : ' items'), items: items, empty: items.length === 0 };
+    });
+    var clashGroups = clashCount ? 1 : 0;
+    return {
+      modes: modes, filters: filters, weeks: weeks,
+      clashText: clashGroups ? 'One Sunday has a conflict to sort out.' : 'No conflicts.'
+    };
+  }
+}
+</script>
+</body>
+</html>
