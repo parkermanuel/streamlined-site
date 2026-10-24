@@ -18,6 +18,9 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg"><link rel="icon" href="favicon.ico" sizes="48x48"><link rel="icon" type="image/png" sizes="512x512" href="icon-512.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script src="./support.js"></script>
 <link rel="stylesheet" href="./dark.css">
+<link rel="stylesheet" href="./pipeline.css">
+<script src="./beta.js" defer></script>
+<script src="./pipeline.js" defer></script>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0F1115" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#14161B"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Streamlined"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>if('serviceWorker' in navigator){addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 </head>
@@ -40,7 +43,7 @@ input{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFF
 <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#FFFFFF"></rect><path d="M7 9.5c7 0 8 6.5 18 6.5M7 22.5c7 0 8-6.5 18-6.5" fill="none" stroke="#14161B" stroke-width="2.4" stroke-linecap="round"></path><path d="M7 16h18" fill="none" stroke="#2E55E6" stroke-width="2.4" stroke-linecap="round"></path></svg>
 <span style="font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.02em;">Streamlined</span>
 <span style="flex: 1 1 auto;"></span>
-<a href="index.html" style="color: #C9CED8; text-decoration: none; font: 600 14px/1 Inter, sans-serif; padding: 10px 6px;">Back to home</a>
+<a href="/" style="color: #C9CED8; text-decoration: none; font: 600 14px/1 Inter, sans-serif; padding: 10px 6px;">Back to home</a>
 <a href="maines.html" lang="es" style="color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; border: 1px solid #5B6270; border-radius: 999px; padding: 10px 14px;">Ver en español</a>
 </div>
 
@@ -48,6 +51,11 @@ input{font:400 15px/1.4 Inter,system-ui,sans-serif;color:#14161B;background:#FFF
 <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
 <h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(34px, 5vw, 52px); line-height: 1.04; letter-spacing: -0.03em;">One place for every request, every campus, every team.</h1>
 <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #C9CED8;">Pick a role to see Streamlined the way that person would on a normal Monday.</p>
+<div class="stage" style="flex: none; justify-content: flex-start; margin-top: 8px;"><div class="pipe" aria-hidden="true">
+<div class="ph"><div class="thumb"></div><div class="pt"><b>Fall Fest door hangers</b><span>North Campus · 500 copies</span></div><span class="live">Live</span></div>
+<div style="position:relative"><div class="rail"><i style="height:100%"></i></div><ol class="sts"><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Campus Pastor</strong><small>Request submitted</small></span></li><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Comms</strong><small>Copy approved</small></span></li><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Creative</strong><small>Design approved, on-brand</small></span></li><li class="st ok fin"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Delivered</strong><small>Out everywhere</small></span></li></ol></div>
+<div class="outs"><span class="out on">🖨 Printed</span><span class="out on">📱 Instagram</span><span class="out on">🌐 Website</span></div>
+</div></div>
 </div>
 <form style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; color: #14161B; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box;">
 <strong style="font: 800 20px/1.2 Manrope, Inter, sans-serif;">Sign in to Harbor Church</strong>
