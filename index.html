@@ -34,6 +34,46 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 .step:nth-child(1) .tick{animation:checkin .4s ease .5s both}.step:nth-child(2) .tick{animation:checkin .4s ease 1.2s both}.step:nth-child(3) .tick{animation:checkin .4s ease 1.9s both}.step:nth-child(4) .tick{animation:checkin .4s ease 2.6s both}
 @media (max-width:640px){.hdr{flex-wrap:nowrap !important;gap:12px !important;padding:14px 16px !important}.hdr .nav{flex-wrap:nowrap !important;gap:14px !important}.hdr .navlink{display:none !important}.hdr .lg-long,.hdr .btn-long{display:none}.hdr .lg-short,.hdr .btn-short{display:inline !important}.hdr .cta{padding:10px 14px !important;font-size:14px !important;white-space:nowrap}}
 @media (max-width:360px){.hdr{gap:8px !important;padding:14px 12px !important}.hdr span[style*='font-size: 20px']{font-size:17px !important}.hdr svg{width:28px;height:28px}.hdr .nav{gap:10px !important}.hdr .cta{padding:9px 11px !important;font-size:13px !important}}
+.hero{overflow-x:clip;max-width:1180px;margin:0 auto;padding:40px 20px 72px;display:flex;flex-wrap:wrap;gap:48px;align-items:center}
+@media (max-width:640px){.hero{padding:12px 16px 56px;gap:36px}}
+.rw{display:inline-block;background:none;padding:0;font:inherit;border-radius:0;color:#2E55E6;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;will-change:transform}
+.rw.out{transform:translateY(-.35em);opacity:0}.rw.in{transform:translateY(.35em);opacity:0;transition:none}
+.lede{margin:0;font-size:19px;line-height:1.45;color:#3A404C;max-width:520px}
+.lede b{color:#14161B;font-weight:700}
+.perks{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:#5B6270}
+.perks span{display:inline-flex;align-items:center;gap:6px}.perks i{width:6px;height:6px;border-radius:9px;background:#1F7A4D;display:inline-block}
+.stage{position:relative;flex:1 1 400px;min-width:0;display:flex;justify-content:center}
+.stage:before{content:"";position:absolute;inset:-10% -5%;background:radial-gradient(closest-side,rgba(46,85,230,.18),transparent 70%);filter:blur(10px);z-index:0;animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.06);opacity:.75}}
+.pipe{position:relative;z-index:1;width:100%;max-width:440px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid #E4E6EB;border-radius:22px;padding:20px;box-sizing:border-box;box-shadow:0 30px 70px rgba(20,22,27,.14);display:flex;flex-direction:column;gap:16px}
+.ph{display:flex;align-items:center;gap:12px}
+.thumb{width:46px;height:62px;border-radius:8px;box-sizing:border-box;flex:0 0 auto;border-top:10px solid #E8674A;background:#1C2B4A;transition:background .5s,border-color .5s}
+.pt{display:flex;flex-direction:column;gap:4px;flex:1 1 auto;min-width:0}
+.pt b{font:700 17px/1.2 Inter,sans-serif;transition:opacity .3s}.pt span{font-size:13px;color:#5B6270;transition:opacity .3s}
+.live{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 Inter,sans-serif;color:#1F7A4D;background:#E8F5EE;padding:6px 9px;border-radius:999px;flex:0 0 auto}
+.live:before{content:"";width:7px;height:7px;border-radius:9px;background:#1F7A4D;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25;transform:scale(.7)}}
+.sts{list-style:none;margin:0;padding:0;position:relative;display:flex;flex-direction:column;gap:10px}
+.rail{position:absolute;left:30px;top:30px;bottom:30px;width:2px;background:#E4E6EB;border-radius:2px;overflow:hidden}
+.rail i{display:block;width:100%;height:0;background:linear-gradient(#1F7A4D,#2E55E6);transition:height .9s cubic-bezier(.4,0,.2,1)}
+.st{position:relative;display:flex;align-items:center;gap:14px;background:#FFFFFF;border:1px solid #E4E6EB;border-radius:14px;padding:13px 16px;transition:border-color .3s,box-shadow .3s,transform .3s}
+.st .nd{width:30px;height:30px;border-radius:99px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:#F0F2F5;border:2px solid #D5D9E0;box-sizing:border-box;transition:background .3s,border-color .3s}
+.st .nd svg{opacity:0;transform:scale(.4);transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1)}
+.st small{display:block;font-size:13px;color:#8A909C;transition:color .3s}
+.st strong{font-size:15px}
+.st.act{border-color:#2E55E6;box-shadow:0 0 0 4px rgba(46,85,230,.12);transform:translateX(4px)}
+.st.act .nd{border-color:#2E55E6;background:#FFFFFF;animation:ring 1s ease-in-out infinite}
+@keyframes ring{50%{box-shadow:0 0 0 6px rgba(46,85,230,.15)}}
+.st.ok .nd{background:#1F7A4D;border-color:#1F7A4D}.st.ok .nd svg{opacity:1;transform:none}.st.ok small{color:#5B6270}
+.st.fin{background:#14161B;color:#FFFFFF;border-color:#14161B}.st.fin .nd{background:#7C9BFF;border-color:#7C9BFF}.st.fin small{color:#C9CED8}.st.fin .nd svg path{stroke:#14161B}
+.outs{display:flex;flex-wrap:wrap;gap:8px;min-height:34px}
+.out{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 Inter,sans-serif;background:#EAF0FF;color:#1E3FB8;padding:9px 12px;border-radius:999px;opacity:0;transform:translateY(8px) scale(.9);transition:opacity .35s,transform .45s cubic-bezier(.3,1.5,.5,1)}
+.out.on{opacity:1;transform:none}
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.js .rv.seen{opacity:1;transform:none}
+.strike{position:relative;text-decoration:none !important;align-self:flex-start}
+.strike:after{content:"";position:absolute;left:0;top:52%;height:2px;width:0;background:#8E1F1F;transition:width .6s ease .3s}
+.seen .strike:after{width:100%}
+@media (prefers-reduced-motion: reduce){.rw,.rv,.out,.st,.rail i,.stage:before,.live:before{transition:none !important;animation:none !important}.rv{opacity:1;transform:none}.strike:after{width:100%}}
 @media (prefers-reduced-motion: reduce){.step,.tick{animation:none !important}}
 </style>
 </helmet>
@@ -53,64 +93,40 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </nav>
 </header>
 
-<section style="max-width: 1180px; margin: 0 auto; padding: 48px 20px 72px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center;">
-<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px;">
+<section class="hero">
+<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
 <span style="align-self: flex-start; font: 700 13px/1 Inter, sans-serif; color: #1E3FB8; background: #EAF0FF; padding: 8px 12px; border-radius: 999px;">For churches, multisite and nonprofits</span>
-<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(40px, 6vw, 64px); line-height: 1.02; letter-spacing: -0.035em;">Every request.<br>Streamlined.</h1>
-<p style="margin: 0; font-size: 19px; line-height: 1.5; color: #3A404C; max-width: 520px;">Campuses and teams ask. Comms and Creative approve. Graphics, social, video, web, print and announcements go out on-brand. No more email chains, confusion or miscommunication.</p>
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(40px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.035em;">Every <span class="rw" aria-hidden="true">slide</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Every request</span>.<br>Streamlined.</h1>
+<p class="lede">Campuses ask. Comms and Creative approve. <b>Everything goes out on-brand.</b></p>
 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
 <a href="mailto:hello@parkermanuel.com?subject=Streamlined%20demo&body=Church%3A%0ANumber%20of%20campuses%3A%0ABest%20day%20and%20time%3A%0A" style="background: #2E55E6; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 16px 22px; border-radius: 12px;">Book a demo</a>
 <a href="demo.html" style="background: #FFFFFF; color: #14161B; text-decoration: none; font-weight: 700; font-size: 16px; padding: 15px 21px; border-radius: 12px; border: 1px solid #D5D9E0;">Try the demo</a>
 </div>
+<div class="perks"><span><i></i>No more email chains</span><span><i></i>English and Spanish</span><span><i></i>30-day free trial</span></div>
 </div>
-
-<div style="flex: 1 1 400px; min-width: 0; display: flex; justify-content: center;">
-<div style="width: 100%; max-width: 440px; background: #F7F8FA; border: 1px solid #E4E6EB; border-radius: 22px; padding: 22px; box-sizing: border-box; box-shadow: 0 24px 60px rgba(20,22,27,.10); display: flex; flex-direction: column; gap: 16px;">
-<div style="display: flex; align-items: center; gap: 12px;">
-<div style="width: 46px; height: 64px; border-radius: 8px; background: #1C2B4A; border-top: 10px solid #E8674A; box-sizing: border-box; flex: 0 0 auto;"></div>
-<div style="display: flex; flex-direction: column; gap: 4px;">
-<span style="font: 700 17px/1.2 Inter, sans-serif;">Fall Fest door hangers</span>
-<span style="font-size: 13px; color: #5B6270;">North Campus · 500 copies</span>
-</div>
-</div>
-<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px;">
-<li class="step" style="display: flex; align-items: center; gap: 14px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 14px; padding: 14px 16px;">
-<span class="tick" style="width: 30px; height: 30px; border-radius: 999px; background: #1F7A4D; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
-<span style="display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">Campus Pastor</strong><span style="font-size: 13px; color: #5B6270;">Request submitted</span></span>
-</li>
-<li class="step" style="display: flex; align-items: center; gap: 14px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 14px; padding: 14px 16px;">
-<span class="tick" style="width: 30px; height: 30px; border-radius: 999px; background: #1F7A4D; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
-<span style="display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">Comms</strong><span style="font-size: 13px; color: #5B6270;">Copy approved</span></span>
-</li>
-<li class="step" style="display: flex; align-items: center; gap: 14px; background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 14px; padding: 14px 16px;">
-<span class="tick" style="width: 30px; height: 30px; border-radius: 999px; background: #1F7A4D; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
-<span style="display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">Creative</strong><span style="font-size: 13px; color: #5B6270;">Design approved, on-brand</span></span>
-</li>
-<li class="step" style="display: flex; align-items: center; gap: 14px; background: #14161B; color: #FFFFFF; border-radius: 14px; padding: 14px 16px;">
-<span class="tick" style="width: 30px; height: 30px; border-radius: 999px; background: #7C9BFF; display: flex; align-items: center; justify-content: center; flex: 0 0 auto;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14161B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></span>
-<span style="display: flex; flex-direction: column; gap: 2px;"><strong style="font-size: 15px;">Delivered everywhere</strong><span style="font-size: 13px; color: #C9CED8;">Printed, posted to social and live on the website</span></span>
-</li>
-</ol>
-</div>
-</div>
+<div class="stage"><div class="pipe" aria-hidden="true">
+<div class="ph"><div class="thumb"></div><div class="pt"><b>Fall Fest door hangers</b><span>North Campus · 500 copies</span></div><span class="live">Live</span></div>
+<div style="position:relative"><div class="rail"><i style="height:100%"></i></div><ol class="sts"><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Campus Pastor</strong><small>Request submitted</small></span></li><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Comms</strong><small>Copy approved</small></span></li><li class="st ok"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Creative</strong><small>Design approved, on-brand</small></span></li><li class="st ok fin"><span class="nd"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><strong>Delivered</strong><small>Out everywhere</small></span></li></ol></div>
+<div class="outs"><span class="out on">🖨 Printed</span><span class="out on">📱 Instagram</span><span class="out on">🌐 Website</span></div>
+</div></div>
 </section>
 
-<section id="how" style="background: #F7F8FA; border-top: 1px solid #E4E6EB; border-bottom: 1px solid #E4E6EB;">
+<section id="how" class="rv" style="background: #F7F8FA; border-top: 1px solid #E4E6EB; border-bottom: 1px solid #E4E6EB;">
 <div style="max-width: 1180px; margin: 0 auto; padding: 64px 20px; display: flex; flex-direction: column; gap: 32px;">
 <h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; max-width: 640px;">What goes away. What you get.</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
 <div style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;">Reply-all email chains</span>
+<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;" class="strike">Reply-all email chains</span>
 <strong style="font: 700 20px/1.2 Manrope, Inter, sans-serif;">One place for every request</strong>
 <span style="font-size: 15px; color: #3A404C; line-height: 1.5;">Graphics, social, video, slides, email, web and print requests all live in one queue.</span>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;">Off-brand flyers</span>
+<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;" class="strike">Off-brand flyers</span>
 <strong style="font: 700 20px/1.2 Manrope, Inter, sans-serif;">Always on-brand</strong>
 <span style="font-size: 15px; color: #3A404C; line-height: 1.5;">Every draft is built from your logo, colors and fonts automatically.</span>
 </div>
 <div style="background: #FFFFFF; border: 1px solid #E4E6EB; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;">"Wait, which version?"</span>
+<span style="font-size: 15px; color: #8E1F1F; text-decoration: line-through;" class="strike">"Wait, which version?"</span>
 <strong style="font: 700 20px/1.2 Manrope, Inter, sans-serif;">Every step tracked</strong>
 <span style="font-size: 15px; color: #3A404C; line-height: 1.5;">Approve, edit or reject with a note. Everyone sees where it stands.</span>
 </div>
@@ -118,7 +134,7 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </div>
 </section>
 
-<section id="pricing" style="max-width: 1180px; margin: 0 auto; padding: 72px 20px 24px; display: flex; flex-direction: column; gap: 28px;">
+<section id="pricing" class="rv" style="max-width: 1180px; margin: 0 auto; padding: 72px 20px 24px; display: flex; flex-direction: column; gap: 28px;">
 <div style="display: flex; flex-direction: column; gap: 10px; max-width: 680px;">
 <h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em;">Priced by campus, not by person</h2>
 <p style="margin: 0; font-size: 17px; color: #3A404C; line-height: 1.5;">Add every staff member and volunteer at no extra cost. Pick the plan that matches how many locations you have.</p>
@@ -164,7 +180,7 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 <p style="margin: 0; font-size: 14px; color: #5B6270; line-height: 1.5;">Every plan includes approvals, full history, Spanish for campus staff and volunteers, and export anytime. Need more storage? Add it anytime. Large churches start with a free 60-day pilot at one campus, with no changes to staff or process.</p>
 </section>
 
-<section id="trust" style="background: #14161B; color: #FFFFFF;">
+<section id="trust" class="rv" style="background: #14161B; color: #FFFFFF;">
 <div style="max-width: 1180px; margin: 0 auto; padding: 64px 20px; display: flex; flex-direction: column; gap: 28px;">
 <h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em; max-width: 680px;">Built to protect your church</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
@@ -176,7 +192,7 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </div>
 </section>
 
-<section id="faq" style="max-width: 1180px; margin: 0 auto; padding: 64px 20px 8px; display: flex; flex-direction: column; gap: 18px;">
+<section id="faq" class="rv" style="max-width: 1180px; margin: 0 auto; padding: 64px 20px 8px; display: flex; flex-direction: column; gap: 18px;">
 <h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: 36px; letter-spacing: -0.02em;">Questions churches ask</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px;">
 <div style="background: #F7F8FA; border-radius: 16px; padding: 22px; display: flex; flex-direction: column; gap: 8px;"><strong style="font-size: 17px;">Does this replace our creative team?</strong><span style="font-size: 15px; color: #3A404C; line-height: 1.5;">No. Your designers build the templates and own the look. Streamlined handles routine requests so they have time for the creative work only they can do.</span></div>
@@ -185,7 +201,7 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </div>
 </section>
 
-<section id="demo" style="max-width: 1180px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;">
+<section id="demo" class="rv" style="max-width: 1180px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;">
 <h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(30px, 4.5vw, 44px); letter-spacing: -0.02em; max-width: 760px;">Built for a 30-campus church. Simple enough for a church plant.</h2>
 <p style="margin: 0; font-size: 17px; color: #3A404C; max-width: 560px;">A team of two or three approvers can do what used to take a whole creative department.</p>
 <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;"><a href="mailto:hello@parkermanuel.com?subject=Streamlined%20demo&body=Church%3A%0ANumber%20of%20campuses%3A%0ABest%20day%20and%20time%3A%0A" style="background: #2E55E6; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 16px 24px; border-radius: 12px;">Book a demo</a><a href="demo.html" style="background: #FFFFFF; color: #14161B; text-decoration: none; font-weight: 700; font-size: 16px; padding: 15px 23px; border-radius: 12px; border: 1px solid #D5D9E0;">Try the demo</a></div>
@@ -200,6 +216,37 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 class Component extends DCLogic {
   renderVals() { return {}; }
 }
+</script>
+<script>
+document.documentElement.classList.add('js');
+(function(){var D={"words": ["slide", "flyer", "post", "video", "banner", "email"], "roles": [["Campus Pastor", "Request submitted", "Submitting…"], ["Comms", "Copy approved", "Checking copy…"], ["Creative", "Design approved, on-brand", "Checking brand…"], ["Delivered", "Out everywhere", "Sending out…"]], "reqs": [["Fall Fest door hangers", "North Campus · 500 copies", "#1C2B4A", "#E8674A", ["🖨 Printed", "📱 Instagram", "🌐 Website"]], ["Easter invite video", "South Campus · 30 seconds", "#2B1C4A", "#F2B84B", ["⛪ Sunday slides", "📱 Social", "✉️ Email"]], ["Baptism Sunday stories", "Downtown · Social", "#123A3A", "#7C9BFF", ["📱 Instagram", "👍 Facebook", "🌐 Website"]]]};
+
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function go(){var pipe=document.querySelector('.pipe');if(!pipe){return setTimeout(go,100);}
+ var rot=document.querySelector('.rw'),wi=0;
+ if(!reduce){setInterval(function(){rot.classList.add('out');setTimeout(function(){wi=(wi+1)%D.words.length;rot.textContent=D.words[wi];rot.classList.remove('out');rot.classList.add('in');void rot.offsetWidth;rot.classList.remove('in');},350);},2200);}
+ var sts=pipe.querySelectorAll('.st'),fill=pipe.querySelector('.rail i'),outs=pipe.querySelector('.outs'),th=pipe.querySelector('.thumb'),tb=pipe.querySelector('.pt b'),ts=pipe.querySelector('.pt span'),ri=0,timers=[];
+ function at(ms,fn){timers.push(setTimeout(fn,ms));}
+ function run(){timers.forEach(clearTimeout);timers=[];var r=D.reqs[ri];
+  tb.style.opacity=ts.style.opacity=0;
+  at(300,function(){tb.textContent=r[0];ts.textContent=r[1];th.style.background=r[2];th.style.borderTopColor=r[3];tb.style.opacity=ts.style.opacity=1;});
+  sts.forEach(function(el,i){el.className='st';el.querySelector('small').textContent=D.roles[i][2];});
+  fill.style.height='0';outs.innerHTML='';
+  r[4].forEach(function(o){var c=document.createElement('span');c.className='out';c.textContent=o;outs.appendChild(c);});
+  var t=600;
+  sts.forEach(function(el,i){
+   at(t,function(){el.classList.add('act');});
+   t+=1000;
+   at(t,function(){el.classList.remove('act');el.classList.add('ok');if(i===3)el.classList.add('fin');el.querySelector('small').textContent=D.roles[i][1];fill.style.height=(i/3*100)+'%';});
+   t+=250;});
+  [].forEach.call(outs.children,function(c,k){at(t+k*180,function(){c.classList.add('on');});});
+  at(t+3200,function(){ri=(ri+1)%D.reqs.length;run();});}
+ if(!reduce){run();}
+ document.addEventListener('visibilitychange',function(){if(document.hidden){timers.forEach(clearTimeout);}else if(!reduce){run();}});
+ var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}});},{threshold:.12}):null;
+ document.querySelectorAll('.rv').forEach(function(el){io?io.observe(el):el.classList.add('seen');});
+ [].forEach.call(document.querySelectorAll('#how > div > div > div'),function(el){io?io.observe(el):el.classList.add('seen');});}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',go);}else{go();}})();
 </script>
 </body>
 </html>
