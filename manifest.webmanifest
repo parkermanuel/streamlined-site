@@ -1,0 +1,31 @@
+{
+ "name": "Streamlined",
+ "short_name": "Streamlined",
+ "description": "Every request, streamlined. Campus requests, approvals and on-brand graphics in one place.",
+ "start_url": "/demo.html?source=homescreen",
+ "scope": "/",
+ "id": "/",
+ "display": "standalone",
+ "orientation": "portrait-primary",
+ "background_color": "#F6F7F9",
+ "theme_color": "#14161B",
+ "lang": "en",
+ "icons": [
+  {
+   "src": "/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
