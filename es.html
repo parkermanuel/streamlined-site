@@ -37,7 +37,13 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 .hero{overflow-x:clip;max-width:1180px;margin:0 auto;padding:40px 20px 72px;display:flex;flex-wrap:wrap;gap:48px;align-items:center}
 @media (max-width:640px){.hero{padding:12px 16px 56px;gap:36px}}
 .rw{display:inline-block;background:none;padding:0;font:inherit;border-radius:0;color:#2E55E6;transition:transform .8s cubic-bezier(.22,.61,.36,1),opacity .8s ease;will-change:transform,opacity}
-.rw.out{transform:translateY(-.5em);opacity:0}.rw.in{transform:translateY(.5em);opacity:0;transition:none}
+.rwbox{display:inline-block;overflow:hidden;vertical-align:bottom;padding:0 .04em .12em;margin:0 -.04em -.12em}
+.rw.out{transform:translateY(-110%);opacity:0}.rw.in{transform:translateY(110%);opacity:0;transition:none}
+.hero{justify-content:center;text-align:center}.herocol{align-items:center;max-width:780px}.herocol .lede{margin:0 auto}.herocol > div{justify-content:center}.herocol > span{align-self:center !important}
+.watch{overflow-x:clip;max-width:1180px;margin:0 auto;padding:24px 20px 80px;display:flex;flex-wrap:wrap;gap:40px;align-items:center}
+.watchtxt{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:16px}
+@media (max-width:640px){.watch{padding:8px 16px 64px;gap:28px}}
+
 .lede{margin:0;font-size:19px;line-height:1.45;color:#3A404C;max-width:520px}
 .lede b{color:#14161B;font-weight:700}
 .perks{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:#5B6270}
@@ -94,15 +100,23 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </header>
 
 <section class="hero">
-<div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<div class="herocol" style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
 <span style="align-self: flex-start; font: 700 13px/1 Inter, sans-serif; color: #1E3FB8; background: #EAF0FF; padding: 8px 12px; border-radius: 999px;">Para iglesias, multisitio y organizaciones sin fines de lucro</span>
-<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(40px, 6vw, 64px); line-height: 1.04; letter-spacing: -0.035em;">Cada <span class="rw" aria-hidden="true">diapositiva</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Cada pedido</span>.<br>Streamlined.</h1>
+<h1 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(34px, 9.6vw, 72px); line-height: 1.04; letter-spacing: -0.035em; white-space: nowrap;">Cada <span class="rwbox" aria-hidden="true"><span class="rw">diapositiva</span></span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Cada pedido</span>.<br>Streamlined.</h1>
 <p class="lede">Los campus piden. Comunicaciones y Creativo aprueban. <b>Todo sale con su marca.</b></p>
 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
 <a href="mailto:hello@parkermanuel.com?subject=Demostraci%C3%B3n%20de%20Streamlined&body=Iglesia%3A%0AN%C3%BAmero%20de%20campus%3A%0AMejor%20d%C3%ADa%20y%20hora%3A%0A" style="background: #2E55E6; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 16px; padding: 16px 22px; border-radius: 12px;">Agendar una demostración</a>
 <a href="demo.html" style="background: #FFFFFF; color: #14161B; text-decoration: none; font-weight: 700; font-size: 16px; padding: 15px 21px; border-radius: 12px; border: 1px solid #D5D9E0;">Ver la demostración</a>
 </div>
 <div class="perks"><span><i></i>Sin cadenas de correos</span><span><i></i>Inglés y español</span><span><i></i>30 días gratis</span></div>
+</div>
+</section>
+
+<section id="watch" class="watch">
+<div class="watchtxt">
+<span style="align-self: flex-start; font: 700 13px/1 Inter, sans-serif; color: #1E3FB8; background: #EAF0FF; padding: 8px 12px; border-radius: 999px;">Véalo en acción</span>
+<h2 style="margin: 0; font-family: Manrope, Inter, sans-serif; font-weight: 800; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -0.02em;">Un pedido. Cada aprobación. Listo para salir.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.55; color: #3A404C; max-width: 460px;">Un campus lo pide una vez. Comunicaciones revisa el texto, Creativo revisa la marca y sale a todas partes. Todos ven en qué va.</p>
 </div>
 <div class="stage"><div class="pipe" aria-hidden="true">
 <div class="ph"><div class="thumb"></div><div class="pt"><b>Volantes del Fall Fest</b><span>Campus Norte · 500 copias</span></div><span class="live">En vivo</span></div>
@@ -242,8 +256,9 @@ function go(){var pipe=document.querySelector('.pipe');if(!pipe){return setTimeo
    t+=400;});
   r[4].forEach(function(o,k){at(t+k*350,function(){var c=outs.children[k];if(c)c.classList.add('on');});});
   at(t+4500,function(){ri=(ri+1)%D.reqs.length;run();});}
- if(!reduce){setTimeout(run,2600);}
- document.addEventListener('visibilitychange',function(){if(document.hidden){timers.forEach(clearTimeout);}else if(!reduce){run();}});
+ var started=false;function start(){if(started||reduce)return;started=true;setTimeout(run,700);}
+ if('IntersectionObserver' in window){var wo=new IntersectionObserver(function(es){if(es[0].isIntersecting){start();wo.disconnect();}},{threshold:.35});wo.observe(pipe);}else{start();}
+ document.addEventListener('visibilitychange',function(){if(document.hidden){timers.forEach(clearTimeout);}else if(!reduce&&started){run();}});
  var io='IntersectionObserver' in window?new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}});},{threshold:.12}):null;
  document.querySelectorAll('.rv').forEach(function(el){io?io.observe(el):el.classList.add('seen');});
  [].forEach.call(document.querySelectorAll('#how > div > div > div'),function(el){io?io.observe(el):el.classList.add('seen');});}
