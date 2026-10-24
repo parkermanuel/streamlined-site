@@ -147,6 +147,9 @@ a{color:#2E55E6}a:hover{color:#1E3FB8}
 </main>
 </div>
 <a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+<sc-if value="{{ uHas }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position: fixed; left: 16px; right: 16px; bottom: 76px; z-index: 40; max-width: 480px; margin: 0 auto; display: flex; align-items: center; gap: 12px; background: #14161B; color: #FFFFFF; border-radius: 12px; padding: 12px 16px; box-shadow: 0 10px 30px rgba(20,22,27,.3); box-sizing: border-box;"><span style="flex: 1 1 auto; font: 500 14px/1.4 Inter, sans-serif;">{{ uMsg }}</span><button type="button" onClick="{{ uGo }}" style="appearance: none; flex: 0 0 auto; border: 0; background: #7C9BFF; color: #14161B; font: 700 14px/1 Inter, sans-serif; padding: 11px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Undo</button></div>
+</sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
 class Component extends DCLogic {
@@ -163,12 +166,12 @@ class Component extends DCLogic {
       ['students', 'Winter retreat social post', 'Students', 'Social', 'Dec 1'],
       ['baptism', 'Baptism Sunday stories', 'Groups', 'Social', 'Nov 10']
     ];
-    function set(id, v) { var n = Object.assign({}, s.q); n[id] = v; self.setState({ q: n }); }
+    function set(id, v, t) { var n = Object.assign({}, s.q); n[id] = v; self.act({ q: n }, v === 'central' ? t + ' approved and sent to Central.' : t + ' sent back to the requester.'); }
     var queue = defs.map(function (d) {
       var st = s.q[d[0]];
       var map = { open: ['Needs your review', 'chip-wait'], central: ['With Central', 'chip-new'], back: ['Sent back', 'chip-bad'] };
       return { title: d[1], team: d[2], kind: d[3], due: d[4], rush: !!d[5], status: map[st][0], chip: map[st][1], open: st === 'open',
-        approve: function () { set(d[0], 'central'); }, reject: function () { set(d[0], 'back'); } };
+        approve: function () { set(d[0], 'central', d[1]); }, reject: function () { set(d[0], 'back', d[1]); } };
     });
     var waiting = defs.filter(function (d) { return s.q[d[0]] === 'open'; }).length;
     var central = defs.filter(function (d) { return s.q[d[0]] === 'central'; }).length;
@@ -179,7 +182,7 @@ class Component extends DCLogic {
     var campaigns = cdefs.map(function (c) {
       var st = s.c[c[0]];
       return { title: c[1], meta: c[2], isNew: st === 'new', done: st === 'done',
-        accept: function () { var n = Object.assign({}, s.c); n[c[0]] = 'done'; self.setState({ c: n }); } };
+        accept: function () { var n = Object.assign({}, s.c); n[c[0]] = 'done'; self.act({ c: n }, c[1] + ' scheduled for North.'); } };
     });
     return {
       queue: queue, waitingCount: String(waiting), centralCount: String(central),
@@ -187,8 +190,8 @@ class Component extends DCLogic {
       campaigns: campaigns,
       printerOpen: s.printer === 'open', printerDone: s.printer !== 'open',
       printerReply: s.printer === 'yes' ? 'Answered. The printer will move the hole and keep going.' : 'Sent to Central Creative. The printer sees that it is being checked.',
-      answerYes: function () { self.setState({ printer: 'yes' }); },
-      askCreative: function () { self.setState({ printer: 'creative' }); },
+      answerYes: function () { self.act({ printer: 'yes' }, 'Answer sent to the printer.'); },
+      askCreative: function () { self.act({ printer: 'creative' }, 'Question sent to Central Creative.'); },
       sunday: [
         { when: 'Pre-service', what: 'Countdown and welcome slides', how: 'From Central · approved' },
         { when: 'Welcome', what: 'Serve Sunday announcement', how: 'Campus pastor reads talking points' },
@@ -204,6 +207,23 @@ class Component extends DCLogic {
     };
   }
 }
+
+(function (P) {
+  var orig = P.renderVals;
+  P.act = function (patch, msg) {
+    var self = this, prev = {};
+    Object.keys(patch).forEach(function (k) { prev[k] = self.state[k]; });
+    clearTimeout(this._undoT);
+    this.setState(Object.assign({}, patch, { _undo: { prev: prev, msg: msg } }));
+    this._undoT = setTimeout(function () { self.setState({ _undo: null }); }, 8000);
+  };
+  P.renderVals = function () {
+    var v = orig.call(this), self = this, u = this.state && this.state._undo;
+    v.uHas = !!u; v.uMsg = u ? u.msg : '';
+    v.uGo = function () { clearTimeout(self._undoT); var p = self.state._undo ? self.state._undo.prev : {}; self.setState(Object.assign({}, p, { _undo: null })); };
+    return v;
+  };
+})(Component.prototype);
 </script>
 </body>
 </html>

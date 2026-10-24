@@ -101,6 +101,9 @@ label{font:600 13px/1 Inter,system-ui,sans-serif;color:#3A404C}
 </main>
 </div>
 <a href="demo.html" style="position: fixed; right: 16px; bottom: 16px; z-index: 20; display: inline-flex; align-items: center; gap: 8px; background: #14161B; color: #FFFFFF; text-decoration: none; font: 700 14px/1 Inter, sans-serif; padding: 12px 16px; border-radius: 999px; box-shadow: 0 6px 18px rgba(20,22,27,.25); min-height: 44px; box-sizing: border-box;">Switch role</a>
+<sc-if value="{{ uHas }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position: fixed; left: 16px; right: 16px; bottom: 76px; z-index: 40; max-width: 480px; margin: 0 auto; display: flex; align-items: center; gap: 12px; background: #14161B; color: #FFFFFF; border-radius: 12px; padding: 12px 16px; box-shadow: 0 10px 30px rgba(20,22,27,.3); box-sizing: border-box;"><span style="flex: 1 1 auto; font: 500 14px/1.4 Inter, sans-serif;">{{ uMsg }}</span><button type="button" onClick="{{ uGo }}" style="appearance: none; flex: 0 0 auto; border: 0; background: #7C9BFF; color: #14161B; font: 700 14px/1 Inter, sans-serif; padding: 11px 16px; border-radius: 10px; min-height: 44px; cursor: pointer;">Undo</button></div>
+</sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1100}}'>
 class Component extends DCLogic {
@@ -123,13 +126,30 @@ class Component extends DCLogic {
       steps: steps, notConfirmed: s.stage === 0, confirmed: s.stage > 0,
       statusText: texts[s.stage], canAdvance: s.stage > 0 && s.stage < 3, advanceLabel: next[s.stage],
       asking: s.asking, qSent: s.qSent,
-      confirm: function () { self.setState({ stage: 1, asking: false }); },
-      advance: function () { self.setState({ stage: Math.min(3, s.stage + 1) }); },
+      confirm: function () { self.act({ stage: 1, asking: false }, 'Order confirmed.'); },
+      advance: function () { self.act({ stage: Math.min(3, s.stage + 1) }, 'Status updated.'); },
       ask: function () { self.setState({ asking: true, qSent: false }); },
-      sendQ: function () { self.setState({ asking: false, qSent: true }); }
+      sendQ: function () { self.act({ asking: false, qSent: true }, 'Question sent to the campus.'); }
     };
   }
 }
+
+(function (P) {
+  var orig = P.renderVals;
+  P.act = function (patch, msg) {
+    var self = this, prev = {};
+    Object.keys(patch).forEach(function (k) { prev[k] = self.state[k]; });
+    clearTimeout(this._undoT);
+    this.setState(Object.assign({}, patch, { _undo: { prev: prev, msg: msg } }));
+    this._undoT = setTimeout(function () { self.setState({ _undo: null }); }, 8000);
+  };
+  P.renderVals = function () {
+    var v = orig.call(this), self = this, u = this.state && this.state._undo;
+    v.uHas = !!u; v.uMsg = u ? u.msg : '';
+    v.uGo = function () { clearTimeout(self._undoT); var p = self.state._undo ? self.state._undo.prev : {}; self.setState(Object.assign({}, p, { _undo: null })); };
+    return v;
+  };
+})(Component.prototype);
 </script>
 </body>
 </html>
