@@ -33,3 +33,6 @@
 @media (prefers-reduced-motion: reduce){.rw,.rv,.out,.st,.rail i,.stage:before,.live:before{transition:none !important;animation:none !important}.rv{opacity:1;transform:none}.strike:after{width:100%}}
 /* On a dark page in light mode the card is white, so its text must be ink (dark mode styles it in dark.css). */
 @media (prefers-color-scheme: light){.pipe{color:#14161B}}
+
+/* On phones, keep the soft glow behind the card inside the page edges so the page never scrolls sideways. */
+@media (max-width:640px){.stage:before{inset:-6% 0}}
