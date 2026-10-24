@@ -356,15 +356,16 @@ Managed by Central Creative</span>
 </main>
 <sc-if value="{{ showTour }}" hint-placeholder-val="{{ false }}">
 <div style="position: fixed; inset: 0; background: rgba(20,22,27,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 30;">
-<div role="dialog" aria-modal="true" aria-labelledby="tour-title" style="width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; box-shadow: 0 20px 50px rgba(20,22,27,.3);">
+<div role="dialog" aria-modal="true" aria-labelledby="tour-title" onTouchStart="{{ tourTouchStart }}" onTouchEnd="{{ tourTouchEnd }}" style="touch-action: pan-y; width: 100%; max-width: 440px; background: #FFFFFF; border-radius: 18px; padding: 26px; display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; box-shadow: 0 20px 50px rgba(20,22,27,.3);">
 <span style="font: 700 12px/1 Inter, sans-serif; color: #1E3FB8;">{{ tour.count }}</span>
 <h2 id="tour-title" style="margin: 0; font: 800 24px/1.2 Manrope, Inter, sans-serif;">{{ tour.title }}</h2>
 <p style="margin: 0; font-size: 16px; color: #3A404C; line-height: 1.5;">{{ tour.body }}</p>
-<div style="display: flex; gap: 6px;"><sc-for list="{{ tour.dots }}" as="d" hint-placeholder-count="3"><span class="{{ d.cls }}"></span></sc-for></div>
-<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+<div style="display: flex; gap: 6px;"><sc-for list="{{ tour.dots }}" as="d" hint-placeholder-count="3"><button type="button" onClick="{{ d.go }}" aria-label="{{ d.label }}" style="appearance: none; border: 0; background: transparent; padding: 8px 4px; margin: -8px -4px; cursor: pointer; display: flex;"><span class="{{ d.cls }}"></span></button></sc-for></div>
+<div style="display: flex; gap: 10px;">
+<sc-if value="{{ tour.hasBack }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ tourBack }}" style="appearance: none; flex: 0 0 auto; border: 1px solid #D5D9E0; background: #FFFFFF; color: #14161B; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">Atrás</button></sc-if>
 <button type="button" onClick="{{ tourNext }}" style="appearance: none; flex: 1 1 160px; border: 0; background: #2E55E6; color: #FFFFFF; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">{{ tour.next }}</button>
-<button type="button" onClick="{{ tourSkip }}" style="appearance: none; flex: 0 0 auto; border: 1px solid #D5D9E0; background: #FFFFFF; color: #14161B; font: 700 15px/1 Inter, sans-serif; padding: 14px 18px; border-radius: 12px; min-height: 48px; cursor: pointer;">Saltar recorrido</button>
 </div>
+<button type="button" onClick="{{ tourSkip }}" style="appearance: none; align-self: center; border: 0; background: transparent; color: #5A6170; font: 600 14px/1 Inter, sans-serif; padding: 10px 12px; min-height: 40px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;">Saltar recorrido</button>
 </div>
 </div>
 </sc-if>
@@ -474,16 +475,26 @@ class Component extends DCLogic {
       showTour: s.tour > 0, showHelp: s.help,
       tour: (function () {
         var T = [
-          ['Pida lo que necesite aquí', 'Toque Pedir, elija lo que necesita y agregue los detalles. Streamlined crea un borrador con la marca por usted.'],
-          ['Tome lo que ya está listo', 'Promover tiene gráficos, videos y textos aprobados para cada evento. Descargue y publique.'],
-          ['Sepa en qué va todo', 'Mis pedidos muestra exactamente quién tiene su pedido ahora, desde la revisión del campus hasta la imprenta.']
+          ['Pida lo que necesite aquí', 'Toque “Pedir,” elija lo que necesita y agregue los detalles. Streamlined crea un borrador con la marca por usted.'],
+          ['Tome lo que ya está listo', '“Promover” tiene gráficos, videos y textos aprobados para cada evento. Descargue y publique.'],
+          ['Sepa en qué va todo', '“Mis pedidos” muestra exactamente quién tiene su pedido ahora, desde la revisión del campus hasta la imprenta.']
         ];
         var i = Math.max(1, s.tour) - 1;
         return { title: T[i][0], body: T[i][1], count: 'Paso ' + (i + 1) + ' de 3', next: i === 2 ? 'Empezar' : 'Siguiente',
-          dots: T.map(function (x, j) { return { cls: j === i ? 'tdot-on' : 'tdot' }; }) };
+          hasBack: i > 0,
+          dots: T.map(function (x, j) { return { cls: j === i ? 'tdot-on' : 'tdot', label: 'Paso ' + (j + 1), go: function () { self.setState({ tour: j + 1 }); } }; }) };
       })(),
       tourNext: function () { self.setState({ tour: s.tour >= 3 ? 0 : s.tour + 1 }); },
       tourSkip: function () { self.setState({ tour: 0 }); },
+      tourBack: function () { if (s.tour > 1) self.setState({ tour: s.tour - 1 }); },
+      tourTouchStart: function (e) { var t = e.touches && e.touches[0]; self._tx = t ? t.clientX : null; self._ty = t ? t.clientY : null; },
+      tourTouchEnd: function (e) {
+        var t = e.changedTouches && e.changedTouches[0]; if (!t || self._tx == null) return;
+        var dx = t.clientX - self._tx, dy = t.clientY - self._ty; self._tx = null;
+        if (Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy)) return;
+        if (dx < 0 && s.tour < 3) self.setState({ tour: s.tour + 1 });
+        if (dx > 0 && s.tour > 1) self.setState({ tour: s.tour - 1 });
+      },
       openHelp: function () { self.setState({ help: true }); },
       closeHelp: function () { self.setState({ help: false }); },
       replayTour: function () { self.setState({ help: false, tour: 1 }); },
